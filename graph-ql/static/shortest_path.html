@@ -1,0 +1,1107 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+		<title>Shortest Path | ZeniaGraph</title>
+		<meta charset="utf-8" />
+        <link rel="icon" type="image/x-icon" href="/static/favicon-32x32.png">        
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+         
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
+        <link rel="stylesheet" href="/static/style.css"> 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css" integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="/static/select2/css/select2.min.css">
+
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" 
+            crossorigin="anonymous"></script>
+        <script type="text/javascript" src="/static/dev.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+       
+        <script type="text/javascript" src="/static/select2/js/select2.min.js"></script>
+
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script 
+            type="text/javascript"
+            src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+         
+
+	</head>
+    
+    <body>
+        <style>
+            .dataTables_length { display: none;}
+            .dataTables_info { font-size: 13px;}
+            .person_role{ font-size: 13px; color: black}
+            #contacts_table_length{ display: none;}
+            .contact_body strong{
+                color:Red;
+                font-size:18px;
+            }
+            .modal-header .close{ padding:0;}
+            .view_cnt_info, .view_cnt_redis{
+                font-size: 12px;
+                height: 22px;
+                line-height: 7px;
+            }
+            .Input_fields input{ height: auto;}
+            iframe { border:0}
+            iframe .main-menu{ display:none !important; }
+            .select2-container{
+                width: 100% !important;
+            }
+            .select2-search__field{ font-size: 13px !important;}
+            .select2-results__option{
+                font-size: 13px;
+            }
+            .select2-selection__choice{ font-size: 14px !important;}
+            .select2-selection__placeholder{ font-size: 12px;}
+            .input_panel .select2-selection{ height: 34.5px !important;}
+            #visual_graph_model .modal-body { padding: 0;;}
+            #visual_graph_model { padding:0 !important;}
+            #visual_graph_model .modal-dialog{
+                width: 100%;
+                max-width: 95% !important;
+            }
+            button.close {
+                margin-right: 21px;
+                margin-top: 6px;
+                position: absolute;
+                right: -8px;
+            }
+            .label_bold{ font-weight: 500;}
+            .filter_selectbox{
+                width:125px;
+                font-size: 13px;
+            }
+            .filter_title{
+                font-weight: bold;
+            }
+            .clear_filter{
+                color: #0056b3;
+                padding: 2px;
+                font-size: 13px;
+                background: none;
+                border: 0;
+                 
+                text-decoration: underline;
+            }
+            .comp_box select{ width: 100%; border: 1px solid #aaa; border-radius: 4px; height:30px;}
+            .comp_box input{ width: 100%; padding-left: 10px;}
+            .comp_box input::placeholder{ font-size: 12px; }
+            .filters_sections code{
+                color: black;
+                font-weight: 600;
+            }
+            .top_row_input_panel{
+                background: #d5efff;
+                padding-left: 10px;
+                font-weight: bold;
+                cursor: pointer;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                user-select: none;
+            }
+            .top_row_input_panel  i { margin-right: 15px; margin-top: 3px; transition: all 0.5s ease-out;}
+            .top_row_input_panel.active i{
+                transform: rotate(177deg);
+                -webkit-transform: rotate(177deg);
+                -moz-transform: rotate(177deg);
+            }
+            .custom-control-inline {
+                 
+                margin-right: 0.5rem;
+            }
+            .btn-def {
+                width: 120px;
+                text-align: center;
+                justify-content: center;
+                display: flex;
+                height: 38px;
+                align-items: center;
+                background: #ba0373 !important;
+                border: 0;
+            }
+            .Input_fields label{ font-size: 13px;}
+            .company {
+                background-color: #f7d8f3;
+                color: #d423b9;
+            }
+            .skills {
+                background-color: #d4edda;
+                color: #155724;
+            }
+            .connection {
+                background-color: #cce5ff;
+                color: #004085;
+            }
+        </style>
+        {% include 'header.html' %}
+
+        <div class="Input_fields container-fluid" style="margin-bottom:10rem; max-width:1320px;">
+            <div class="row">
+                <div class="col-3 mt-3">
+                    <div class="top_row_input_panel active">
+                        <div class="row">
+                            <div class="col-md-10">Company To Person</div>
+                            <div class="col-md-2"><i class="fa fa-chevron-up float-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="input_panel">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="label_bold">Company Name *</label>
+                                    <select id="company_list" class="js-data-example-ajax select2_company_list" onchange="checkBtnStaus()" name="name"></select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="label_bold">Person *</label>
+                                    <select id="person_list" class="js-data-example-ajax select2_person_list" onchange="checkBtnStaus()" name="name"></select>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <div class="form-group">
+                                    <label style="width: 100%;" for="exampleInputEmail1" class="label_bold">Select Algo *</label>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input onchange="checkBtnStaus()"  checked type="radio" id="customRadio4" name="algo_type" class="custom-control-input" value="nearest_path">
+                                        <label class="custom-control-label" for="customRadio4">Nearest Friend</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input onchange="checkBtnStaus()"  type="radio" id="customRadio5" name="algo_type" class="custom-control-input" value="higher_level_path">
+                                        <label class="custom-control-label" for="customRadio5">Higher Level</label>
+                                    </div>
+                                </div>
+                            </div>
+                                                
+                             
+                        </div>
+                         
+                        <div class="form-group mt-4">
+                            <button disabled class="btn btn-primary btn-def" type="button" id="submitbutton">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span id="sbtext">Submit</span></button>
+                        </div>
+                    </div>
+
+                    <!--person to person shortest path-->
+                    <div class="top_row_input_panel mt-4">
+                        <div class="row">
+                            <div class="col-md-10">Person To Person</div>
+                            <div class="col-md-2"><i class="fa fa-chevron-up float-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="input_panel" style="display: none;">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="label_bold">Searching Person  *</label>
+                                    <select id="person_list1_s1" class="js-data-example-ajax select2_person_list" onchange="checkBtnStausPtoP()" name="name"></select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="label_bold">Target Person *</label>
+                                    <select id="person_list1_s2" class="js-data-example-ajax select2_person_list" onchange="checkBtnStausPtoP()" name="name"></select>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <div class="form-group">
+                                    <label style="width: 100%;" for="exampleInputEmail1" class="label_bold">Select Algo *</label>
+                                    <div class="row" id="ptop_algo">
+                                        <div class="col pr-0">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" checked class="custom-control-input" onchange="checkBtnStausPtoP()" id="customCheck1" value="connections">
+                                                <label class="custom-control-label" for="customCheck1">Connections</label>
+                                            </div>
+                                        </div>
+                                        <div class="col pr-0">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" onchange="checkBtnStausPtoP()" id="customCheck2" value="skills">
+                                                <label class="custom-control-label" for="customCheck2">Skills</label>
+                                            </div>
+                                        </div>
+                                        <div class="col pl-0">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" onchange="checkBtnStausPtoP()" id="customCheck3" value="experience">
+                                                <label class="custom-control-label" for="customCheck3">Experiences</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         
+                        <div class="form-group mt-4">
+                            <button disabled class="btn btn-primary btn-def" type="button" id="submitbuttonPtoP">
+                                <div class="spinner-border spinner-border-sm" style="display: none;"  role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span id="sbtext">Submit</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    
+                    <div class="output_block container mt-3">
+                        
+                        <div class="company_to_person_block d-none">
+                            <div class="row">
+                                <div class="col-6 pl-0"><h4 class="heading-l"></h4></div>
+                                <div class="col-6 pl-0">
+                                    <button class="btn btn-sm btn-warning showkg_Button d-none cmnbtn float-right" type="button">Show KG</button>
+                                </div>                                 
+                            </div>                       
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="outputtable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Select</th>
+                                            <th scope="col">Company Colleague</th>
+                                            <th scope="col">Nearest Person</th>
+                                            <th scope="col" width="55%">Person Path</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody_class"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!--persons to persons path-->
+                        <div class="person_to_person_block d-none">
+                            <div class="connections_table_wrapper">
+                                <div class="row">
+                                    <div class="col-6"><h4 class="heading-l">Connections</h4></div>
+                                    <div class="col-6 pl-0">
+                                        <button class="btn btn-sm btn-warning connectionsShowKg d-none cmnbtn float-right" type="button">Show KG</button>
+                                    </div>                                 
+                                </div> 
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="connections_table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" width="5%">#</th>
+                                                <th scope="col" width="10%">Checkbox</th>
+                                                <th scope="col">Connections Path</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbody_class"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="skills_table_wrapper mt-3">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4 class="heading-l">Skills</h4>
+                                        <span class="badge skills">Skills</span>
+                                    </div>
+                                    <div class="col-6 pl-0">
+                                        <button class="btn btn-sm btn-warning skillsShowKg d-none cmnbtn float-right" type="button">Show KG</button>
+                                    </div>                                 
+                                </div> 
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="skills_table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" width="5%">#</th>
+                                                <th scope="col" width="10%">Checkbox</th>
+                                                <th scope="col">Connections Path</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbody_class"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="exp_table_wrapper mt-3">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4 class="heading-l">Experiences</h4>
+                                        <span class="badge company">Company</span>
+                                    </div>
+                                    <div class="col-6 pl-0">
+                                        <button class="btn btn-sm btn-warning expShowKg d-none cmnbtn float-right" type="button">Show KG</button>
+                                    </div>                                 
+                                </div> 
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="exp_table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" width="5%">#</th>
+                                                <th scope="col" width="10%">Checkbox</th>
+                                                <th scope="col">Connections Path</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbody_class"></tbody>
+                                    </table>
+                                </div>
+                            </div>    
+                        </div>
+                        <!--persons to persons path END-->
+
+
+                    </div>
+                    <div class="error_msg text-danger" style="display:none">
+                        No Result Found
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+    </body>
+ 
+    <script>
+        var frameworkUrl = "";
+        var $fdataTable;
+        var connectionShowkgFramework = ""
+        var skillsShowkgFramework = ""
+        var expShowkgFramework = ""
+        $( document ).ready(function() {
+            
+            $('.top_row_input_panel').click(function(){
+                let currentObj = $(this);
+                $('.top_row_input_panel').each(function(index, item){
+                     
+                    let nextObject = $(item).next('.input_panel')
+                    
+                    if (currentObj.is(item)) {  
+                        if($(item).hasClass('active')){
+                            $(item).removeClass('active') 
+                            $(nextObject).slideUp()
+                        }else{
+                            $(item).addClass('active') 
+                            $(nextObject).slideDown()
+                        }
+                    }else{
+                       $(item).removeClass('active') 
+                       $(nextObject).slideUp()
+                    }
+                })
+                 
+            })
+            
+            $fdataTable = $('#outputtable').DataTable({
+                "iDisplayLength" : 10,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+                "destroy": true
+            }); 
+
+            $connections_table = $('#connections_table').DataTable({
+                "iDisplayLength" : 10,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+                "destroy": true
+            }); 
+
+            $skills_table = $('#skills_table').DataTable({
+                "iDisplayLength" : 10,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+                "destroy": true
+            }); 
+            $exp_table = $('#exp_table').DataTable({
+                "iDisplayLength" : 10,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+                "destroy": true
+            }); 
+
+            //getResult1()
+            
+            $('.select2_company_list').select2({
+                placeholder: 'Search Companies By Name',
+                minimumInputLength: 1,
+                tags: true,
+                allowClear:true,
+                ajax: {
+                    delay:250,
+                    type: "POST",
+                    url: graphQLEndpoint,
+                    dataType: 'json',
+                    contentType: "application/json",
+                    data: function (params) {
+                        var query = {
+                            query: `query searchCompaniesByKeywords($keyword: String!) {
+                              searchCompaniesByKeywords(keyword: $keyword) {
+                                companies
+                              }
+                            }`,
+                            variables: {
+                              keyword: params.term
+                            }
+                          };
+                          return JSON.stringify(query);
+                    },
+                    processResults: function (data) {
+                        // Transforms the top-level key of the response object from 'items' to 'results'
+                        var records = data.data.searchCompaniesByKeywords.companies
+                        
+                        var tmpArr = []
+                        if(records.length > 0){
+                            for(let key in records){
+                                tmpArr.push({"text":records[key].split('_LinkedIn')[0], "id": records[key].split('_LinkedIn')[0] })
+                            }
+                        }
+                        return {
+                          results: tmpArr
+                        };
+                    }
+                    
+                }
+            });
+            $('.select2_person_list').select2({
+                tags: true,
+                placeholder: 'Search Persons By Name',
+                minimumInputLength: 1,
+                allowClear:true,
+                ajax: {
+                    delay:250,
+                    type: "POST",
+                    url: graphQLEndpoint,
+                    dataType: 'json',
+                    contentType: "application/json",
+                    data: function (params) {
+                        var query = {
+                            query: `query searchPersonsByKeywords($keyword: String!) {
+                                searchPersonsByKeywords(keyword: $keyword) {
+                                persons
+                              }
+                            }`,
+                            variables: {
+                              keyword: params.term
+                            }
+                          };
+                          return JSON.stringify(query);
+                    },
+                    processResults: function (data) {
+                        // Transforms the top-level key of the response object from 'items' to 'results'
+                        var records = data.data.searchPersonsByKeywords.persons
+                        var tmpArr = []
+                        if(records.length > 0){
+                            for(let key in records){
+                                if(records[key].includes(' ')){                                 
+                                    tmpArr.push({"text":records[key], "id": records[key] })
+                                }
+                            }
+                        }
+                        return {
+                          results: tmpArr
+                        };
+                    }
+                    
+                }
+            });
+            
+            
+            $('#submitbutton').click(function(){
+                
+                $('#sbtext').hide();
+                $('.error_msg').hide();
+                $(this).attr('disabled', true)
+                $(this).find('.spinner-border').show();
+                
+                //request payload
+                var requestPayload = {
+                    target_company : $.trim($('#company_list').val()),
+                    algo_type : $('input[name="algo_type"]:checked').val(),
+                    searching_person: $.trim($('#person_list').val()),
+                }   
+
+                getResults(requestPayload)
+                
+            })
+
+            $('#submitbuttonPtoP').click(function(){
+                $(this).find('#sbtext').hide();
+                $('.error_msg').hide();
+                $(this).attr('disabled', true)
+                $(this).find('.spinner-border').show();
+                
+                var checkedValues = $('#ptop_algo').find(':checkbox:checked').map(function() {
+                    return this.value;
+                }).get();
+                //request payload
+                var requestPayload = {
+                    searching_person: $.trim($('#person_list1_s1').val()),
+                    target_person : $.trim($('#person_list1_s2').val()),
+                    filter_type : checkedValues
+                    
+                }   
+                GetPersonToPersonsPath(requestPayload)
+            })
+
+            
+
+            $(document).on('select2:open','.select2_company_list',() => {
+                $('.select2-search--dropdown').find('.select2-search__field')[0].focus()
+            });
+            $(document).on('select2:open','.select2_person_list',() => {
+                $('.select2-search--dropdown').find('.select2-search__field')[0].focus()
+            });
+            
+
+            $(document).on('change',".skgcheckbox", function(){
+                let checklength = $('.skgcheckbox:checked').length
+                if(checklength > 0){
+                    shortestPathKG()
+                    $('.showkg_Button').removeClass('d-none')
+                }else{
+                    $('.showkg_Button').addClass('d-none')
+                }
+            })
+            
+            $('.showkg_Button').click(function(){
+                window.open(visualGraphShowKG(frameworkUrl,'full'))
+            })
+
+            $('.connectionsShowKg').click(function(){
+                window.open(visualGraphShowKG(connectionShowkgFramework,'full'))
+            })
+            $('.skillsShowKg').click(function(){
+                window.open(visualGraphShowKG(skillsShowkgFramework,'full'))
+            })
+            $('.expShowKg').click(function(){
+                window.open(visualGraphShowKG(expShowkgFramework,'full'))
+            })
+
+            $(document).on('change',".connschckinputs", function(){
+                let checklength = $('.connschckinputs:checked').length
+                if(checklength > 0){
+                    connectionsShowkgQuery()
+                    $('.connectionsShowKg').removeClass('d-none')
+                }else{
+                    $('.connectionsShowKg').addClass('d-none')
+                }
+            })
+            $(document).on('change',".skillschckinputs", function(){
+                let checklength = $('.skillschckinputs:checked').length
+                if(checklength > 0){
+                    skillsShowkgQuery()
+                    $('.skillsShowKg').removeClass('d-none')
+                }else{
+                    $('.skillsShowKg').addClass('d-none')
+                }
+            })
+
+            $(document).on('change',".expchckinputs", function(){
+                let checklength = $('.expchckinputs:checked').length
+                if(checklength > 0){
+                    expShowkgQuery()
+                    $('.expShowKg').removeClass('d-none')
+                }else{
+                    $('.expShowKg').addClass('d-none')
+                }
+            })
+
+            
+
+            //GetPersonToPersonsPath1();
+            //getResults()
+        });
+         
+        
+        function getResults(payload){
+            
+            let glb_company = $('#company_list').val()
+            $('.output_block').find('.company_to_person_block, .person_to_person_block').addClass('d-none')
+
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    query: "query callShortestPathEnpoints($method: String!,$input: JSON ){\r\n    callShortestPathEnpoints(method:$method,input:$input){\r\n         records\r\n    }\r\n}",
+                    variables: { "method": payload.algo_type == "nearest_path" ? "getNearestFriend" : "getHigherLevelFriend", "input": payload }
+                })
+            };
+              
+            $.ajax(settings).done(function (response) {
+                response = response.data.callShortestPathEnpoints
+                
+                $('#sbtext').show();
+                $('#submitbutton').find('.spinner-border').hide();
+                $('#submitbutton').attr('disabled', false)
+
+                $('.company_to_person_block').find('.heading-l').text(payload.algo_type=="nearest_path"?"Results - Nearest Friend":"Results - Higher Level")
+                if(response.records.length > 0){
+                    //$('.heading-l').text('Nearest Friends List:')
+                    let records = response.records
+                    $('.output_block').find('.company_to_person_block').removeClass('d-none')
+                    
+                    $fdataTable.clear()            
+                    $.each(records, function(keyItem, item) {
+                        var tempRecord = ["","checkbox"];
+                        var tmpData = []
+                        let personsPath = ""
+                        let nearest_path = []
+                        $.each(item['shortest_paths'], function(sub_i, sub_item) {
+                            var tmparr = []  
+                            $.each(sub_item, function(inner_i, inner_item) {
+                                
+                                let nextPersonURI;
+                                let nextPerson;
+                                if(inner_i == 1){
+                                    nearest_path.push(`<a href="${inner_item['person_uri']}" target="_blank" >${inner_item['person']}</a>`)
+                                }
+
+                                 
+
+                                if(sub_item[inner_i + 1] !== undefined){
+                                    let match_company = ""
+                                    if((sub_item.length - 2) == (inner_i)){
+                                        match_company  = `<span>(${glb_company})</span>`
+                                    }
+                                    nextPersonURI = sub_item[inner_i + 1]['person_uri']
+                                    nextPerson = sub_item[inner_i + 1]['person']
+                                    tmparr.push(`
+                                            <a href="${inner_item['person_uri']}" target="_blank" >${inner_item['person']}</a>
+                                            <span style="font-size:22px; padding-top:10px;">&#x2192;</span>
+                                            <a href="${inner_item['company_uri']}" target="_blank" class="skills badge" style="font-size:12px;">${inner_item['company']}</a>
+                                            <span style="font-size:22px; padding-top:10px;">&#x2192;</span>
+                                            <a href="${nextPersonURI}" target="_blank">${nextPerson}</a> ${match_company}
+                                            `
+                                    )
+                                    tmpData.push({"person1":inner_item['person_uri'],'company':inner_item['company'],'person2':nextPersonURI})
+                                    //tmpData.push({"company":company_uri,"person":person_uri})
+                                }
+                                
+                            })
+                            personsPath += tmparr.join(', <br>')
+                            //add seperator
+                            if(item['shortest_paths'][sub_i+1] !== undefined){  
+                                personsPath += "<br>--------------------------------------------------------------------------------<br>"                  
+                            }
+                        })
+                        
+                        nearest_path = nearest_path.filter((value, index, self) => {
+                            return self.indexOf(value) === index;
+                        });
+                        nearest_path = nearest_path.join(', <br>')
+                        $fdataTable.row.add([
+                            keyItem + 1,
+                            `<input type="checkbox" class="skgcheckbox" data-paths='${JSON.stringify(tmpData)}' />`,
+                            `<a href="${item['name_uri']}" target="_blank">${item['name']}</a>`,
+                            nearest_path,
+                            personsPath
+                        ]);  
+                    })                         
+                                                
+                    $fdataTable.draw(true).columns.adjust().responsive.recalc();
+
+                }else{
+                    $('.output_block').find('.company_to_person_block').addClass('d-none')
+                    $('.error_msg').show();
+                }
+              });
+        }
+        
+         
+        function checkBtnStaus(){
+            var company = $.trim($('#company_list').val())
+            var person = $.trim($('#person_list').val())
+                         
+            if(company!="" && person !=""){
+                $('#submitbutton').attr('disabled', false)
+            }else{
+                $('#submitbutton').attr('disabled', true)
+            }
+        } 
+
+        function checkBtnStausPtoP(){
+            var person1 = $.trim($('#person_list1_s1').val())
+            var person2 = $.trim($('#person_list1_s2').val())
+            var algo = $('#ptop_algo').find(':checkbox:checked').length;
+            
+            if(person1!="" && person2 !="" && algo >= 1){
+                $('#submitbuttonPtoP ').attr('disabled', false)
+            }else{
+                $('#submitbuttonPtoP').attr('disabled', true)
+            }
+        } 
+        
+          
+        function shortestPathKG(){
+            var valuesURIs = ""
+            var valuesURIsPersons = ""
+            $('.skgcheckbox:checked').each(function(i, element){
+                let jsons = $.parseJSON($(element).attr('data-paths'))
+                var lastIndex = 0;
+                for(let i  = 0; i < jsons.length; i++){
+                    valuesURIs += `(<${jsons[i]['person1']}> '${jsons[i]['company']}' <${jsons[i]['person2']}>) `
+                }
+            })
+            query = `
+                PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+                PREFIX dbo: <http://dbpedia.org/ontology/>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                    
+                CONSTRUCT {
+                    ?person1 vcard:work_in_company ?company .
+                    ?person2 vcard:work_in_company ?company .
+                }
+                WHERE {
+                    ?person1 a vcard:Individual .
+    
+                    ?person1 vcard:experiences [vcard:experience_details [vcard:worked_in 
+                    [vcard:work_in_company ?com]]].
+                    ?company dbo:source ?com.
+                      ?com rdfs:label ?com_name .
+                    BIND(REPLACE(?com_name, "_LinkedIn", "") AS ?filtered_com_name)    
+                     
+                    VALUES (?person1 ?filtered_com_name ?person2) {
+                        ${valuesURIs}
+                    }                                         
+                }`
+                
+                console.log(query)
+                frameworkUrl = `${graph_db_visual_url}/graphs-visualizations?query=${encodeURIComponent(query)}&sameAs&inference`   
+        } 
+
+        function GetPersonToPersonsPath(payload){
+            
+            $('.output_block').find('.company_to_person_block, .person_to_person_block').addClass('d-none')
+
+            
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    query: "query callShortestPathEnpoints($method: String!,$input: JSON ){\r\n    callShortestPathEnpoints(method:$method,input:$input){\r\n         records\r\n    }\r\n}",
+                    variables: { "method": "getPersonsPaths", "input": payload}
+                })
+            };
+
+            $.ajax(settings).done(function (response) {
+                response = response.data.callShortestPathEnpoints
+                $('#submitbuttonPtoP').find('span').show();
+                $('#submitbuttonPtoP').find('.spinner-border').hide();
+                $('#submitbuttonPtoP').attr('disabled', false)
+                
+                $('.output_block').find('.person_to_person_block').removeClass('d-none')
+                $('.output_block').find('.connections_table_wrapper, .skills_table_wrapper, .exp_table_wrapper').addClass('d-none')
+                if (response.records.hasOwnProperty('connections')) {
+                    if(response.records.connections.length > 0){
+                        $('.output_block').find('.connections_table_wrapper').removeClass('d-none')
+                        let connections = response.records.connections
+                                        
+                        $connections_table.clear()            
+                        
+                        for (let i = 0; i < connections.length; i++) {
+                            let connection = connections[i];
+                            var tempRecord = ["","checkbox"];
+                            var tmparr = []
+                            var tmpData = []
+                            Object.entries(connection).forEach(([key, value], index, array) => {
+                                var nextPerson;
+                                try{
+                                    // Check if there is a next item in the array
+                                    var nextIndex = ""
+                                    var nextKey = ""
+                                    var nextValue = ""
+                                    if (index < array.length - 1) {
+                                        nextIndex = index + 1;
+                                        [nextKey, nextValue] = Object.entries(connection)[nextIndex];
+                                        
+                                        tmparr.push(`
+                                            <a href="${key}" target="_blank">${value}</a>
+                                            <span style="font-size:22px; padding-top:10px;">&#x2192;</span>
+                                            <a href="${nextKey}" target="_blank">${nextValue}</a>`
+                                        )
+                                    }
+                                    tmpData.push(key) 
+                                    
+                                }catch(err){
+                                    
+                                }                                         
+                            })
+                            var personPath = tmparr.join(', <br>')                
+                            
+                            $connections_table.row.add([
+                                i+1,
+                                `<input type="checkbox" class="connschckinputs" data-paths='${JSON.stringify(tmpData)}' />`,
+                                personPath
+                            ]);  
+                        }
+                        
+                        $connections_table.draw(true).columns.adjust().responsive.recalc();
+
+                    }
+                }
+
+                //Skills Data
+                if (response.records.hasOwnProperty('skills')) {
+                    if(response.records.skills.length > 0){
+                        $('.output_block').find('.skills_table_wrapper').removeClass('d-none')
+                        let skills = response.records.skills  
+                        $skills_table.clear()            
+                        $.each(skills, function(keyItem, item) {
+                            var tempRecord = ["","checkbox"];
+                            var tmparr = []
+                            var tmpData = []
+                            $.each(item, function(sub_i, sub_item) {
+                                let isLinkedin = sub_item.includes('https://www.linkedin.com/in/')
+                                let isCandid = sub_item.includes('http://example.org/candid/')
+                                let getName;
+                                if(isLinkedin || isCandid){
+                                    
+                                    if(isLinkedin){
+                                        getName = sub_item.split('https://www.linkedin.com/in/')
+                                    }
+                                    if(isCandid){
+                                        getName = sub_item.split('http://example.org/candid/')
+                                    }
+                                    
+                                    var nextPerson;
+                                    var nextPersonURI;
+                                    var nextPersonIndex = item[sub_i+2]
+                                    if(typeof item[sub_i+1] !== "undefined" && typeof nextPersonIndex !== "undefined"){
+                                        let property = item[sub_i+1].split('http://property.org/resource/')
+                                        let propertyURI = item[sub_i+1]
+                                        
+                                        let isLinkedinSub = nextPersonIndex.includes('https://www.linkedin.com/in/')
+                                        let isCandidSub = nextPersonIndex.includes('http://example.org/candid/')
+                                        if(isLinkedinSub || isCandidSub){
+                                            nextPersonURI = nextPersonIndex
+                                            if(isLinkedinSub){
+                                                nextPerson = nextPersonIndex.split('https://www.linkedin.com/in/')
+                                            }
+                                            if(isCandidSub){
+                                                nextPerson = nextPersonIndex.split('http://example.org/candid/')
+                                            }       
+                                        }
+                                        tmparr.push(`
+                                            <a href="${sub_item}" target="_blank" >${decodeURIComponent(getName[1])}</a>
+                                            <span style="font-size:22px; padding-top:10px;">&#x2192;</span>
+                                            <a href="${propertyURI}" target="_blank" class="skills badge" style="font-size:12px;">${decodeURIComponent(property[1])}</a>
+                                            <span style="font-size:22px; padding-top:10px;">&#x2192;</span>
+                                            <a href="${nextPersonURI}" target="_blank">${decodeURIComponent(nextPerson[1])}</a>
+                                            `
+                                        )
+
+                                        tmpData.push({"person1":sub_item,'skill':propertyURI,'person2':nextPersonURI})
+                                    }                             
+                                }
+                                                    
+                            })
+                            item['PersonPath'] = tmparr.join(', <br>')                
+                            
+                            $skills_table.row.add([
+                                keyItem + 1,
+                                `<input type="checkbox" class="skillschckinputs" data-paths='${JSON.stringify(tmpData)}' />`,
+                                item['PersonPath']
+                            ]);  
+                        })                        
+                        
+                        $skills_table.draw(true).columns.adjust().responsive.recalc();
+                    }
+                }
+
+                //Experiences Data
+                if (response.records.hasOwnProperty('experience')) {
+                    if(response.records.experience.length > 0){
+                        $('.output_block').find('.exp_table_wrapper').removeClass('d-none')
+                        let experiences = response.records.experience  
+                        $exp_table.clear()            
+                        $.each(experiences, function(keyItem, item) {
+                            var tempRecord = ["","checkbox"];
+                            var tmparr = []
+                            var tmpData = []
+                            $.each(item, function(sub_i, sub_item) {
+                                let isLinkedin = sub_item.includes('https://www.linkedin.com/in/')
+                                let isCandid = sub_item.includes('http://example.org/candid/')
+                                let getName;
+                                if(isLinkedin || isCandid){
+                                    
+                                    if(isLinkedin){
+                                        getName = sub_item.split('https://www.linkedin.com/in/')
+                                    }
+                                    if(isCandid){
+                                        getName = sub_item.split('http://example.org/candid/')
+                                    }
+                                    
+                                    var nextPerson;
+                                    var nextPersonURI;
+                                    var nextPersonIndex = item[sub_i+2]
+                                    if(typeof item[sub_i+1] !== "undefined" && typeof nextPersonIndex !== "undefined"){
+                                        let company = item[sub_i+1]
+                                        //let companyURI = item[sub_i+1]
+                                        
+                                        let isLinkedinSub = nextPersonIndex.includes('https://www.linkedin.com/in/')
+                                        let isCandidSub = nextPersonIndex.includes('http://example.org/candid/')
+                                        if(isLinkedinSub || isCandidSub){
+                                            nextPersonURI = nextPersonIndex
+                                            if(isLinkedinSub){
+                                                nextPerson = nextPersonIndex.split('https://www.linkedin.com/in/')
+                                            }
+                                            if(isCandidSub){
+                                                nextPerson = nextPersonIndex.split('http://example.org/candid/')
+                                            }       
+                                        }
+                                        tmparr.push(`
+                                            <a href="${sub_item}" target="_blank" >${decodeURIComponent(getName[1])}</a>
+                                            <span style="font-size:22px; padding-top:10px;">&#x2192;</span>
+                                            <a   target="_blank" class="company badge" style="font-size:12px;">${decodeURIComponent(company)}</a>
+                                            <span style="font-size:22px; padding-top:10px;">&#x2192;</span>
+                                            <a href="${nextPersonURI}" target="_blank">${decodeURIComponent(nextPerson[1])}</a>
+                                            `
+                                        )
+
+                                        tmpData.push({"person1":sub_item,'company':company,'person2':nextPersonURI})
+                                    }                             
+                                }
+                                                    
+                            })
+                            item['PersonPath'] = tmparr.join(', <br>')                
+                            
+                            $exp_table.row.add([
+                                keyItem + 1,
+                                `<input type="checkbox" class="expchckinputs" data-paths='${JSON.stringify(tmpData)}' />`,
+                                item['PersonPath']
+                            ]);  
+                        })                        
+                        
+                        $exp_table.draw(true).columns.adjust().responsive.recalc();
+                    }
+                }
+                
+                
+            });
+        }
+
+        
+        function connectionsShowkgQuery(){
+            var valuesURIs = ""
+            var valuesURIsPersons = ""
+            $('.connschckinputs:checked').each(function(i, element){
+                let jsons = $.parseJSON($(element).attr('data-paths'))
+                var lastIndex = 0;
+                for(let i  = 0; i < jsons.length; i++){
+                    if(typeof jsons[i+1] !== "undefined"){
+                        valuesURIs += `(<${jsons[lastIndex]}> <${jsons[i+1]}>) `
+                        lastIndex = i+1  
+                    }
+                    
+                }
+            })
+            query = `
+                PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+                PREFIX dbo: <http://dbpedia.org/ontology/>
+                
+                CONSTRUCT {
+                    ?person1 vcard:knows ?connections .
+                    ?connections vcard:connection ?person2 .
+                }
+                WHERE {
+                    ?person1 vcard:knows ?connections .
+                    VALUES (?person1 ?person2) {
+                        ${valuesURIs}
+                    }                                         
+                }`
+            
+            connectionShowkgFramework = `${graph_db_visual_url}/graphs-visualizations?query=${encodeURIComponent(query)}&sameAs&inference`
+        }
+
+        function skillsShowkgQuery(){
+            var valuesURIs = ""
+            var valuesURIsPersons = ""
+            $('.skillschckinputs:checked').each(function(i, element){
+                let jsons = $.parseJSON($(element).attr('data-paths'))
+                var lastIndex = 0;
+                for(let i  = 0; i < jsons.length; i++){
+                    valuesURIs += `(<${jsons[i]['person1']}> <${jsons[i]['skill']}> <${jsons[i]['person2']}>) `
+                }
+            })
+            query = `
+                PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+                PREFIX dbo: <http://dbpedia.org/ontology/>
+                
+                CONSTRUCT {
+                    ?person1 vcard:knows ?connection .
+                    ?person1 vcard:skill ?skill .
+                    ?person2 vcard:skill ?skill .
+                    ?connection vcard:connection ?person2 .
+                }
+                WHERE {
+                    ?person1 vcard:knows ?connection .
+                    ?person1 vcard:skills [vcard:expertise_details [vcard:skill ?skill]]
+                    VALUES (?person1 ?skill ?person2) {
+                        ${valuesURIs}
+                    }                                         
+                }`
+             
+            skillsShowkgFramework = `${graph_db_visual_url}/graphs-visualizations?query=${encodeURIComponent(query)}&sameAs&inference`   
+        }
+        
+        function expShowkgQuery(){
+            var valuesURIs = ""
+            var valuesURIsPersons = ""
+            $('.expchckinputs:checked').each(function(i, element){
+                let jsons = $.parseJSON($(element).attr('data-paths'))
+                var lastIndex = 0;
+                for(let i  = 0; i < jsons.length; i++){
+                    valuesURIs += `(<${jsons[i]['person1']}> '${jsons[i]['company']}' <${jsons[i]['person2']}>) `
+                }
+            })
+            query = `
+                PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+                PREFIX dbo: <http://dbpedia.org/ontology/>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                    
+                CONSTRUCT {
+                    ?person1 vcard:knows ?connection .
+                    ?person1 vcard:work_in_company ?company .
+                    ?person2 vcard:work_in_company ?company .
+                    ?connection vcard:connection ?person2 .
+                }
+                WHERE {
+                    ?person1 vcard:knows ?connection .
+                    ?person1 vcard:experiences [vcard:experience_details [vcard:worked_in 
+                    [vcard:work_in_company ?com]]].
+                    ?company dbo:source ?com;
+                        rdfs:label ?com_name .
+                    VALUES (?person1 ?com_name ?person2) {
+                        ${valuesURIs}
+                    }                                         
+                }`
+            
+            expShowkgFramework = `${graph_db_visual_url}/graphs-visualizations?query=${encodeURIComponent(query)}&sameAs&inference`   
+        }
+        
+           
+    </script>
+</html>

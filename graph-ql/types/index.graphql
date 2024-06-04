@@ -1,0 +1,377 @@
+scalar JSON
+
+enum PlatFormType {
+  OPENAI
+  HUGGINGFACE
+  LAMMAGPT
+}
+ 
+type Company {
+  id: String,
+  name : String, 
+  source : String, 
+  description : String,
+  SIC : String,
+  NAICS : String, 
+  profit : String,
+  gross_profit: String,
+  company_id : String, 
+  headquarters : String,
+  operating_years : String,
+  no_of_employees : String,
+  industry : String, 
+  revenue_dollar : String, 
+  annual_growth : String,
+  quarterly_growth : String, 
+  vector_score : String 
+  status: String
+  parent_name: String
+  specialities: String
+  company_type: String
+  founded: String
+  manual: String
+  social_url: String
+  sic: String
+  naics: String
+  profile_url: String
+  employer: [JSON]
+  custom_property:[DynamicFieldsQuery]
+  graph_data : JSON
+  ticker_symbol: String,
+  total_assets: String,
+  market_cap: String,
+  quarterly_revenue_growth: String,
+  long_business_summary: String,
+  current_year_revenue: String,
+  previous_year_revenue: String,
+  last_quarterly_revenue: String
+  website: String
+  second_last_quarterly_revenue: String
+  exchange: String
+}
+
+type DynamicFieldsQuery {
+  name: String,
+  value: String
+}
+
+input ClassificationsInput {
+  industry: [String]
+  location: [String]
+  person: [String]
+  organization: [String]
+}
+
+input RevenueInput {
+  min: Float
+  max: Float
+}
+
+type GraphDBType {
+  graph_url: String
+}
+
+type GraphDBResult {
+  graph_url: String
+  records : [Company]
+}
+
+type SparqlResults {
+  graph_url: String
+  records : [JSON]
+}
+type ContactResults {
+  error: String
+  records : [JSON]
+}
+
+type YahooResults {
+  error: String
+  records : JSON
+}
+
+
+
+input CompanyListSource {
+  name: String,
+  source: String
+}
+
+input ShowkgRequest {
+  name: String  
+}
+
+input CompanyListCrawl {
+  input: String!
+  source: String!
+  type: String
+}
+
+input CodesCategory {
+  sic_code: String,
+  naics_code: String
+}
+
+type envFields{
+  graph_db_url: String
+  graph_db_visual_url: String
+  default_repo: String
+  graphql_service: String
+  redis_service: String
+  vector_service: String
+  standards_fields: [JSON]
+  standards_fields_linkedin: [JSON]
+  standards_fields_dbpedia: [JSON]
+  metaphactory_url: String
+}
+
+type syncRedis{
+  error: String,
+  record: [JSON]
+}
+
+type insertParent{
+  error: [JSON],
+  record: [JSON]
+}
+
+type autoSuggestions {
+  name: String
+  value : String
+}
+
+type JOB_LIST {
+  job_list: [JSON]
+  graph_url: String
+}
+ 
+
+type JOB_DETAIL{
+  record: JSON
+}
+
+type JOB_CANDIDATES {
+  candidates: [JSON]
+}
+
+type SIMILAR_CANDIDATES {
+  candidates: [JSON]
+  graph_url: String
+}
+
+type CANDIDATES_RESULT{
+  candidates: [JSON]
+  error: String
+  graph_url: String
+}
+
+type Claims {
+  claims: [JSON]
+  graph_url: String
+}
+
+type SparqlResultsForClaims {
+  records : [JSON]
+}
+
+type jobStates{
+  most_applied_jobs:[JSON]
+  job_applications:[JSON]
+}
+
+type autoSuggestionsCompanyName {
+  companies:[JSON]
+}
+
+type autoSuggestionsPersonsName {
+  persons:[JSON]
+}
+
+type InsurancePlansSchema{
+  plans:[JSON]
+  graph_url:String
+  bestPlan:JSON
+}
+
+type BestPlan{
+  error: String
+  bestPlan: JSON
+  plans:[JSON]
+  graph_url: String
+}
+
+input CompanyInput {
+    name: String!
+    headquarters: String!
+}
+
+input travellerDetails{
+  name: String
+  age: Int
+}
+
+type reconcileEntitiesSchema{
+  records: JSON
+}
+
+type shortestPathOutputType{
+  records:JSON 
+}
+
+
+
+type Query {
+  getSimilaritySentences(name: String!, top_k: Int!, platform_type: PlatFormType!, classifications: ClassificationsInput, company_type: [String], revenue: RevenueInput): [Company]!
+  
+  getCompaniesByStatus(company_list:[String!], query: String!, case_type:String!, codes:CodesCategory, events:[String]): [Company]!
+
+  getSimilarCompaniesByName(name:String!,platform_type:String, field_name:String, similar_source:String, top_k:Int):[GraphDBResult]!
+
+  showGraphDbKg(company_list:[ShowkgRequest!], event:[JSON]):[GraphDBType]!
+
+  showCompanySimilarityShowKg(company_list:[JSON!]):GraphDBType!
+
+  getCompaniesByCrawl(data: CompanyListCrawl!): Company!
+
+  getEnvVariables : [envFields]!
+
+  getCompany(name:String!) : Company
+
+  sparqlGPTSearch(input:String!, sparql_query:String):SparqlResults!
+
+  showKgWithAttributes(company_list:[ShowkgRequest!], attributes_list:[String!]) : GraphDBType!
+
+  GetContactsFromGraphDB(company:String!) : ContactResults!
+
+  getGraphResultsByNLPQuery(input:String!): SparqlResults!
+
+  getAutoSuggestions(input:String!, source:String): [autoSuggestions]!
+
+  getJobList : JOB_LIST 
+
+  getJobByName(title:String!, publisher:String!): JOB_DETAIL!
+
+  getCandidatesByJob(job_title: String!, job_publisher: String!, industry: String!, top_k: Int): CANDIDATES_RESULT!
+
+  getCandidateList : JOB_CANDIDATES!
+
+  getCandidateByName(name:String!, resume:String): JOB_DETAIL!
+
+  getJobsByCandidate(name:String!, resume:String, industry: String!, top_k: Int): JOB_LIST!
+
+  getSimilarJobsByJob(job_title: String!, job_publisher: String!, industry: String!, top_k: Int, source:String!): JOB_LIST!
+
+  getSimilarCandidatesByCand(name:String!, resume:String, industry: String!,  top_k: Int, source:String!): SIMILAR_CANDIDATES!
+  
+  getJobStates: jobStates!
+
+  getAllEvents : [JSON]
+
+  getSimilarClaims(claimId: String!, vector_field_name: String, top_k: Int): Claims!
+
+  getSimilarClaimsByGraph(claimId: String!, top_k: Int): Claims!
+  
+  sparqlGPTSearchForClaims(input: String!): SparqlResultsForClaims!
+
+  searchCompaniesByKeywords(keyword:String!): autoSuggestionsCompanyName!
+
+  searchPersonsByKeywords(keyword:String!): autoSuggestionsPersonsName!
+
+  searchAllCompaniesByKeywords(keyword:String!): autoSuggestionsCompanyName!
+
+  getInsurancePlans(agentName:String!, agentEmail:String! ,travellers:[travellerDetails!], endDate:String!,primaryDestination:String!, startDate:String, stateResidence
+:String!, totalTripCost:String!): InsurancePlansSchema!
+
+  compareInsurancePlans(plans:JSON, inclusions: [String]): BestPlan
+
+  callShortestPathEnpoints(method:String!,input:JSON): shortestPathOutputType
+
+  callRedisEnpoints(method:String!,input:JSON): shortestPathOutputType
+
+  reconcileEntities(company:[CompanyInput!]): reconcileEntitiesSchema
+
+  callEmbeddingEndpoints(method:String!,input:JSON): shortestPathOutputType
+
+
+}
+
+input DynamicFields{
+  name: String!
+  value: String!
+}
+
+enum ManualEnums {
+  Yes
+  No
+}
+
+input InputCompany{
+  name : String!, 
+  source : String, 
+  description : String!,
+  SIC : String,
+  NAICS : String,
+  headquarters : String,
+  operating_years : String,
+  no_of_employees : String,
+  industry : String!, 
+  revenue_dollar : String, 
+  annual_growth : String,
+  quarterly_growth : String, 
+  vector_score : String 
+  status: String
+  founded: String
+  social_url: String
+  profile_url: String
+  company_type: String
+  specialities: String
+  parent_name: String
+  manual: ManualEnums!
+  employer: [JSON]
+  custom_properties:[DynamicFields]
+  quarterly_revenue_growth: String
+  website:String
+  current_year_revenue: String
+  total_assets: String
+  gross_profit: String
+  previous_year_revenue: String
+  second_last_quarterly_revenue:String
+  last_quarterly_revenue: String
+  market_cap: String
+  ticker_symbol: String
+  exchange:String
+}
+ 
+type StoreDataType {
+  graph_url: String
+  error: String
+}
+
+type addContactResponse {
+  states: JSON
+}
+
+type addParentGliefNodeSchema{
+  success : Boolean
+}
+
+type markWinningQuoteSchema{
+  success: Boolean,
+  error:String
+}
+
+type Mutation {
+  storeDataInRedisGraphDb(data: InputCompany) : StoreDataType!  
+
+  syncCompanyData(comParent_url:[String],isCrawl : Boolean!) : syncRedis!
+
+  csvLeadGeneration : addContactResponse!
+
+  insertParentData(comParent_url:[String],isCrawl : Boolean!) : insertParent!
+
+  addParentGliefNode(gleif_id: String!, name:String!, company_uri:String) :  addParentGliefNodeSchema!
+
+  markWinningQuote(request_uri: String!, plan_uri: String!, plan_name:String!, bestPlanReason:[String]): markWinningQuoteSchema
+
+  koreAIDataLoader(pdf_files:[String!]): markWinningQuoteSchema
+}

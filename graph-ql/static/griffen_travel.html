@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Griffin Travels | ZeniaGraph</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <!--[if lte IE 9
+      ]><link rel="stylesheet" href="assets/css/ie9.css"
+    /><![endif]-->
+    <link rel="stylesheet" href="https://bots.kore.ai/webclient/UI/dist/kore-ai-sdk.min.css" />
+    <link rel="icon" type="image/x-icon" href="/static/favicon-32x32.png">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> 
+    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="stylesheet" href="/static/griffen.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css"
+      integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/static/select2/css/select2.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css" rel="stylesheet" />
+  
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.min.js"
+      integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript" src="/static/dev.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+      crossorigin="anonymous"
+    ></script>
+
+    <script type="text/javascript" src="/static/select2/js/select2.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script type="text/javascript" src="/static/toast-notification/jquery.toast.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"></script>
+
+  </head>
+
+  <body>
+    <style></style>
+    {% include 'header.html' %}
+
+    <div class="container container-fluid" style="max-width: 1320px">
+        <form class="form-row mt-2 travel_form">
+          <div class="col-12 mt-1 row_bg_dkr">
+            <h5 class="def_color_web">Trip Details</h5>
+          </div>
+            <div class="form-group col-md-2">
+              <label for="ageTraveller">Agent Name</label>
+              <input type="text" class="form-control" id="agentName" name="agentName" required placeholder="Please Enter Name">
+            </div>  
+            <div class="form-group col-md-2">
+              <label for="ageTraveller">Agent Email</label>
+              <input type="email" class="form-control" id="agentEmail" name="agentEmail" required placeholder="Please Enter Email">
+            </div>
+          
+            <div class="form-group col-md-2">
+                <label for="primaryDestination">Primary Destination</label>
+                <select class="form-control" id="primaryDestination" name="primaryDestination" required></select>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="travelDates">Travel Dates</label>
+                <input type="input" class="form-control" id="travelDates" name="travelDates" placeholder="Travel Dates" required>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="stateResidence">State of Residence</label>
+                <select class="form-control" id="stateResidence" name="stateResidence" required>
+                    <option value="">Select State</option>
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                    <option value="AZ">Arizona</option>
+                    <option value="AR">Arkansas</option>
+                    <option value="CA">California</option>
+                    <option value="CO">Colorado</option>
+                    <option value="CT">Connecticut</option>
+                    <option value="DE">Delaware</option>
+                    <option value="FL">Florida</option>
+                    <option value="GA">Georgia</option>
+                    <option value="HI">Hawaii</option>
+                    <option value="ID">Idaho</option>
+                    <option value="IL">Illinois</option>
+                    <option value="IN">Indiana</option>
+                    <option value="IA">Iowa</option>
+                    <option value="KS">Kansas</option>
+                    <option value="KY">Kentucky</option>
+                    <option value="LA">Louisiana</option>
+                    <option value="ME">Maine</option>
+                    <option value="MD">Maryland</option>
+                    <option value="MA">Massachusetts</option>
+                    <option value="MI">Michigan</option>
+                    <option value="MN">Minnesota</option>
+                    <option value="MS">Mississippi</option>
+                    <option value="MO">Missouri</option>
+                    <option value="MT">Montana</option>
+                    <option value="NE">Nebraska</option>
+                    <option value="NV">Nevada</option>
+                    <option value="NH">New Hampshire</option>
+                    <option value="NJ">New Jersey</option>
+                    <option value="NM">New Mexico</option>
+                    <option value="NY">New York</option>
+                    <option value="NC">North Carolina</option>
+                    <option value="ND">North Dakota</option>
+                    <option value="OH">Ohio</option>
+                    <option value="OK">Oklahoma</option>
+                    <option value="OR">Oregon</option>
+                    <option value="PA">Pennsylvania</option>
+                    <option value="RI">Rhode Island</option>
+                    <option value="SC">South Carolina</option>
+                    <option value="SD">South Dakota</option>
+                    <option value="TN">Tennessee</option>
+                    <option value="TX">Texas</option>
+                    <option value="UT">Utah</option>
+                    <option value="VT">Vermont</option>
+                    <option value="VA">Virginia</option>
+                    <option value="WA">Washington</option>
+                    <option value="WV">West Virginia</option>
+                    <option value="WI">Wisconsin</option>
+                    <option value="WY">Wyoming</option>
+                </select>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="totalTripCost">Total Trip Cost</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="number" class="form-control" id="totalTripCost" name="totalTripCost" required placeholder="Trip Cost">
+                </div>
+            </div>
+ 
+            <div class="col-12 mt-1">
+              <h5 class="def_color_web row_bg_dkr">Travelers</h5>
+              <h6 class="label_tr">First, we'll need some details about who is traveling on this trip.</h6>
+            </div>
+            
+            <div class="col-12 age_box mt-3">
+              <div class="row traveler_item">
+                <div class="form-group col-md-3">
+                  <h6 for="ageTraveller" class="">Traveler <span class="tr_count">1</span></h6>
+                  <div>Tell us more about this traveler.</div>
+                </div>  
+                <div class="form-group col-md-2">
+                  <label for="ageTraveller">Traveler Name</label>
+                  <input type="text" class="form-control input_tr_name" required placeholder="Please Enter Name">
+                </div>  
+                <div class="form-group col-md-2">
+                  <label for="ageTraveller">Traveler Age</label>
+                  <input type="number" class="form-control input_tr_age" required placeholder="Please Enter Age">
+                </div>
+              </div>
+            </div>
+ 
+            <div class="col-12">
+              <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2">
+                  <div class="add_traveler_bt float-right">
+                    <i class="fa fa-plus-circle" style="color:#ba0373"></i> Add Traveler
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+
+            <div class="form-group col-md-12">
+                <button class="btn btn-primary get_quote_submit" type="button">
+                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    Submit
+                </button>                 
+            </div>
+            
+        </form>     
+    </div>
+
+    
+
+    <div class="container container-fluid" style="max-width: 1320px">
+
+      <div class="row m-0 d-none" id="intermediate_screen">
+        
+        <div class="col-12 mt-4 plans-title-wr row_bg_dkr">
+          <div class="row">
+            <div class="col-6"><h5 style="text-decoration: underline;">Plans and Pricing Details</h5></div>
+            <div class="col-6">
+              <div class="row">
+                <div class="col-10">
+                  <div class="float-right inc_criteria_box">
+                    <select class="inclusions_list_select" multiple id="inclusions_list_select">
+                      <option value="Trip Cancellation coverage">Trip Cancellation coverage</option>
+                      <option value="Trip Interruption">Trip Interruption</option>
+                      <option value="Medical Evacuation">Medical Evacuation</option>
+                      <option value="Emergency Medical">Emergency Medical</option>
+                      <option value="Baggage Loss">Baggage Loss</option>
+                      <option value="Flight Accident">Flight Accident</option>
+                      <option value="Accidental Death">Accidental Death</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="float-right ellipsis_pre">
+                    <div class="dropdown">
+                      <i class="fas fa-ellipsis"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                      <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="dropdownMenuButton">
+                        <div class="commission_inputs">
+                          <div class="form-group">
+                            <label for="carrier1" class="small-label">Travel Guard <code>(commission in %)</code></label>
+                            <input type="number" class="form-control form-control-sm small-input" id="carrier1" placeholder="Commission">
+                          </div>
+                          <div class="form-group">
+                              <label for="carrier2" class="small-label">Allianz Travel <code>(commission in %)</code></label>
+                              <input type="number" class="form-control form-control-sm small-input" id="carrier2" placeholder="Commission">
+                          </div>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary btn-sm">Update</button>
+                            <button class="text-center btn btn-warning showKGPre">ShowKG</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>   
+                </div>
+              </div>
+              
+                         
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="row" id="plans_blocks_1"></div>
+        </div>
+        
+        <div class="container" id="compare_plan_row">
+            <div class="col-12 text-center mt-2">
+             <button class="text-center btn btn-primary compare-plan">
+                <i class="fa-solid fa-code-compare"></i> 
+                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                Compare Plans
+              </button>
+            </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+            <div class="error-message mt-4 d-none">
+              No plans found
+            </div>
+        </div>
+      </div>
+
+       
+       
+      <div class="row d-none mt-4" id="final_screen">
+        
+        <div class="col-12 mt-4 plans-title-wr row_bg_dkr">
+          <div class="row">
+            <div class="col-6"><h5 class="mb-3" style="text-decoration: underline;">Carriers Evaluated</h5></div>
+            <div class="col-6">
+              <div class="float-right ellipsis_pre">
+                <div class="dropdown">
+                  <i class="fas fa-ellipsis"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                  <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="dropdownMenuButton">
+                    <button class="text-center btn btn-warning showKgGraphDb">ShowKG</button>
+                  </div>
+                </div>
+              </div>              
+            </div>
+          </div>
+        </div>
+
+        <div id="plans_blocks_2" class="mt-3">
+          <div class="col-md-12">
+            <p>Plan Name: <a href="http://www.google.com" style="color: #000; font-weight: bold;">Deluxe</a> | Commission: 10% | <a href="#" style="color: #28a745;">View Quote</a> | Plan Cost: $2352</p>
+          </div>
+           <div class="col-md-12">
+            <p>Plan Name: <a href="http://www.example.com" style="color: #000; font-weight: bold;">Basic</a> | Commission: 5% | <a href="#" style="color: #28a745;">View Quote</a> | Plan Cost: $1500</p>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="container container-fluid p-0" style="max-width: 1320px">
+            <div class="row">
+              <div class="col-md-12 mb-2">
+                <button type="button" class="btn btn-warning mr-3 showkbg_post">Dashboard</button>
+                <button type="button" class="btn query-button mr-3  qnabutton">
+                  <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                  Q&A
+                </button>
+              </div>
+              <div class="col-md-12 mb-2 d-none" id="WinningQuotePdfDownload">
+                 <span>Do you want to send summary to your client? </span><a id="downloadWinningPdf" href="javascript:void(0)">Click here to download winning pdf</a>
+              </div>
+              <div class="col-md-12 mt-4">
+                
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="best-plan-tab" data-toggle="tab" href="#best-plan" role="tab" aria-controls="best-plan" aria-selected="true">Best Plan</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="compare-plan-tab" data-toggle="tab" href="#compare-plan-block" role="tab" aria-controls="compare-plan-block" aria-selected="false">Compare Plan</a>
+                  </li>
+                </ul>
+
+                <div class="tab-content" id="myTabContent">
+                  <div class="tab-pane fade show active" style="min-height: 540px;" id="best-plan" role="tabpanel" aria-labelledby="best-plan-tab">
+                    <!--first tab-->
+                    <div class="compare-summary">
+                      <button type="button" class="btn mrkwin-button bestPlanWinButton">
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        <i class="fa  fa-trophy"></i> Declare Winner 
+                      </button>
+                      <div class="card">
+                          <h5 class="card-title">Best Plan: <span class="bestPlanTitle">Deluxe</span></h5>
+                          <div class="plan-cost">Plan Cost: <span class="bestPlanCost"></span></div>
+                          <div class="card-summary">Comparison:</div>
+                          <ul class="comparison-list"></ul>
+                          <div class="card-summary">Summary:</div>
+                          <p class="card-summary-text">This is the summary of the Deluxe plan. It offers comprehensive coverage for your trip.</p>
+                          <h6 class="card-subtitle mb-2 text-muted"><!--<i class="fa fa-plus toggle-inc-section"></i>--> Inclusions:</h6>
+                          <ul class="list-group display-inclusions">
+                              <li class="list-group-item"></li>
+                          </ul>
+                          <h6 class="card-subtitle mb-2 text-muted mt-4"><i class="fa fa-plus toggle-exc-section"></i> Exclusions:</h6>
+                          <ul class="exclusions-list" style="display: none;"></ul>
+                      </div>
+                    </div>
+
+                    <!--if no best plan-->
+                    <div class="not_Bestplan_block mt-4 d-none">
+                      <div class="alert alert-danger" role="alert">
+                        Sorry, there are no best plan available that meet your requirements.
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="tab-pane fade" style="min-height: 540px;" id="compare-plan-block" role="tabpanel" aria-labelledby="compare-plan-tab">
+                      <!--second tab-->
+                      <div class="row mt-4" id="compare_plan_viewer"></div>
+                  </div>
+                </div>                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>  
+  </body>
+
+  <script>
+    var frameworkUrl =  ""
+    var plansData  = {}
+    var WinnerPlan = {}
+    
+    $(document).ready(function(){
+        loadCountries()
+
+        $('.inclusions_list_select').multiselect({
+          nonSelectedText: 'Select Inclusions',
+          numberDisplayed: 1, 
+          selectAll: true,
+        });
+
+        $(document).on('click', '.qnabutton', function(){
+          var $this = $(this)
+          $($this).find('.spinner-border').removeClass('d-none')
+          $($this).attr('disabled',true)
+
+          //add pdf file to data loader 
+          var settings = {
+            "url": graphQLEndpoint,
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({
+              query: "mutation koreAIDataLoader($pdf_files: [String!])\r\n{\r\n    koreAIDataLoader(pdf_files:$pdf_files)\r\n    {\r\n        success\r\n        error\r\n    } \r\n}",
+              variables: {"pdf_files":[$.trim(plansData['bestPlan']['pdfUrl'])]}
+            })
+          };       
+                     
+          $.ajax(settings).done(function (response) {
+            console.log(response);
+            if(response.data.koreAIDataLoader.success==true){
+              loadKoreScript('https://bots.kore.ai/api/platform/websdkjs/e2f86b02ca8c4ecf9e8ab12d12c3631fb99c9846f09544098c5068ee9982e525st1b').then(() => {
+                let loaded = false
+                do {
+                  if(typeof window.KoreSDK == "object"){
+                    loaded = true
+                    KoreSDK.show(KoreSDK.chatConfig);
+                    setTimeout(function(){
+                      $('.minimized').trigger('click')
+                      $($this).find('.spinner-border').addClass('d-none')
+                      $($this).attr('disabled',false)
+                    }, 1500)
+                  }
+                }
+                while (!loaded); 
+              }).catch((error) => {
+                console.error('Script loading failed:', error);
+                $($this).find('.spinner-border').addClass('d-none')
+                $($this).attr('disabled',false)
+              });
+            }else{
+              $($this).find('.spinner-border').addClass('d-none')
+              $($this).attr('disabled',false) 
+            }
+          }).fail(function(xhr, status, error) {
+            $($this).find('.spinner-border').addClass('d-none')
+            $($this).attr('disabled',false) 
+          });
+          
+                              
+        })
+
+        $(document).on('click','.mrkwin-button',function(){
+            var $this = $(this)
+            $($this).find('.spinner-border').removeClass('d-none')
+            $($this).find('i').addClass('d-none')
+            $('.mrkwin-button').attr('disabled',true) 
+            var selectedPlanId = $(this).attr('data-id')
+            payload = {
+                "request_uri":plansData['plans'][0]['request_uri'],
+                'plan_uri':'http://www.griffin.org/'+selectedPlanId,
+                "plan_name": $(this).attr('data-name'),
+                "bestPlanReason": []
+            }
+
+            if(plansData.hasOwnProperty('bestPlan')){
+              if(plansData["bestPlan"].hasOwnProperty('reason')){
+                payload['bestPlanReason'] = plansData["bestPlan"]["reason"] 
+              }  
+            }
+
+            $.each(plansData.plans, function(index, item){
+                if(item['productId']==selectedPlanId){
+                    WinnerPlan = item
+                }
+            })           
+                     
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    query: "mutation markWinningQuote($request_uri: String!, $plan_uri: String!, $plan_name:String!, $bestPlanReason: [String])\r\n{\r\n    markWinningQuote(request_uri:$request_uri, plan_uri:$plan_uri, plan_name:$plan_name, bestPlanReason:$bestPlanReason)\r\n    {\r\n        success\r\n        error\r\n    } \r\n}",
+                    variables: payload
+                })
+            };
+          
+            $.ajax(settings).done(function (response) {
+                    
+                let data = response.data.markWinningQuote
+                if(data['success']==true){
+                    $('#WinningQuotePdfDownload').removeClass('d-none')
+                    toastNotify('Winning Quote Marked Successfully.','success')
+                }else{
+                    $('.mrkwin-button').attr('disabled',false) 
+                    toastNotify('Something went wrong!','error')
+                }
+                $('.mrkwin-button').find('.spinner-border').addClass('d-none')
+                $('.mrkwin-button').find('i').removeClass('d-none')
+            });
+        })
+
+        $('.add_traveler_bt').click(function(){
+          let traveler_item_length = $('.age_box').find('.traveler_item').length
+          $('.age_box').append(`
+                <div class="row traveler_item">
+                  <div class="form-group col-md-3">
+                    <h6 class="" for="ageTraveller">Traveler <span class="tr_count">${traveler_item_length+1}</span></h6>
+                    <div>Tell us more about this traveler.</div>
+
+                  </div>  
+                  <div class="form-group col-md-2">
+                    <label for="ageTraveller">Traveler Name</label>
+                    <input type="text" class="form-control input_tr_name" required placeholder="Please Enter Name">
+                  </div>  
+                  <div class="form-group col-md-2">
+                    <label for="ageTraveller">Traveler Age</label>
+                    <input type="number" class="form-control input_tr_age" required placeholder="Please Enter Age">
+                  </div>
+                  <div class="form-group col-md-2 delete_tr_box">
+                    <i class="fa fa-trash"></i>
+                  </div>
+                </div>
+          `)
+        })
+
+        $(document).on('click', '.delete_tr_box i', function(){
+          $(this).parents('.traveler_item').remove()
+          $('.traveler_item').each(function(index, item){
+            $(item).find('.tr_count').text(index+1)
+          })
+        })
+
+        $(document).on('click', '.toggle-inclusions', function(){
+            if($(this).hasClass('fa-plus')){
+              $(this).removeClass('fa-plus').addClass('fa-minus')
+            }else{
+              $(this).removeClass('fa-minus').addClass('fa-plus')
+            }
+            $(this).parents('.list-group-item').find('ul').slideToggle()
+        })
+        
+        $('.toggle-inc-section').click(function(){
+          if($(this).hasClass('fa-plus')){
+            $(this).removeClass('fa-plus').addClass('fa-minus')
+          }else{
+            $(this).removeClass('fa-minus').addClass('fa-plus')
+          }
+          $('.display-inclusions').slideToggle()
+        })
+        $('.toggle-exc-section').click(function(){
+          if($(this).hasClass('fa-plus')){
+            $(this).removeClass('fa-plus').addClass('fa-minus')
+          }else{
+            $(this).removeClass('fa-minus').addClass('fa-plus')
+          }
+          $('.exclusions-list').slideToggle()
+        })
+  
+
+        $('.showKGPre').click(function(e){
+            window.open(visualGraphShowKG(frameworkUrl,'full'));
+            //window.open(frameworkUrl);
+        })
+
+        $('.showKgGraphDb').click(function(e){
+          window.open(visualGraphShowKG(frameworkUrl,'full'));
+        })
+         
+        $('.showkbg_post').click(function(e){
+          //let showkgurlmeta2 = frameworkUrl.split(`${graph_db_visual_url}/graphs-visualizations?query=`)
+          //showkgurlmeta2 = `${metaphactory_url}/resource/:griffin?request=${encodeURIComponent(plansData['plans'][0]['request_uri'])}&query=${showkgurlmeta2[1]}` 
+          window.open(`${metaphactory_url}/resource/griffin-poc`);
+        })
+        
+
+        $('#stateResidence').select2({
+            placeholder: 'Select State',
+            allowClear:true,
+        });
+
+        $('#travelDates').daterangepicker({
+            autoUpdateInput: false,
+            minDate: new Date(),             
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        });
+
+        $('#travelDates').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+        });
+      
+        $('#travelDates').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+        });
+         
+              
+        $('.get_quote_submit').click(function(){
+            WinnerPlan = {}  
+            $('#WinningQuotePdfDownload').addClass('d-none')  
+            $('#final_screen, #intermediate_screen').addClass('d-none')
+            $('.mrkwin-button').attr('disabled',false)
+            var formData = $('.travel_form').serializeArray().reduce(function(obj, item) {
+                obj[item.name] = item.value;
+                return obj;
+            }, {});
+            
+            formData['travellers']  = []
+            $('.traveler_item').each(function(index, item){
+              formData['travellers'].push({"name":$(item).find('.input_tr_name').val(), "age":parseInt($(item).find('.input_tr_age').val())})
+            })
+            
+            let dates = formData['travelDates'].split(' - ')
+            formData['startDate'] = dates[0]
+            formData['endDate'] = dates[1]
+            delete formData['travelDates']
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                  "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                  query: "query getInsurancePlans($agentName: String!, $agentEmail: String!, $travellers:[travellerDetails!], $endDate:String!,$primaryDestination:String!, $startDate:String, $stateResidence\r\n:String!, $totalTripCost:String!)\r\n{\r\n    getInsurancePlans(agentName:$agentName, agentEmail:$agentEmail, travellers:$travellers, endDate:$endDate primaryDestination:$primaryDestination, startDate:$startDate, stateResidence:$stateResidence, totalTripCost:$totalTripCost)\r\n    {\r\n        plans\r\n        graph_url\r\n  } \r\n}",
+                  variables: formData
+                })
+            };
+
+            $('.get_quote_submit').find('span').removeClass('d-none')
+            $('.get_quote_submit').attr('disabled',true)
+            $.ajax(settings).done(function (response) {
+                $('#plans_blocks_1').html('')
+                $('.error-message').addClass('d-none')
+                $('.get_quote_submit').find('span').addClass('d-none')
+                $('.get_quote_submit').attr('disabled',false)
+                if(response.data.getInsurancePlans.plans.length > 0){
+                    plansData = response.data.getInsurancePlans.plans
+                    frameworkUrl = response.data.getInsurancePlans.graph_url
+                    $('#intermediate_screen').removeClass('d-none')
+                    $('.commission_inputs').html('')  
+                    $.each(response.data.getInsurancePlans.plans, function(key, item){
+                        let name_com  = item.carrier=="https://www.allianztravelinsurance.com"?"allianz_comission":"travelguard_comission"
+
+                        $('.commission_inputs').append(`
+                          <div class="form-group">
+                            <label for="carrier1" class="small-label">${item.carrierName}<code>(commission in %)</code></label>
+                            <input value="10" type="number" class="form-control-sm small-input" id="${name_com}" name="${name_com}" required placeholder="Commission">
+                          </div>
+                        `)
+
+                        $('#plans_blocks_1').append(`
+                              <div class="col-md-6">
+                                <div class="card mt-4">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Plan Name - ${item.planName}</h5>
+                                        <h6 class="card-subtitle mb-2">Source - ${item.carrier}</h6>
+                                        <p class="card-text">ProductID - ${item.productId}</p>
+                                        <a href="${item.pdfUrl}" class="card-link" target="_blank">View Quote</a>
+                                    </div>
+                                </div>
+                              </div>
+                        `)
+                    })
+                }else{
+                    frameworkUrl = ""
+                    $('#intermediate_screen').addClass('d-none')
+                    $('.error-message').removeClass('d-none')
+                    toastNotify('Please trip details and Travelers', 'error')
+                }
+            });
+             
+        })
+
+        $('.compare-plan').click(function(){
+             
+            $(this).find('span').removeClass('d-none')
+            $(this).attr('disabled',true)
+            $(this).find('i').hide()
+            var allianzComission = parseInt($('#allianz_comission').val());
+            var travelGuardComission = parseInt($('#travelguard_comission').val());
+          
+            $.each(plansData, function(index, item){
+                if(item['carrier']=="https://www.allianztravelinsurance.com"){
+                    plansData[index]['commission'] = allianzComission
+                }else{
+                    plansData[index]['commission'] = travelGuardComission
+                }
+            })
+
+           
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                  query: "query compareInsurancePlans($plans: JSON, $inclusions: [String])\r\n{\r\n compareInsurancePlans(plans: $plans, inclusions: $inclusions)\r\n    { \r\n    plans\r\n     bestPlan\r\n        error\r\n  graph_url\r\n } \r\n}",
+                  variables: {"plans":plansData, 'inclusions':$('#inclusions_list_select').val()}
+                })
+            };
+            $('.not_Bestplan_block').addClass('d-none')
+            $.ajax(settings).done(function (response) {
+           
+                $('.compare-plan').find('span').addClass('d-none')
+                $('.compare-plan').attr('disabled',false)
+                if (response && response.data && response.data.compareInsurancePlans) {
+                    plansData = response.data.compareInsurancePlans
+                    $('#plans_blocks_2').html('')
+                    $('.error-message').addClass('d-none')
+                    $('.get_quote_submit').find('span').addClass('d-none')
+                    $('.get_quote_submit').attr('disabled',false)
+                    $('#compare_plan_viewer').html('')
+                    $('.compare-summary').removeClass('d-none') 
+                    if(response.data.compareInsurancePlans.plans.length > 0){
+                        $('#intermediate_screen').addClass('d-none')
+                        $('#final_screen').removeClass('d-none')
+                        frameworkUrl = response.data.compareInsurancePlans.graph_url
+                                        
+                        $.each(response.data.compareInsurancePlans.plans, function(key, item){
+                            $('#plans_blocks_2').append(`
+                                    <div class="col-md-12">
+                                    <p>Plan Name: <span target="_blank" href="#" style="color: #000; font-weight: bold;">${item.planName}</span> | <a target="_blank" href="${item.pdfUrl}" style="color: #28a745;">View Quote</a> | Plan Cost: $${item.planCost} | Carrier: <a target="_blank" href="${item.carrier}" style="color: #000; font-weight: bold; text-decoration:underline">${getDomainName(item.carrier)}</a></p>
+                                    </div>
+                            `)
+                            
+                            //Append html for compare plan block
+                            let inner_inclusions = ""
+                            let inner_exclusions = ""
+                            $.each(item.inclusions, function(indexInc, itemInc){
+                                if(itemInc.coverageAmount!="0" && itemInc.coverageAmount!=""){
+                                let coverageAmount  = itemInc.coverageAmount.replace("$", "");
+                                inner_inclusions += `<li>${itemInc.coverageName} : $${coverageAmount}</li>` 
+                                }
+                            })
+                            $.each(item.exclusions, function(indexInc, itemInc){
+                                inner_exclusions += `<li>${itemInc}</li>` 
+                            })
+                            let bestPlanMarker = ""
+                            if (response.data.compareInsurancePlans.bestPlan.hasOwnProperty('productId')) {
+                              if(item.productId == response.data.compareInsurancePlans.bestPlan['productId']){
+                                  bestPlanMarker = '<span class="bstplan_marker">Best Plan</span>'
+                              }
+                            }
+                            $('#compare_plan_viewer').append(`
+                                    <div class="col-md-6 mb-4">
+                                    <button data-id="${item.productId}" data-name="${item.planName}" type="button" class="btn mrkwin-button">
+                                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                        <i class="fa  fa-trophy"></i> Declare Winner 
+                                    </button>
+                                    <div class="card h-100">
+                                        ${bestPlanMarker}
+                                        <div class="card-body">
+                                        <h5 class="card-title">Plan: ${item.planName}</h5>
+                                        <h6 class="card-subtitle prccost mb-2 text-muted">Plan Cost: <span>$${item.planCost}</span></h6>
+                                        <h6 class="card-subtitle mb-2 text-muted mt-2"><i class="fa fa-minus cmp_event_click"></i> Summary:</h6>
+                                        <p class="card-text cmp_event_target">${item.summary}</p>
+                                        <h6 class="card-subtitle mb-2 text-muted mt-4"><i class="fa fa-minus cmp_event_click"></i> Inclusions</h6>
+                                        <ul class="cmp_event_target">
+                                            ${inner_inclusions}
+                                        </ul>
+                                        <h6 class="card-subtitle mb-2 mt-4 text-muted"><i class="fa fa-minus cmp_event_click"></i> Exclusions</h6>
+                                        <ul class="cmp_event_target">
+                                            ${inner_exclusions}
+                                        </ul>
+                                        </div>
+                                    </div>
+                                    </div>                        
+                            `)
+
+                        })
+
+                        //now display compare plan div content
+                        if (response.data.compareInsurancePlans.bestPlan.hasOwnProperty('productId')) {
+                          var bestPlan = response.data.compareInsurancePlans.bestPlan
+
+                          $('.bestPlanWinButton').attr('data-name',bestPlan.planName).attr('data-id',bestPlan.productId)
+                          
+                          summarization = bestPlan.summary
+                          $('.bestPlanTitle').text(bestPlan.planName);
+                          $('.bestPlanCost').text('$'+bestPlan.planCost);
+                          $('.compare_summary').find('.card-summary-text').text(summarization)
+                          $('.display-inclusions, .exclusions-list').html('')
+                      
+                          $('.comparison-list').html('')
+                          if(bestPlan.reason.length > 0){
+                              $.each(bestPlan.reason, function(index, item){
+                              var item_ul = `
+                                  <li class="comparison-list-item">${item}</li>
+                              `             
+                              $('.comparison-list').append(item_ul)
+                              })
+                          }
+                      
+                          $.each(bestPlan.inclusions, function(index, item){
+                              if(item['coverageAmount']!="0"){
+                              var item_ul = `
+                                  <li class="list-group-item">
+                                  <!--<i class="fa fa-plus toggle-inclusions"></i>-->
+                                  <strong>${item['coverageName']}:</strong> $${item['coverageAmount']}
+                                  <ul style="display:none;">
+                              `
+                              $.each(item['coverageDetails'], function(indexCoverage, itemDetail){     
+                                  if(itemDetail!=""){
+                                  item_ul += `
+                                      <li>${itemDetail}</li>
+                                  `
+                                  }
+                              })     
+                              
+                              item_ul += `</ul>
+                                  </li>`
+                                  
+                              $('.display-inclusions').append(item_ul)
+                              }
+                          })
+                          
+                          $.each(bestPlan.exclusions, function(index, item){
+                              var item_ul = `
+                              <li class="exclusions-list-item">${item}</li>
+                              `             
+                              $('.exclusions-list').append(item_ul)
+                          })
+  
+                          $('html, body').animate({
+                              scrollTop: $("#final_screen").offset().top
+                          }, 500);
+                        }else{
+                          //if there are no best plan found
+                          $('.not_Bestplan_block').removeClass('d-none')
+                          $('.compare-summary').addClass('d-none') 
+
+                        }
+                }else{
+                    frameworkUrl = ""
+                    $('#final_screen').addClass('d-none')
+                    $('.error-message').removeClass('d-none')
+                }
+            }else{
+             
+              toastNotify('Please trip details and Travelers', 'error')
+            }
+          });
+        })
+
+        $(document).on('click','.cmp_event_click', function(){
+            $(this).toggleClass('fa-plus')  
+            $(this).parents().next('.cmp_event_target').slideToggle()
+        })
+
+        $(document).on('click','#downloadWinningPdf', function(){
+            
+            var settings = {
+                "url": graphql_host_domain+"/downloadPolicyPdf",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                  "inclusions": WinnerPlan['inclusions'],
+                  "carrier":  WinnerPlan['carrier'],
+                  "summary": WinnerPlan['summary'],
+                  "pdf_link": WinnerPlan['pdfUrl'],
+                  "plan_name": WinnerPlan['planName']
+                }),
+            };
+              
+            $.ajax(settings).done(function (response) {
+                // Create a Blob from the response
+                var blob = new Blob([response], { type: 'application/pdf' });
+                
+                // Create a URL for the Blob
+                var url = window.URL.createObjectURL(blob);
+                
+                // Create a hidden link and trigger a click event to download the PDF
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = WinnerPlan['planName']+'.pdf'; // Set the filename for the download
+                a.style.display = 'none'; // Hide the link
+                document.body.appendChild(a); // Append the link to the DOM
+                a.click(); // Trigger a click event on the link
+                window.URL.revokeObjectURL(url); // Revoke the URL
+            });            
+        })     
+
+         
+    })
+
+    function loadCountries(){
+        $('#primaryDestination').select2({
+            placeholder: 'Select Country',
+            allowClear:true
+        });
+
+        $.getJSON('/static/all_countries.json', function(data) {
+            console.log(data.data);
+            // Add options to select element
+            $('#primaryDestination').append('<option value="">Select Country</option>');
+            $.each(data, function(index, item) {
+                $('#primaryDestination').append('<option value="' + item.code + '">' + item.name + '</option>');
+            });             
+        }) 
+    }
+    function loadKoreScript(url) {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = url;
+        script.async = false;
+        script.onload = () => {
+            console.log(`Script loaded successfully: ${url}`);
+            resolve();
+        };
+        script.onerror = (error) => {
+            console.error(`Script loading error for ${url}:`, error);
+            reject(error);
+        };
+        document.head.appendChild(script);
+      });
+    }
+
+    function toastNotify(message,type){
+      $('.jq-toast-single').remove();
+      $.toast({
+          heading: type,
+          text: message,
+          showHideTransition: 'fade',
+          icon: type.toLowerCase(),
+          position: 'bottom-right',
+      })
+  }
+  </script>
+</html>

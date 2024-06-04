@@ -1,0 +1,134 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dbp: <http://dbpedia.org/property/> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix dbr: <http://dbpedia.org/resource/> .
+@prefix dbr1: <https://www.linkedin.com/company/> .
+@prefix dbr2: <https://www.zoominfo.com/company/> .
+@prefix dbr3: <https://www.salesforce.com/company/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+
+
+dbo:source a rdf:Property ;
+    rdfs:domain dbo:Organisation ;
+    rdfs:range dbo:Company .
+
+dbp:name      rdf:type rdf:Property ;
+              rdfs:domain dbo:Company  ;
+              rdfs:range xsd:string .
+
+dbo:numberOfEmployees   rdf:type rdf:Property ;
+			rdfs:domain  dbo:Company  .
+             	        
+
+dbo:industry   rdf:type rdf:Property ;
+	       rdfs:domain  dbo:Company  .
+
+dbo:location   rdf:type rdf:Property ;
+               rdfs:domain  dbo:Company  ;
+	       rdfs:range  dbo:Place .
+  
+dbo:headquarter   rdf:type   rdf:Property ;
+	        rdfs:domain  dbo:Company  ; 
+		rdfs:range   dbo:Place .
+  
+
+
+dbp:founded   rdf:type rdf:Property ;
+              rdfs:domain  dbo:Company  .
+              
+
+
+foaf:annualgrowth  rdf:type owl:DatatypeProperty ;
+               		 rdfs:domain  dbo:Company  .
+             		 
+
+foaf:quaterlygrowth  rdf:type owl:DatatypeProperty ;
+               		 rdfs:domain  dbo:Company .
+             		 
+
+foaf:WebsiteUrl  rdf:type owl:DatatypeProperty ;
+               		 rdfs:domain  dbo:Company  ;
+             		 rdfs:range rdfs:Literal .
+
+foaf:companyType   rdf:type owl:DatatypeProperty ;
+               		 rdfs:domain  dbo:Company  ;
+             		 rdfs:range rdfs:Literal .
+
+foaf:yearlyRevenue2022   rdf:type owl:DatatypeProperty ;
+               		 rdfs:domain  dbo:Company .
+             		
+
+foaf:yearlyRevenue2021   rdf:type owl:DatatypeProperty ;
+               		 rdfs:domain  dbo:Company .
+             		 
+
+foaf:lastQuarterlyRevenue   rdf:type owl:DatatypeProperty ;
+               		 rdfs:domain  dbo:Company  .
+             		 
+
+foaf:secondQuarterlyRevenue   rdf:type owl:DatatypeProperty ;
+               		 rdfs:domain  dbo:Company  .
+             		 
+
+foaf:sales   rdf:type owl:DatatypeProperty ;
+               		 rdfs:domain  dbo:Company  .
+             		 
+
+foaf:profit   rdf:type owl:DatatypeProperty ;
+               		 rdfs:domain  dbo:Company  .
+             		
+
+foaf:assets   rdf:type owl:DatatypeProperty ;
+               		 rdfs:domain  dbo:Company  .
+             		 
+
+foaf:description   rdf:type owl:DatatypeProperty ;
+                   rdfs:domain  dbo:Company  ;
+             	   rdfs:range rdfs:Literal .
+
+foaf:Specialities   rdf:type owl:DatatypeProperty ;
+               		 rdfs:domain  dbo:Company  .
+
+             		 
+foaf:SocialFollowers   rdf:type owl:DatatypeProperty ;
+               		 rdfs:domain  dbo:Company  ;
+             		 rdfs:range xsd:integer .
+
+foaf:SocialURL   rdf:type owl:DatatypeProperty ;
+               		 rdfs:domain  dbo:Company  ;
+             		 rdfs:range dbo:Company  .
+
+foaf:CompaniesSize  rdf:type owl:DatatypeProperty ;
+               		 rdfs:domain  dbo:Company  ;
+             		 rdfs:range rdfs:Literal .
+
+foaf:MarketValue   rdf:type owl:DatatypeProperty ;
+               		 rdfs:domain  dbo:Company  .
+             		 
+
+
+dbo:NAICS  rdf:type owl:DatatypeProperty ;
+           rdfs:domain  dbo:Company  ;
+           rdfs:range xsd:integer .
+             		 
+dbo:SIC  rdf:type owl:DatatypeProperty ;
+         rdfs:domain  dbo:Company  ;
+         rdfs:range xsd:integer .
+
+dbo:score  rdf:type owl:DatatypeProperty ;
+           rdfs:domain dbo:Company .
+           
+           
+
+
+
+
+
+
+
+
+

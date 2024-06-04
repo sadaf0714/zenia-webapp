@@ -1,0 +1,1696 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+		<title>Crawl Companies | ZeniaGraph</title>
+		<meta charset="utf-8" />
+        <link rel="icon" type="image/x-icon" href="/static/favicon-32x32.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+         
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="/static/style.css"> 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        <link rel="stylesheet" href="/static/select2/css/select2.min.css">
+        <link rel="stylesheet" href="/static/toast-notification/jquery.toast.min.css">    
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" 
+            crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="/static/select2/js/select2.min.js"></script>
+        <script type="text/javascript" src="/static/dev.js"></script>
+        <script type="text/javascript" src="/static/toast-notification/jquery.toast.min.js"></script>
+        
+        
+
+	</head>
+     
+    <body>
+        <style>
+            .filediv{
+                margin-top: 10px;
+                font-size: 18px;
+            }
+            .cancel_merge{ display: none;}
+            #merge_confirm_model button.close{ position: relative; right:0}
+            .save_btn:disabled {
+                pointer-events: auto;
+            }
+            .disabled-bt{
+                opacity: .65;
+                cursor: not-allowed !important;
+            }
+            
+            .asterisk_re{color: red !important; font-size: 12px; text-align: right;  margin-bottom: 5px;}
+            .req_mand{color: red !important;
+                font-size: 16px;
+                font-weight: bold;}
+            .search_selected_cmp .spinner-border { display: none;}
+            .matched_companies_area, .match_error{ display: none;}
+            .editable_area{
+                display: none;
+            }
+            .form-item{
+                background: white;
+                padding: 15px;
+                border-radius: 8px;
+                box-shadow: 0px 0px 6px #e9e9e9;
+                margin-bottom: 10px;
+            }
+            .form-item label { font-size: 13px; margin-bottom: 0;}
+            .source_column{ margin-top: 5px;}
+            .Input_fields input{ height: auto;}
+            .form-item  input{ height: 30px;}
+            .delete_icon { color: red; position: absolute; top: 0; right: 9px;}
+            .delete_icon:hover{ font-weight: bold; color: red;}
+            .form-item {position: relative;}
+            iframe { border:0}
+            iframe .main-menu{ display:none !important; }
+            .select2-container{
+                width: 100% !important;
+            }
+            .select2-search__field{ font-size: 13px !important;}
+            .select2-results__option{
+                font-size: 13px;
+            }
+            .select2-selection__choice{ font-size: 14px !important;}
+            .select2-selection__placeholder{ font-size: 12px;}
+            .select2-selection{ height: 34.5px !important;}
+            .showkg_submit #submitbutton{
+                width: 212px !important;
+            }
+            #visual_graph_model .modal-body { padding: 0;;}
+            #visual_graph_model { padding:0 !important;}
+            #visual_graph_model .modal-dialog{
+                width: 100%;
+                max-width: 95% !important;
+            }
+            button.close {
+                margin-right: 21px;
+                margin-top: 6px;
+                position: absolute;
+                right: -8px;
+            }
+            .ucd_heading{ font-size: 18px;}
+            .editable_wrapper {
+                background: #f1f1e8;
+                border-radius: 4px;
+                padding: 15px;
+            }
+            .editable_items  input{ height: 28px;}
+            .editable_items .form-group {
+                margin-bottom: 10px;
+            }
+            .editable_item{ 
+                background: #f8f8f8;
+                padding: 15px;
+                border-radius: 8px;
+            }
+            .editable_item{ position: relative; padding-top: 28px; margin-bottom: 15px; padding-bottom: 5px;}
+            .editable_item label{ font-size: 13px; color: #d468a9 !important;}
+            .editable_item input{ font-size: 12px; font-family: monospace;}
+            .editable_item textarea{ font-size: 12px; font-family: monospace;}
+            .info-sticker{
+                position: absolute;
+                left: 0;
+                top: 0;
+                background: #494949;
+                color: white;
+                font-size: 14px;
+                width: 100%;
+                height: 22px;
+                font-weight: bold;
+                text-align: center;
+                min-width: 120px;
+            }
+            .save_btn, .save_btn:hover{
+                text-align: center;
+                justify-content: center;
+                display: flex;
+                height: 38px;
+                align-items: center;
+                background: #ba0373;
+                border: 0; 
+                width: 269px;
+                margin-top: 20px;
+                color:white;
+                font-size: 14px;
+            }
+            .save_btn .spinner-border { display: none;}
+            .add_custom_prop_btn {  
+                font-size: 12px;
+                font-family: cursive;
+                font-weight: bold;
+                float: right;
+            }
+            .custom_init{
+                font-size: 16px;
+                font-family: cursive;
+                font-weight: bold;
+                border-bottom: 1px solid #e9e9e9;
+                padding-bottom: 6px;
+                margin-bottom: 13px; 
+                display: none;
+            }
+            .rm_cst_field{
+                margin-top: 33px;
+                height: 21px;
+                font-size: 11px;
+                padding: 6px;
+                line-height: 4px;
+            }
+            .custom_item .form-group label{ white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: inherit;}
+            .custom_item .form-group{  width: inherit;}
+            .or_seperator{ font-family: cursive;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                position: relative;
+                min-height: 30px;}
+            .or_seperator::before{
+                content: "";
+                border-top: 1px solid #e3e3e3;
+                width: 100%;
+            }
+            .or_seperator span{ position: absolute; background: #f9f9f9; width: 54px; text-align: center;} 
+            .param_source{ font-size: 12px;}
+            .upload_doc{
+                width: 100%;
+                display: block;
+                font-size: 14px;
+            }
+            .custom-control-inline{
+                margin-right: 0.5rem;
+            }
+        </style>
+        {% include 'header.html' %}
+ 
+        <div class="Input_fields container-fluid" style="margin-bottom:10rem; max-width:1320px;">
+            <div class="row">
+                <!--left block-->
+                <div class="col-4 mt-3 filter_block">
+                    <div class="input_panel">
+                        <div class="input_items">
+                            <div class="form-item">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="exampleInputEmail1">Company Name *</label>
+                                        <select class="js-data-example-ajax select2_company" onchange="checkBtnStaus(this)" name="param_company"></select>
+                                    </div>
+                                    <div class="col-12 mt-2">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1" style="display:block;">Source *</label>
+                                            <!--<input type="text" class="form-control" name="source" id="source" onkeyup="checkBtnStaus()">-->
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input checked="checked" onchange="checkBtnStaus(this)"  type="radio" id="customRadio1" name="param_source" class="custom-control-input param_source" value="linkedin">
+                                                <label class="custom-control-label" for="customRadio1">LinkedIn</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input onchange="checkBtnStaus(this)"  type="radio" id="customRadio2" name="param_source" class="custom-control-input param_source" value="dbpedia">
+                                                <label class="custom-control-label" for="customRadio2">DBPedia</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input onchange="checkBtnStaus(this)"  type="radio" id="customRadio3" name="param_source" class="custom-control-input param_source" value="yahoo_finance">
+                                                <label class="custom-control-label" for="customRadio3">Yahoo Finance</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="or_seperator"><span>OR</span></div>
+                        <div class="url_input_items mt-2">
+                            <div class="form-item">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="exampleInputEmail1">Fetch From Google KnowledgeGraph *</label>
+                                        <input type="url" oninput="checkBtnStaus(this)" name="url_company_name" class="form-control url_company_name" placeholder="please enter link">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="or_seperator"><span>OR</span></div>
+                        <div class="url_input_items mt-2">
+                            <div class="form-item">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="exampleInputEmail1">Fetch through Spacy NLP *</label>
+                                        <input type="url" oninput="checkBtnStaus(this)" name="spacy_url" class="form-control spacy_url" placeholder="please enter link">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="or_seperator"><span>OR</span></div>
+                        <div class="url_input_items mt-2">
+                            <div class="form-item">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="exampleInputEmail1">Document *</label>
+                                        <button class="btn btn-primary upload_doc" type="button"><i class=" fa fa-upload"></i> Upload Document</button>
+                                        <div class="filediv d-none"><code><i class=" fa fa-file"></i></code>  <code id="selected_document"></code></div>
+                                        <div class="d-none">
+                                            <input type="file" accept="*" oninput="checkBtnStaus(this)" name="document" id="document_nlp" class="form-control document">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-4 showkg_submit">
+                            <button disabled class="btn btn-primary" type="button" id="submitbutton">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span class="sbtext">Show Company Data</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 new_data_display d-none">
+                    <div class="data_list_view alert-secondary">
+                        <div class="alert alert-primary" role="alert">
+                            New Data
+                        </div>
+                         
+                        <div class="list_view_row"></div>
+                    </div>
+                </div>
+                <!--middle block-->
+                <div class="col-8 mt-3 middle_block">
+                    <!--Data populate block-->
+                    <div class="editable_area">
+                        <div class="ucd_heading">Update Companies Data</div>
+                        <div class="editable_wrapper">
+                            <div class="asterisk_re">(*  Mandatory fields)</div> 
+                            <form enctype="multipart/form-data" class="similar_company_form">
+                                <div class="editable_items"></div>
+                                <div class="add_more_custom_field">
+                                    <button class="btn btn-sm btn-warning add_custom_prop_btn" type="button">+ Add Custom Property</button>
+                                    <div class="clearfix"></div>
+                                </div>     
+                            </form>
+                            
+
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-5">
+                                    <button type="button" class="btn save_btn" data-placement="top">
+                                        <div class="spinner-border spinner-border-sm" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        <span class="sbtext">Save and Show KG</span>
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-warning cancel_merge" style="margin-top: 19px;">Cancel</button>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                </div>  
+                
+                <!--right block-->
+                <div class="col-md-3 old_data_display d-none">
+                    <div class="data_list_view alert-secondary">
+                        <div class="alert alert-primary" role="alert">
+                            Old Data
+                        </div>
+                         
+                        <div class="list_view_row"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="visual_graph_model" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <iframe id="iframe-graph" allow style="height: 850px; width:100%;" src=""></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--sample item-->
+        <div class="custom_item d-none custom_item_clone">
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-group">
+                        <label>Label</label>
+                        <input type="text" class="form-control custom_prop_label" name="custom[0][key]">
+                    </div>  
+                </div>
+                <div class="col-5">
+                    <div class="form-group">
+                        <label>Value</label>
+                        <input type="text" class="form-control custom_prop_value" name="custom[0][value]">
+                    </div>  
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <button class="btn btn-danger btn-sm rm_cst_field" type="button">Delete</button>
+                    </div>  
+                </div>  
+            </div>
+        </div>
+    </body>
+
+    <!--model-->
+    <div class="modal fade" id="merge_confirm_model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Confirm?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              The company `<code class="cmp_name_span"></code>`  already exists in our system, which option would you like to choose?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary overwrite_data">Overwrite Data</button>
+              <button type="button" class="btn btn-secondary merge_2sk2k">Merge</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    <script>
+         
+        var indexing = 0;
+        var selectedCompanies = {};
+        var compId = ''
+        var origForm;
+        var input_touch  = false;
+        var merge_new_data = {}
+        var merge_old_data = {}
+        var company_exists = {name:"", status:false, data:{}};
+        var isDocument= false;
+        $( document ).ready(function() {
+
+            $('.upload_doc').click(function() {
+               $('#document_nlp').click()
+            })
+ 
+
+            $('.cancel_merge').click(function() {
+                merge_mode_on(0)
+            })
+
+            $('[data-toggle="tooltip"]').tooltip()
+
+            $(document).on('change input','.custom_prop_label', function() {
+                let label_val =  $(this).val()
+                $(this).prev('label').text(label_val!="" ? label_val :"Label")
+            })
+
+            $(document).on('change input','.similar_company_form input, .similar_company_form textarea', function() {
+                
+                $form2 = $('.similar_company_form').serialize()
+                var form_touch = false;
+                if($form2.toString() === origForm.toString()){
+                    input_touch = false; 
+                }else{ 
+                    input_touch = true
+                }
+            });
+
+            $('.overwrite_data').click(function(){
+                var form_data = objectifyForm($('.similar_company_form').serializeArray());
+                $('#merge_confirm_model').modal('hide')
+                save_data(form_data)
+            })
+
+            $(document).on('click','.save_btn', function(){
+            
+                var form_data = objectifyForm($('.similar_company_form').serializeArray());
+                
+                if($(this).hasClass('disabled-bt')){
+                    return;
+                }
+
+                if($(this).attr('data-merged')){
+                    if($(this).attr('data-merged')=="1"){
+                        //call save_data function save the data
+                        save_data(form_data, 'merged')  
+                        return;                          
+                    } 
+                }
+                               
+                //check the company in db exists or not 
+                if(company_exists.status==true && company_exists.name!=""){
+                    //if company exists then show merge popup
+                    $('.cmp_name_span').text(company_exists.name);
+                    //$('.cmp_source_span').text(form_data.source);
+                    $('#merge_confirm_model').modal({backdrop: 'static', keyboard: false}, 'show');
+
+                    merge_new_data = {}
+                    merge_old_data = {}
+                    merge_new_data = form_data
+                    merge_old_data = company_exists.data
+                }else{
+                    //call save_data function save the data
+                    save_data(form_data)
+                }
+                
+            })
+ 
+            $select = $('.select2_company').select2({
+                placeholder: 'Search Companies By Name',
+                minimumInputLength: 1,
+                allowClear:true,
+                tags:true,
+                ajax: {
+                    delay:250,
+                    type: "POST",
+                    async:false,
+                    url: graphQLEndpoint,
+                    dataType: 'json',
+                    contentType: "application/json",
+                    data: function (params) {
+                        let source  = $('.param_source:checked').val()
+                        return JSON.stringify({
+                            query: "query getAutoSuggestions($input: String!, $source: String!)\r\n{\r\n    getAutoSuggestions(input:$input, source: $source)\r\n    {\r\n        name\r\n        value\r\n    }\r\n      \r\n}",
+                            variables: {"input":params.term,"source":source}
+                          })
+                    },
+                    processResults: function (data) {
+                        var tmparr = []
+                         
+                        if(data['data']['getAutoSuggestions'].length > 0){
+                            for(let key in data['data']['getAutoSuggestions']){
+                                let item = data['data']['getAutoSuggestions']
+                                tmparr.push({"text":item[key]['name'], "id": item[key]['value']})
+                            }
+                        }
+                        return {
+                          results: tmparr
+                        };
+                    }
+                    
+                }
+            });
+
+            $(document).on("select2:select", $select, function(e) { 
+                var data = e.params.data;
+                selectedCompanies['name'] = data.text;
+                
+            });
+            $(document).on('select2:close', () => {
+                checkBtnStaus(this)
+            });  
+            $(document).on('select2:open', () => {
+                document.querySelector('.select2-search__field').focus();
+                $('.url_company_name, .spacy_url').val('')
+                checkBtnStaus(this)
+            });
+
+            $('#submitbutton').click(function(){
+                $('.output_results').hide()
+                $('.sbtext').hide();
+                $('.error_msg').hide();
+                $(this).find('.spinner-border').show();
+                $(this).attr('disabled', true)
+                 
+
+                var source = $('.param_source:checked').val()
+                var input = ""
+                var company_name = $(".select2_company option:selected").val()
+                var url_company_val = $('input[name="url_company_name"]').val()
+                var spacy_url_val = $('input[name="spacy_url"]').val()
+                let scrap_type = "company"
+                if((company_name=="" || typeof company_name=="undefined")){
+                    company_name = ""
+                }
+                
+                if(
+                    (company_name!="" && source!="" && url_company_val!="" && spacy_url_val)
+                    ||
+                    (company_name!="" && source!="" && url_company_val!="")
+                    ||
+                    (company_name!="" && source!="" && spacy_url_val!="")
+                    ||
+                    (url_company_val!="" && spacy_url_val!="")
+                ){
+                    toastNotify("Alert! Company name and url both are selected, please select only one or reload the page.", "Error")
+                    $(this).attr('disabled', false)
+                    $('.sbtext').show();
+                    $('#submitbutton').find('.spinner-border').hide();
+                    return;
+                }
+                 
+                if(company_name!="" && source!=""){ 
+                    input = company_name    
+                }else if(url_company_val!=""){ 
+                    scrap_type = "url"  
+                    input = url_company_val
+                }else if(spacy_url_val!=""){ 
+                    scrap_type = "spacy"  
+                    input = spacy_url_val
+                }
+                
+                company_exists.status = false;
+                company_exists.name = "";
+
+                if(isDocument){
+                    input = $('#document_nlp');
+                    scrap_type = "document"
+                    source = "document"
+                }
+
+                if(source=="dbpedia"){
+                  let getCmpName = company_name.split('http://dbpedia.org/resource/')
+                  input = getCmpName[1]  
+                }
+                
+                getResults(input, source, scrap_type)
+                
+            })
+            
+            $('.add_custom_prop_btn').click(function(){
+                $('.custom_init').show()
+                //reset all fields indexing key
+                reset_custom_fields_index();
+                let item_len = $('.custom_fields').find('.custom_item').length
+                 
+                var clone = $('.custom_item_clone').clone()
+                $(clone).removeClass('d-none').removeClass('custom_item_clone')
+                $(clone).find('.custom_prop_label:input').attr('name', `custom[${item_len}][key]`)
+                $(clone).find('.custom_prop_value:input').attr('name', `custom[${item_len}][value]`)
+
+                $('.custom_fields').append(clone);
+            })
+
+            $(document).on('click','.rm_cst_field', function(){
+                $(this).parents('.custom_item').remove();
+                //reset all fields indexing key
+                setTimeout(function(){
+                    reset_custom_fields_index();
+                }, 300)
+                
+            })
+
+            $('.url_company_name, .spacy_url').keypress(function(e){
+                
+                $(".select2_company").empty().trigger('change')
+
+                if(e.target.name=="url_company_name"){
+                    $('.spacy_url').val('')
+                }
+                if(e.target.name=="spacy_url"){
+                    $('.url_company_name').val('');
+                }
+            })
+            $(".url_company_name, .spacy_url").bind("paste", function(e){
+                $(".select2_company").empty().trigger('change')
+
+                if(e.target.name=="url_company_name"){
+                    $('.spacy_url').val('')
+                }
+                if(e.target.name=="spacy_url"){
+                    $('.url_company_name').val('');
+                }  
+                
+            });
+
+            $(document).on("change input",'input[name="name"], input[name="source"], textarea[name="description"], input[name="parent_name"]', function(e){
+                handle_save_btn()
+            })
+                         
+            $('.merge_2sk2k').click(function(){
+                
+                //prepare new data 
+                var lp_custom_objects = []
+                var lp_contacts_objects = []
+                $('.new_data_display').find('.list_view_row').html('')
+                $('.old_data_display').find('.list_view_row').html('')
+
+                for(var frmkey in merge_new_data){
+                    if(frmkey=="manual") continue;
+                    if(frmkey=="custom_property"){
+                        lp_custom_objects = merge_new_data[frmkey]
+                        continue
+                    }
+                    if(frmkey=="employer"){
+                        lp_contacts_objects = merge_new_data[frmkey]
+                        continue
+                    }
+                    //if(frmkey=="SIC" || frmkey=="NAICS"){
+                       //if(!Number(merge_new_data[frmkey])){
+                            //merge_new_data[frmkey] = "-"
+                       //} 
+                    //}
+                    label = frmkey[0].toUpperCase() + frmkey.slice(1)
+                    $('.new_data_display').find('.list_view_row').append(`<dl class="row view_item">
+                        <dt class="col-sm-4" data-toggle="tooltip" title="${label}">${label}:</dt>
+                        <dd class="col-sm-8">${(merge_new_data[frmkey]!="" && merge_new_data[frmkey]!=null)?merge_new_data[frmkey]:"-"}</dd>
+                    </dl>`)
+                } 
+                if(lp_custom_objects.length){
+                    $('.new_data_display').find('.list_view_row').append('<div class="heading-cust">Custom Property</div>')
+                    lp_custom_objects.forEach((ele, index)=>{
+                        label = ele.name[0].toUpperCase() + ele.name.slice(1)
+                        $('.new_data_display').find('.list_view_row').append(`<dl class="row view_item">
+                            <dt class="col-sm-4" data-toggle="tooltip" title="${label}">${label}:</dt>
+                            <dd class="col-sm-8">${(ele.value!="" && ele.value!=null)?ele.value:"-"}</dd>
+                        </dl>`)
+                    })
+                }
+
+                if(lp_contacts_objects.length){
+                    $('.new_data_display').find('.list_view_row').append('<div class="heading-cust">Contacts</div>')
+                    lp_contacts_objects.forEach((ele, index)=>{
+                        //label = ele.name[0].toUpperCase() + ele.name.slice(1)
+                        $('.new_data_display').find('.list_view_row').append(`<dl class="row view_item cnt_view_item">
+                            <dt class="col-sm-4" data-toggle="tooltip" title="First Name">First Name:</dt>
+                            <dd class="col-sm-8">${(ele.first_name!="" && ele.first_name!=null)?ele.first_name:"-"}</dd>
+                            <dt class="col-sm-4" data-toggle="tooltip" title="Last Name">Last Name:</dt>
+                            <dd class="col-sm-8">${(ele.last_name!="" && ele.last_name!=null)?ele.last_name:"-"}</dd>
+                            <dt class="col-sm-4" data-toggle="tooltip" title="Occupation">Occupation:</dt>
+                            <dd class="col-sm-8">${(ele.occupation!="" && ele.occupation!=null)?ele.occupation:"-"}</dd>
+                            <dt class="col-sm-4" data-toggle="tooltip" title="Description">Description:</dt>
+                            <dd class="col-sm-8">${(ele.description!="" && ele.description!=null)?ele.description:"-"}</dd>
+                            <dt class="col-sm-4" data-toggle="tooltip" title="Social URL">Social URL:</dt>
+                            <dd class="col-sm-8">${(ele.social_url!="" && ele.social_url!=null)?ele.social_url:"-"}</dd>
+                            <dt class="col-sm-4" data-toggle="tooltip" title="Source">Source:</dt>
+                            <dd class="col-sm-8">${(ele.source!="" && ele.source!=null)?ele.source:"-"}</dd>
+                             
+                        </dl>`)
+                    })
+                }
+
+                //prepare old data
+                var lp2_custom_objects = []
+                var lp2_contacts_objects = []
+                for(var frmkey in merge_old_data){
+                    if(frmkey=="manual") continue;
+                    if(frmkey=="custom_property"){
+                        lp2_custom_objects = merge_old_data[frmkey]
+                        continue
+                    }
+                    if(frmkey=="employer"){
+                        lp2_contacts_objects = merge_old_data[frmkey]
+                        continue
+                    }
+                    /*if(frmkey=="SIC" || frmkey=="NAICS"){
+                       if(!Number(merge_old_data[frmkey])){
+                            merge_old_data[frmkey] = "-"
+                       } 
+                    }*/
+                    label = frmkey[0].toUpperCase() + frmkey.slice(1)
+                    $('.old_data_display').find('.list_view_row').append(`<dl class="row view_item">
+                        <dt class="col-sm-4" data-toggle="tooltip" title="${label}">${label}:</dt>
+                        <dd class="col-sm-8">${(merge_old_data[frmkey]!="" && merge_old_data[frmkey]!=null)?merge_old_data[frmkey]:"-"}</dd>
+                    </dl>`)
+                }
+                if(lp2_custom_objects.length){
+                    $('.old_data_display').find('.list_view_row').append('<div class="heading-cust">Custom Property</div>')
+                    lp2_custom_objects.forEach((ele, index)=>{
+                        label = ele.name[0].toUpperCase() + ele.name.slice(1)
+                        $('.old_data_display').find('.list_view_row').append(`<dl class="row view_item">
+                            <dt class="col-sm-4" data-toggle="tooltip" title="${label}">${label}:</dt>
+                            <dd class="col-sm-8">${(ele.value!="" && ele.value!=null)?ele.value:"-"}</dd>
+                        </dl>`)
+                    })
+                }
+
+                if(lp2_contacts_objects.length){
+                    $('.old_data_display').find('.list_view_row').append('<div class="heading-cust">Contacts</div>')
+                    lp2_contacts_objects.forEach((ele, index)=>{
+                        $('.old_data_display').find('.list_view_row').append(`<dl class="row view_item cnt_view_item">
+                            <dt class="col-sm-4" data-toggle="tooltip" title="First Name">First Name:</dt>
+                            <dd class="col-sm-8">${(ele.first_name!="" && ele.first_name!=null)?ele.first_name:"-"}</dd>
+                            <dt class="col-sm-4" data-toggle="tooltip" title="Last Name">Last Name:</dt>
+                            <dd class="col-sm-8">${(ele.last_name!="" && ele.last_name!=null)?ele.last_name:"-"}</dd>
+                            <dt class="col-sm-4" data-toggle="tooltip" title="Occupation">Occupation:</dt>
+                            <dd class="col-sm-8">${(ele.occupation!="" && ele.occupation!=null)?ele.occupation:"-"}</dd>
+                            <dt class="col-sm-4" data-toggle="tooltip" title="Description">Description:</dt>
+                            <dd class="col-sm-8">${(ele.description!="" && ele.description!=null)?ele.description:"-"}</dd>
+                            <dt class="col-sm-4" data-toggle="tooltip" title="Social URL">Social URL:</dt>
+                            <dd class="col-sm-8">${(ele.social_url!="" && ele.social_url!=null)?ele.social_url:"-"}</dd>
+                            <dt class="col-sm-4" data-toggle="tooltip" title="Source">Source:</dt>
+                            <dd class="col-sm-8">${(ele.source!="" && ele.source!=null)?ele.source:"-"}</dd>
+                             
+                        </dl>`)
+                    })
+                }
+                
+                merge_mode_on(1)
+
+                               
+
+            })
+
+        });
+
+        function getResults(input, source, scrap_type){
+            
+            let queyFields = ""; 
+            if(source=="linkedin"){
+                queyFields = '\r\n name\r\n        source\r\n        sic\r\n        naics\r\n        industry\r\n        headquarters\r\n no_of_employees\r\n  operating_years\r\n description \r\n social_url\r\n founded\r\n company_type\r\n  employer\r\n parent_name\r\n specialities\r\n custom_property{name value}\r\n graph_data\r\n '
+            }else if(source=="dbpedia"){
+                queyFields = '\r\n name\r\n        source\r\n        sic\r\n        naics\r\n        industry\r\n        headquarters\r\n   profile_url\r\n  founded\r\n   no_of_employees\r\n  operating_years\r\n description \r\n employer\r\n  parent_name\r\n company_type\r\n custom_property{name value}\r\n  graph_data\r\n'
+            }else if(source=="yahoo_finance"){
+                queyFields = '\r\n ticker_symbol\r\n parent_name \r\n name\r\n        source\r\n        industry\r\n        gross_profit\r\n        market_cap\r\n        total_assets\r\n        quarterly_revenue_growth\r\n        no_of_employees\r\n        description\r\n        website\r\n        current_year_revenue\r\n        previous_year_revenue\r\n  custom_property{name value}\r\n       last_quarterly_revenue\r\n        second_last_quarterly_revenue\r\n employer \r\n exchange\r\n'
+            }else{
+                queyFields = '\r\n    id\r\n    name\r\n        source\r\n        SIC\r\n        NAICS\r\n        industry\r\n        headquarters\r\n   quarterly_growth\r\n        annual_growth\r\n   no_of_employees\r\n  operating_years\r\n description \r\n revenue_dollar\r\n  custom_property{name value}\r\n  graph_data\r\n'
+            }
+            
+            input_touch = false;
+            
+            if(scrap_type=="company" ||  scrap_type=="url"){ 
+                if(scrap_type=="url"){
+                    source = "others"
+                }
+                if (source == "dbpedia" || source == "linkedin" || source == "yahoo_finance" || source == "others"){
+                    var settings = {
+                        "url": graphql_host,
+                        "method": "POST",
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "data": JSON.stringify({
+                            query: `query getCompaniesByCrawl($data: CompanyListCrawl!)\r\n{\r\n getCompaniesByCrawl(data: $data)\r\n    {${queyFields}} \r\n}`,
+                            variables: {"data":{"input":input,"source":source,"type":scrap_type}}
+                        })
+                    };
+                
+                    $.ajax(settings).done((response) =>  {
+                        create_form({"data": response.data.getCompaniesByCrawl,"errors":response.errors}, input)
+                    });
+                }
+            }
+            
+            /* scrapy */
+             
+            if(scrap_type.includes(["spacy"])){
+                var settings = {
+                    "url": graphQLEndpoint,
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        query: "query callEmbeddingEndpoints($method: String!,$input: JSON ){\r\n    callEmbeddingEndpoints(method:$method,input:$input){\r\n         records\r\n    }\r\n}",
+                        variables: { "method": "getClassifiedDataFromURL", "input": { "url": input } }
+                    })
+                };
+                
+                $.ajax(settings).done(function (response) {
+                    response = response.data.callEmbeddingEndpoints.records;
+                    var spacy_data = {
+                        "name":"",
+                        "parent_name":"",
+                        "source":"others",
+                        "industry":"",
+                        "headquarters":"",
+                        "custom_property":[],
+                        "annual_growth":"",
+                        "quarterly_growth":"",
+                        "revenue_dollar":"",
+                        "no_of_employees":"",
+                        "SIC":"",
+                        "NAICS":"",
+                        "operating_years":"",
+                        "description":"",
+                    }
+                    for (variable in response){
+                        spacy_data['custom_property'].push({"name": variable,"value":response[variable] });
+                    }
+                                       
+                    create_form({"data": spacy_data,"errors":[]}, input)
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    //handle error here
+                    $('#submitbutton').attr('disabled', false)
+                    $('.sbtext').show();
+                    $('#submitbutton').find('.spinner-border').hide();
+                    toastNotify("Please enter correct url", "Error")
+                });   
+            }
+
+            //document
+            if(scrap_type=="document"){ 
+                var formData = new FormData();
+                formData.append("file", input[0].files[0]);
+                
+                var settings = {
+                    "url": graphql_host_domain + "/getClassifiedDataFromDocs",
+                    "method": "POST",
+                    "processData": false, 
+                    "mimeType": "multipart/form-data",
+                    "contentType": false,
+                    "data": formData
+                };
+                $.ajax(settings).done(function (response) {
+                    response = $.parseJSON(response)
+                    response = response.records                   
+                    var spacy_data = {
+                        "name":"",
+                        "parent_name":"",
+                        "source":"others",
+                        "industry":"",
+                        "headquarters":"",
+                        "custom_property":[],
+                        "annual_growth":"",
+                        "quarterly_growth":"",
+                        "revenue_dollar":"",
+                        "no_of_employees":"",
+                        "SIC":"",
+                        "NAICS":"",
+                        "operating_years":"",
+                        "description":"",
+                    }
+                    for (variable in response){
+                        spacy_data['custom_property'].push({"name": variable,"value":response[variable] });
+                    }
+                                       
+                    create_form({"data": spacy_data,"errors":[]}, "Document")
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    //handle error here
+                    console.log(errorThrown)
+                    $('#submitbutton').attr('disabled', false)
+                    $('.sbtext').show();
+                    $('#submitbutton').find('.spinner-border').hide();
+                    toastNotify("Please enter correct url", "Error")
+                });
+            }
+        }
+        
+        function create_form(response, input){
+            
+            $('#submitbutton').attr('disabled', false)
+            $('.sbtext').show();
+            $('#submitbutton').find('.spinner-border').hide();
+            $('.editable_items').html('');
+            if(response.data){
+                $('.editable_area').show();
+                var element =  response.data
+                if(element.id !== undefined && element.id!=""){
+                    compId = element.id
+                }else{
+                    compId = "";
+                }
+                for (const pkey in element) {
+                    if(element[pkey]===null){
+                        element[pkey] = "";
+                    }
+                }
+                custom_pro_items = ''
+                if(element.custom_property.length > 0){
+                    element.custom_property.forEach(async (currentElement, index) => {
+                        var clone = $('.custom_item_clone').clone(true, true)
+                        $(clone).removeClass('d-none').removeClass('custom_item_clone')
+                        $(clone).find('.custom_prop_label:input').attr('name', `custom[${index}][key]`)
+                        $(clone).find('.custom_prop_value:input').attr('name', `custom[${index}][value]`)
+                        $(clone).find('.custom_prop_label:input').attr('value', currentElement.name)
+                        
+                        if(Array.isArray(currentElement.value)){
+                            currentElement.value = currentElement.value.toString();
+                        }
+                         
+                        $(clone).find('.custom_prop_value:input').attr('value', currentElement.value)
+                        
+                        custom_pro_items += `<div class="custom_item">${$(clone).html()}</div>`;
+                        
+                    })  
+                }
+                
+                //contacts
+                all_contacts = ``
+                 
+                if(typeof element.employer!="undefined"){
+                    if(element.employer.length > 0){
+                        element.employer.forEach(async (currentElement, index) => {
+                        index = index+1;
+                        all_contacts += `<div class="row contact_row_main">
+                            <h6 class="col-12 cnttitle">Contact ${index}</h6>  
+                            <div class="col-4">
+                                <div class="form-group">   
+                                    <label>First Name</label>
+                                    <input name="employer[${index}][first_name]" type="text" value="${currentElement.first_name}" class="form-control emp_first_name" data-name="first_name" />
+                                </div> 
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">   
+                                    <label>Last Name</label>
+                                    <input name="employer[${index}][last_name]" type="text" value="${currentElement.last_name}" class="form-control emp_last_name" data-name="last_name" />
+                                </div> 
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">   
+                                    <label>Occupation</label>
+                                    <input name="employer[${index}][occupation]" type="text" value="${(currentElement.occupation!="" && currentElement.occupation!=null)?currentElement.occupation:"" }" data-name="occupation" class="form-control emp_occupation" />
+                                </div> 
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">   
+                                    <label>Social URL</label>
+                                    <input name="employer[${index}][social_url]" type="text" value="${currentElement.social_url}" class="form-control emp_social_url" data-name="social_url" />
+                                </div> 
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">   
+                                    <label>Description</label>
+                                    <input  name="employer[${index}][description]" type="text" value="${currentElement.description}" class="form-control emp_description" data-name="description" />
+                                </div> 
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">   
+                                    <label>Source</label>
+                                    <input name="employer[${index}][source]" type="text" readonly value="${currentElement.source}" class="form-control emp_source" data-name="source"  />
+                                </div> 
+                            </div>
+                        </div>`;
+                        
+                    }) 
+                    }
+                } 
+
+                if(element.source=="linkedin"){
+                    item_row = `<div class="editable_item">
+                            <div class="info-sticker">Company: ${input}</div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Name <span class="req_mand">*</span></label>
+                                        <input type="text" name="name" class="form-control" value="${element.name!=""?element.name:""}">
+                                    </div>  
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Parent Name <span class="req_mand">*</span></label>
+                                        <input type="text" name="parent_name" class="form-control" ${element.parent_name!=""?"readonly":""} value="${element.parent_name!=""?element.parent_name:""}">
+                                    </div>  
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Industry</label>
+                                        <input type="text" name="industry"  class="form-control" value="${element.industry!=""?element.industry:""}">
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Headquarter</label>
+                                        <input type="text" class="form-control"  name="headquarters" value="${(element.headquarters!="" && typeof element.headquarters!=="undefined")?element.headquarters:""}">
+                                    </div>  
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Number of Employees</label>
+                                        <input type="text" class="form-control"  name="no_of_employees" value="${element.no_of_employees!=""?element.no_of_employees:""}">
+                                    </div>  
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Source <span class="req_mand">*</span></label>
+                                        <input readonly type="text" class="form-control" name="source" value="${element.source!=""?element.source:""}">
+                                    </div>  
+                                </div> 
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Founded</label>
+                                        <input type="text" class="form-control" name="founded" value="${element.founded!=""?element.founded:""}">
+                                    </div>  
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Company Type</label>
+                                        <input type="text" class="form-control" name="company_type" value="${element.company_type!=""?element.company_type:""}">
+                                    </div>  
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Specialities</label>
+                                        <input type="text" class="form-control" name="specialities" value="${element.specialities!=""?element.specialities:""}">
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>Social URl</label>
+                                        <input type="text" class="form-control" name="social_url" value="${element.social_url!=""?element.social_url:""}">
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Description <span class="req_mand">*</span></label>
+                                        <textarea  name="description"  class="form-control" rows="5" cols="20">${element.description!=""?element.description:""}</textarea>
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="row d-none">
+                                <div class="col-12">
+                                    <input type="text" class="form-control manual_modify" name="manual" value="">
+                                </div>
+                            </div>
+                            ${element.employer.length ? '<div class="custom_init">Contacts</div>':""}
+                            <div class="contacts_items">${all_contacts}</div>                            
+
+                            <div class="custom_init">Custom Properties</div>
+                            <div class="custom_fields">${custom_pro_items}</div>  
+                        </div>`;
+                }
+
+                if(element.source=="dbpedia"){
+                    item_row = `<div class="editable_item">
+                        <div class="info-sticker">Company: ${input}</div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Name <span class="req_mand">*</span></label>
+                                    <input type="text" name="name" class="form-control" value="${element.name!=""?element.name:""}">
+                                </div>  
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Parent Name <span class="req_mand">*</span></label>
+                                    <input type="text" name="parent_name" class="form-control" ${element.parent_name!=""?"readonly":""} value="${element.parent_name!=""?element.parent_name:""}">
+                                </div>  
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Industry</label>
+                                    <input type="text" name="industry"  class="form-control" value="${element.industry!=""?element.industry:""}">
+                                </div>  
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Headquarter</label>
+                                    <input type="text" class="form-control"  name="headquarters" value="${element.headquarters!=""?element.headquarters:""}">
+                                </div>  
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Number of Employees</label>
+                                    <input type="text" class="form-control"  name="no_of_employees" value="${element.no_of_employees!=""?element.no_of_employees:""}">
+                                </div>  
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Source <span class="req_mand">*</span></label>
+                                    <input readonly type="text" class="form-control" name="source" value="${element.source!=""?element.source:""}">
+                                </div>  
+                            </div> 
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Founded</label>
+                                    <input type="text" class="form-control" name="founded" value="${element.founded!=""?element.founded:""}">
+                                </div>  
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Profile URl</label>
+                                    <input type="text" class="form-control" name="profile_url" value="${element.profile_url!=""?element.profile_url:""}">
+                                </div>  
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Company Type</label>
+                                    <input type="text" class="form-control" name="company_type" value="${element.company_type!=""?element.company_type:""}">
+                                </div>  
+                            </div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Description <span class="req_mand">*</span></label>
+                                    <textarea  name="description"  class="form-control" rows="5" cols="20">${element.description!=""?element.description:""}</textarea>
+                                </div>  
+                            </div>
+                        </div>
+                        <div class="row d-none">
+                            <div class="col-12">
+                                <input type="text" class="form-control manual_modify" name="manual" value="">
+                            </div>
+                        </div>
+                        ${element.employer.length ? '<div class="custom_init">Contacts</div>':""}
+                        <div class="contacts_items">${all_contacts}</div> 
+
+                        <div class="custom_init">Custom Properties</div>
+                        <div class="custom_fields">${custom_pro_items}</div>  
+                    </div>`;   
+                }
+
+                if(element.source=="yahoo_finance"){
+                    item_row = 
+                    `<div class="editable_item">
+                        <div class="info-sticker">Company: ${input}</div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Name <span class="req_mand">*</span></label>
+                                    <input type="text" name="name" class="form-control" value="${element.name!=""?element.name:""}">
+                                </div>  
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Parent Name <span class="req_mand">*</span></label>
+                                    <input type="text" name="parent_name" class="form-control" ${element.parent_name!=""?"readonly":""} value="${element.parent_name!=""?element.parent_name:""}">
+                                </div>  
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Number of Employees</label>
+                                    <input type="text" class="form-control"  name="no_of_employees" value="${element.no_of_employees!=""?element.no_of_employees:""}">
+                                </div>  
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Industry</label>
+                                    <input type="text" name="industry"  class="form-control" value="${element.industry!=""?element.industry:""}">
+                                </div>  
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Quarterly Revenue Growth</label>
+                                    <input type="text" class="form-control" name="quarterly_revenue_growth" value="${element.quarterly_revenue_growth!=""?element.quarterly_revenue_growth:""}">
+                                </div>  
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Website</label>
+                                    <input type="text" class="form-control" name="website" value="${element.website!=""?element.website:""}">
+                                </div>  
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Current Year Revenue</label>
+                                    <input type="text" class="form-control" name="current_year_revenue" value="${element.current_year_revenue!=""?element.current_year_revenue:""}">
+                                </div>  
+                            </div> 
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Total Assets</label>
+                                    <input type="text" class="form-control" name="total_assets" value="${element.total_assets!=""?element.total_assets:""}">
+                                </div>  
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Gross Profit</label>
+                                    <input type="text" class="form-control" name="gross_profit" value="${element.gross_profit!=""?element.gross_profit:""}">
+                                </div>  
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Previous Year Revenue</label>
+                                    <input type="text" class="form-control" name="previous_year_revenue" value="${element.previous_year_revenue!=""?element.previous_year_revenue:""}">
+                                </div>  
+                            </div> 
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Second Last Quarterly Revenue</label>
+                                    <input type="text" class="form-control" name="second_last_quarterly_revenue" value="${element.second_last_quarterly_revenue!=""?element.second_last_quarterly_revenue:""}">
+                                </div>  
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Source <span class="req_mand">*</span></label>
+                                    <input readonly type="text" class="form-control" name="source" value="${element.source!=""?element.source:""}">
+                                </div>  
+                            </div>                             
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Last Quarterly Revenue</label>
+                                    <input type="text" class="form-control" name="last_quarterly_revenue" value="${element.last_quarterly_revenue!=""?element.last_quarterly_revenue:""}">
+                                </div>  
+                            </div> 
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Market Capital</label>
+                                    <input type="text" class="form-control" name="market_cap" value="${element.market_cap!=""?element.market_cap:""}">
+                                </div>  
+                            </div> 
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Symbol </label>
+                                    <input type="text" class="form-control" name="ticker_symbol" value="${element.ticker_symbol!=""?element.ticker_symbol:""}">
+                                </div>  
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Exchange </label>
+                                    <input type="text" class="form-control" name="exchange" value="${element.exchange!=""?element.exchange:""}">
+                                </div>  
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Description <span class="req_mand">*</span></label>
+                                    <textarea  name="description"  class="form-control" rows="5" cols="20">${element.description!=""?element.description:""}</textarea>
+                                </div>  
+                            </div> 
+                            
+                        </div>
+                        <div class="row d-none">
+                            <div class="col-12">
+                                <input type="text" class="form-control manual_modify" name="manual" value="">
+                            </div>
+                        </div>
+                        ${element.employer.length ? '<div class="custom_init">Contacts</div>':""}
+                        <div class="contacts_items">${all_contacts}</div> 
+                        
+                        <div class="custom_init">Custom Properties</div>
+                        <div class="custom_fields">${custom_pro_items}</div>  
+                    </div>`;
+                }
+
+                if(element.source=="others"){
+                    
+                    item_row = 
+                        `<div class="editable_item">
+                            <div class="info-sticker">Company: ${input}</div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Name <span class="req_mand">*</span></label>
+                                        <input type="text" name="name" class="form-control" value="${element.name!=""?element.name:""}">
+                                    </div>  
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Parent Name <span class="req_mand">*</span></label>
+                                        <input type="text" name="parent_name" class="form-control" ${element.parent_name!=""?"readonly":""} value="${element.parent_name!=""?element.parent_name:""}">
+                                    </div>  
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Industry</label>
+                                        <input type="text" name="industry"  class="form-control" value="${element.industry!=""?element.industry:""}">
+                                    </div>  
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Headquarter</label>
+                                        <input type="text" class="form-control"  name="headquarters" value="${element.headquarters!=""?element.headquarters:""}">
+                                    </div>  
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Revenue Dollar</label>
+                                        <input type="text" class="form-control" name="revenue_dollar" value="${(element.revenue_dollar!="" && element.revenue_dollar!=null)?element.revenue_dollar:""}">
+                                    </div>  
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Quarterly Growth</label>
+                                        <input type="text" class="form-control" name="quarterly_growth" value="${(element.quarterly_growth!="" && element.quarterly_growth!=null)?element.quarterly_growth:""}">
+                                    </div>  
+                                </div>
+                                 
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Annual Growth</label>
+                                        <input type="text" class="form-control" name="annual_growth" value="${(element.annual_growth!="" && element.annual_growth!=null)?element.annual_growth:""}">
+                                    </div>  
+                                </div> 
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Number of Employees</label>
+                                        <input type="text" class="form-control"  name="no_of_employees" value="${element.no_of_employees!=""?element.no_of_employees:""}">
+                                    </div>  
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Source <span class="req_mand">*</span></label>
+                                        <input readonly type="text" class="form-control" name="source" value="${element.source!=""?element.source:""}">
+                                    </div>  
+                                </div> 
+                                
+                            </div>
+                            
+                        
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Operating Years</label>
+                                        <input type="number" class="form-control" name="operating_years" value="${element.operating_years!=""?element.operating_years:""}">
+                                    </div>  
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>SIC</label>
+                                        <input type="text" class="form-control" name="SIC" value="${(element.SIC!="" && element.SIC!=null)?element.SIC:""}">
+                                    </div>  
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>NAICS</label>
+                                        <input type="text" class="form-control" name="NAICS" value="${(element.NAICS!="" && element.NAICS!=null)?element.NAICS:""}">
+                                    </div>  
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Description <span class="req_mand">*</span></label>
+                                        <textarea  name="description"  class="form-control" rows="5" cols="20">${element.description!=""?element.description:""}</textarea>
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="row d-none">
+                                <div class="col-12">
+                                    <input type="text" class="form-control manual_modify" name="manual" value="">
+                                </div>
+                            </div>
+                            <div class="custom_init">Custom Properties</div>
+                            <div class="custom_fields">${custom_pro_items}</div>  
+                        </div>`;
+                    }
+                
+                
+                 
+                $('.editable_items').append(item_row);
+                                            
+                setTimeout(function(){
+                    if(element.custom_property.length > 0){
+                        $('.custom_init').show()   
+                    }else{
+                        $('.custom_init').hide()   
+                    }
+                    origForm = $('.similar_company_form').serialize()
+                }, 500) 
+                
+                handle_save_btn()
+                 
+            }else{
+                if(response.errors.length > 0){
+                    $('.editable_area').hide();
+                    
+                    response.errors.forEach((element)=>{
+                        toastNotify(element.message, "Error")
+                    })
+                }
+            }
+        }
+
+         
+        function checkBtnStaus($this){
+            var is_valid  = false;
+            var name_val  =  $('.input_items').find('.select2_company').val();
+            var source  = $('.input_items').find('.param_source:checked').length;  
+            var url_company  =  $.trim($('.url_company_name').val())
+            var spacy_url_val =  $.trim($('.spacy_url').val()) 
+            
+            var fieldname = $($this).attr('name');
+            if(fieldname=="document"){
+                let files = $($this)
+                 
+                $('#submitbutton').attr('disabled', false) 
+                $('#selected_document').text(files[0].files[0].name)
+                $('.filediv').removeClass('d-none')
+                is_valid =true;
+                isDocument= true
+                $('.spacy_url, .url_company_name').val('');
+                $(".select2_company").empty()
+
+            }else{
+                $('.filediv').addClass('d-none')
+                $('#document_nlp').val('');
+                isDocument= false
+            }
+
+            if($.trim(name_val)!="" && source > 0){
+                is_valid = true;    
+            }
+             
+            if(url_company!="" && url_company!=null){
+                if(isValidUrl(url_company)){
+                    is_valid = true;     
+                }
+            }
+
+            if(spacy_url_val!="" && spacy_url_val!=null){
+                if(isValidUrl(spacy_url_val)){
+                    is_valid = true;     
+                }
+            }
+              
+            if(is_valid){
+                $('#submitbutton').attr('disabled', false)
+            }else{
+                $('#submitbutton').attr('disabled', true)   
+            }
+        }
+
+        function isValidUrl(str) {
+            const pattern = new RegExp(
+              '^([a-zA-Z]+:\\/\\/)?' + // protocol
+                '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+                '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR IP (v4) address
+                '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+                '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+                '(\\#[-a-z\\d_]*)?$', // fragment locator
+              'i'
+            );
+            return pattern.test(str);
+        }
+        
+        function openVisualGraph(url){
+            $('#iframe-graph').attr('src', url); 
+            $('#visual_graph_model').modal({
+                keyboard: false,
+                show:true,
+                backdrop:"static"
+            }) 
+        }
+  
+        function objectifyForm(formArray) {
+            //serialize data function
+            var returnArray = {"custom_properties":[],"employer":[]};
+            for (var i = 0; i < formArray.length; i++){
+                var value = formArray[i]['value'];
+                var namekey = formArray[i]['name'];
+                //if(['SIC','NAICS'].includes(namekey)){
+                    //value = parseInt(value)
+                //}
+
+                if(namekey.includes('custom')){
+                    continue;
+                }
+                if(namekey.includes('employer')){
+                    continue;
+                }
+
+                returnArray[namekey] = value;
+            }
+
+            //iterate custom fields
+            $('.custom_fields').find('.custom_item').each(function(index, element){
+                var key = $(element).find('.custom_prop_label').val();
+                var value = $(element).find('.custom_prop_value').val();
+                if($.trim(key)!="" && $.trim(value)!=""){
+                    returnArray['custom_properties'].push({"name": key, 'value':value});
+                }
+            });
+
+            //contacts
+            $('.contacts_items').find('.contact_row_main').each(function(index, element){
+                var arr = {};
+                $(element).find('input').each(function(index1, elementInput){
+                    var name = $(elementInput).attr('data-name');
+                    var value = $(elementInput).val();
+                    arr[name] = value;
+                    
+                })
+                arr['full_name'] = arr['first_name']+' '+arr['last_name']
+                delete arr['first_name']
+                delete arr['last_name']
+                returnArray['employer'].push(arr);
+            });
+            
+            return returnArray;
+        }
+        
+        function save_process(flag){
+            if (flag){
+                $('.save_btn').find('.spinner-border').show();
+                $('.save_btn').find('.sbtext').hide();
+                $('.save_btn').attr('disabled', true)
+            }else{
+                $('.save_btn').find('.spinner-border').hide();
+                $('.save_btn').find('.sbtext').show();
+                $('.save_btn').attr('disabled', false)
+            }
+        }
+        
+        function reset_custom_fields_index(){
+            $('.custom_fields').find('.custom_item').each(function(index, element){
+
+                $(element).find('.custom_prop_label').attr('name', `custom[${index}][key]`)
+                $(element).find('.custom_prop_value').attr('name', `custom[${index}][value]`)
+            })
+        }
+
+        function toastNotify(message,type){
+            $('.jq-toast-single').remove();
+            $.toast({
+                heading: type,
+                text: message,
+                showHideTransition: 'fade',
+                icon: type.toLowerCase(),
+                position: 'bottom-right',
+            })
+        }
+
+        function handle_save_btn(){
+            let is_valid = true; 
+            let name = $.trim($('input[name="name"]').val())
+            let source = $.trim($('input[name="source"]').val())
+            let article = $.trim($('textarea[name="description"]').val())
+            let parent_name = $.trim($('input[name="parent_name"]').val())
+            let message =   ""
+            if(name=="" || source=="" || article=="" || parent_name=="") { is_valid = false}
+            
+            if(name=="" && source=="" && article=="" && parent_name=="") { 
+                message =  "Name, Source, Description and Parent Name are required fields." 
+            }else if(name=="" && parent_name=="" && article==""){
+                message =  "Name, Description and Parent Name are required fields." 
+            }else if(name=="" && article==""){
+                message =  "Name and Description are required fields." 
+            }else if(name=="" && parent_name==""){
+                message =  "Name and Parent Name are required fields." 
+            }else if(parent_name=="" && article==""){
+                message =  "Parent Name and Description are required fields." 
+            }else if(name==""){
+                message =  "Name is required field." 
+            }else if(article==""){
+                message =  "Description is required field." 
+            }else if(parent_name==""){
+                message =  "Parent Name is required field." 
+            }
+
+            
+
+            if(is_valid){
+                $('.save_btn').removeClass('disabled-bt')
+                $('.save_btn').removeAttr('data-toggle')
+                $('.save_btn').removeAttr('title')
+                $('.save_btn').removeAttr('data-original-title')
+                $('[data-toggle="tooltip"]').tooltip()
+            }else{
+                $('.save_btn').addClass('disabled-bt')
+                $('.save_btn').attr('data-toggle',"tooltip")
+                $('.save_btn').attr('title', message)
+                $('.save_btn').attr('data-original-title', message)
+                $('[data-toggle="tooltip"]').tooltip()
+            }
+
+        }
+
+         
+        function save_data(form_data, ui_type){
+            save_process(true);
+            form_data['manual']  = input_touch ? "Yes" : "No";
+            
+            if(form_data['source']=="yahoo_finance"){
+                //delete form_data['employer']
+                delete form_data['custom_property']
+            }
+            if(form_data['source']=="others"){
+                delete form_data['employer']
+            }
+
+            var settings = {
+                "url": graphql_host,
+                "method": "POST",
+                "timeout": 0,
+                "async":true,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    query: "mutation storeDataInRedisGraphDb ($data: InputCompany)\r\n{\r\n    storeDataInRedisGraphDb(data: $data)\r\n    {\r\n       graph_url\r\n   error\r\n } \r\n}",
+                    variables: {"data":form_data}
+                })
+            };
+                
+            $.ajax(settings).done(function (response) {
+                save_process(false);
+                    
+                if(response.data.storeDataInRedisGraphDb.error!="" && response.data.storeDataInRedisGraphDb.error!=null){
+                    toastNotify(response.data.storeDataInRedisGraphDb.error, "Error")
+                }else{
+                    if(ui_type=="merged"){
+                        merge_mode_on("0");
+                    }
+                    if(response.data.storeDataInRedisGraphDb.graph_url !== undefined){
+                        $('.editable_area').hide();
+                        $('.editable_items').html('');
+                        input_touch = false;
+                    }
+                    window.open(response.data.storeDataInRedisGraphDb.graph_url, '_blank') 
+                }                        
+                
+            }); 
+        }
+
+        function merge_mode_on(type){
+            $('#merge_confirm_model').modal('hide')
+            window.scrollTo(0, 0);
+            if(type=="1"){
+                $('.Input_fields').addClass('container-fluid').removeClass('container')
+                $('.filter_block').addClass('d-none')
+                $('.new_data_display').removeClass('d-none')
+                $('.middle_block').addClass('col-6').removeClass('col-8')
+                $('.old_data_display').removeClass('d-none')
+                $('.ucd_heading').text('Final Data')
+                $('.cancel_merge').show();
+                $('.save_btn').attr('data-merged','1')
+            }else{
+                $('.Input_fields').removeClass('container-fluid').addClass('container')
+                $('.filter_block').removeClass('d-none')
+                $('.new_data_display').addClass('d-none')
+                $('.middle_block').removeClass('col-6').addClass('col-8')
+                $('.old_data_display').addClass('d-none')
+                $('.ucd_heading').text('Update Companies Data')
+                $('.cancel_merge').hide();
+                $('.save_btn').removeAttr('data-merged')
+            }
+            $('[data-toggle="tooltip"]').tooltip()
+        }
+
+    </script>
+</html>

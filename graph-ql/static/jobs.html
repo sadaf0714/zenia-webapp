@@ -1,0 +1,1857 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+		<title>Jobs | ZeniaGraph</title>
+		<meta charset="utf-8" />
+        <link rel="icon" type="image/x-icon" href="/static/favicon-32x32.png">        
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+         
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="/static/style.css"> 
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
+        <link rel="stylesheet" href="/static/select2/css/select2.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        
+        
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" 
+            crossorigin="anonymous"></script>
+        <script src="/static/dev.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script 
+            type="text/javascript"
+            src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+        <script
+            type="text/javascript"
+            src="/static/select2/js/select2.min.js"></script>
+         
+        
+	</head>
+    
+    <body>
+        <style>
+            .input_panel {
+                background: none;
+                padding: 8px;
+            }
+            .contact_body strong{
+                color:Red;
+                font-size:18px;
+            }
+            .view_cnt_info{
+                font-size: 12px;
+                height: 22px;
+                line-height: 7px;
+            }
+            .Input_fields input{ height: auto;}
+            .cmnbtn{ background-color: #ffc107;
+                border-color: #ffc107;
+                color: #000; font-size: 14px;
+                padding: 5px 3px; display: none;}
+            .cmnbtn:hover, .cmnbtn:active, .cmnbtn:focus{
+                background-color: #ffc107 !important;   
+                color: #000;
+                border-color: #ffc107 !important;
+            }
+            .showSimilar_Button { width: 160px !important; height:32px;}
+            .showSimilar_Button:disabled{ width: 160px !important; height:32px; background-color: #b6420c;   
+                color: #fff;
+                border-color: #b6420c;}
+            iframe { border:0;}
+            .heading-l{ font-size: 18px;}
+            #visual_graph_model .modal-body { padding: 0;;}
+            #visual_graph_model { padding:0 !important;}
+            #visual_graph_model .modal-dialog{
+                width: 100%;
+                max-width: 95% !important;
+            }
+            button.close {
+                margin-right: 21px;
+                margin-top: 6px;
+                position: absolute;
+                right: -8px;
+            }
+            .showSimilar_Button .spinner-border{ display: none; margin: 0 auto}
+            .select2-container{
+                width: 100% !important;
+            }
+            .select2-search__field{ font-size: 13px !important;}
+            .select2-results__option{
+                font-size: 13px;
+            }
+            .select2-selection__choice{ font-size: 14px !important;}
+            #query{ font-size: 14px;}
+            .select2-container--default .select2-selection--single {
+                background-color: #fff;
+                border: 1px solid #aaa;
+                border-radius: 4px;
+                height: 32px;
+            }
+            .select2-selection__placeholder{ font-size: 13px;}
+            .btn-default{
+                color: #333;
+                background-color: #fff;
+                border-color: #ccc;
+            }
+            #contactViewModal .close{ padding:0;}
+            .filter_selectbox{
+                width:125px;
+                font-size: 13px;
+            }
+            .filter_title{
+                font-weight: bold;
+            }
+            .clear_filter{
+                color: #0056b3;
+                padding: 2px;
+                font-size: 13px;
+                background: none;
+                border: 0;
+                 
+                text-decoration: underline;
+            }
+            .comp_box select{ width: 100%; border: 1px solid #aaa; border-radius: 4px; height:30px;}
+            .comp_box input{ width: 100%; padding-left: 10px;}
+            .comp_box input::placeholder{ font-size: 12px; }
+            .filters_sections code{
+                color: black;
+                font-weight: 600;
+            }
+            .top_row_input_panel{
+                background: #e7eeff;
+                padding-left: 10px;
+                font-weight: bold;
+                cursor: pointer;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                user-select: none;
+            }
+            .top_row_input_panel  i { margin-right: 15px; margin-top: 3px; transition: all 0.5s ease-out;}
+            .top_row_input_panel.active i{
+                transform: rotate(177deg);
+                -webkit-transform: rotate(177deg);
+                -moz-transform: rotate(177deg);
+            }
+            .key_label{ font-size: 13px; font-weight: bold; padding-left: 0;}
+            .key_value{ font-size: 13px; font-weight: normal; padding-left: 0; word-break: break-word;}
+            .min_content{ height: 62px; overflow: hidden;}
+            .dataTables_length{ display: none;}
+            .btn-def .spinner-border{ display: none;} 
+            .btn-def{ width: 80px;
+                text-align: center;
+                justify-content: center;
+                display: flex;
+                height: 30px;
+                align-items: center;
+                background: #ba0373 !important;
+                border: 0; font-size: 13px;}
+             
+            .summary_content .key_value {
+                height: 6em; 
+                overflow: hidden;
+                position: relative;
+            }
+            .main-row-block{ border: 1px solid #E5EDFF;}
+            .dataTables_info{ font-size: 12px;}
+            .table.dataTable.table-striped>tbody>tr.odd>*{
+                 box-shadow: none;
+            }
+            .table thead {
+                background: #F5F8FF;
+            }
+           
+            
+            .btn-similarity{
+                background: #c0d2ff;
+                border: 1px solid #b0b0e9;
+                color: #1c1c1c;
+                font-weight: bold;
+                width: 110px;
+                font-size: 12px !important;
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            #recruiters_states_table td, #recruiters_states_table th{
+                padding:0.50rem
+            }
+            #candidates_states td, #candidates_states th{
+                padding:0.50rem
+            }
+            .at-tags{ text-decoration: underline !important;}
+            .at-tags i{ color:#ba0373;  font-size: 23px;}
+            #cndbycnd_buttons .btn-def{
+                width: 126px !important;
+            }
+            
+        </style>
+        {% include 'header.html' %}
+
+        <div class="Input_fields container-fluid" style="margin-bottom:10rem; max-width:1320px;">
+            <div class="row">
+                <div class="col-3 mt-3">
+                    <div class="industry_block mb-4">
+                        <label style="font-weight:bold;">Select Industry</label>
+                        <select class="form-control industry_type">
+                            <option value="HR">Information Technology</option>
+                            <option value="hotel">Hotel Industry</option> 
+                        </select>
+                    </div>
+                    <!-----Find Candidates By Jobs---->
+                    <div class="main-row-block">
+                        <div class="top_row_input_panel active" data-block="1">
+                            <div class="row">
+                                <div class="col-md-10">Recruiters</div>
+                                <div class="col-md-2"><i class="fa fa-chevron-up float-right"></i></div>
+                            </div>
+                        </div>
+                        <div class="input_panel">
+                            <div class="form-group">
+                                <select  class="js-data-example-ajax jobs_list_part1" name="job_name"></select>
+                            </div>
+                            <div class="job_detail">
+                                
+                            </div>
+                            <div class="form-group mt-3">
+                                <button class="btn btn-primary fnd_candidates_by_job_btn btn-def" disabled type="button">
+                                    <div class="spinner-border spinner-border-sm" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span id="sbtext" class="submit_txt">Submit</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-----Find Jobs By Candidate Profile---->
+                    <div class="main-row-block mt-4">
+                        <div class="top_row_input_panel" data-block="2">
+                            <div class="row">
+                                <div class="col-md-10">Candidates</div>
+                                <div class="col-md-2"><i class="fa fa-chevron-up float-right"></i></div>
+                            </div>
+                        </div>
+                        <div class="input_panel d-none">
+                            <div class="form-group">
+                                <select  class="js-data-example-ajax candidates_list1" name="candidates_list"></select>
+                            </div>
+                            <div class="candidate_detail"></div>
+                            <div class="form-group mt-4">
+                                <button class="btn btn-primary fnd_jobs_by_cnd_btn btn-def" disabled type="button">
+                                    <div class="spinner-border spinner-border-sm" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span id="sbtext" class="submit_txt">Submit</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-----Find Similar Jobs By Job---->
+                    <div class="main-row-block mt-5">
+                        <div class="top_row_input_panel" data-block="1">
+                            <div class="row">
+                                <div class="col-md-10">Find Similar Jobs By Job</div>
+                                <div class="col-md-2"><i class="fa fa-chevron-up float-right"></i></div>
+                            </div>
+                        </div>
+                        <div class="input_panel d-none">
+                            <div class="form-group">
+                                <select  class="js-data-example-ajax jobs_list_part2" name="similar_job_name"></select>
+                            </div>
+                            <div class="job_detail"></div>
+                            <div class="form-group mt-4">
+                                <div class="row" id="cndbycnd_buttons">
+                                    <div class="col">
+                                        <button class="btn btn-primary fnd_simi_job_by_job btn-def" data-type="redis" disabled type="button">
+                                            <div class="spinner-border spinner-border-sm" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                            <span id="sbtext" class="submit_txt">Redis Similarity</span>
+                                        </button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-primary fnd_simi_job_by_job btn-def" data-type="graph" disabled type="button">
+                                            <div class="spinner-border spinner-border-sm" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                            <span id="sbtext" class="submit_txt">Graph Similarity</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                 
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--Find Similar Candidates BY Candidate-->
+                    <div class="main-row-block mt-5">
+                        <div class="top_row_input_panel" data-block="1">
+                            <div class="row">
+                                <div class="col-md-10">Similar Candidates By Candidate</div>
+                                <div class="col-md-2"><i class="fa fa-chevron-up float-right"></i></div>
+                            </div>
+                        </div>
+                        <div class="input_panel d-none">
+                            <div class="form-group">
+                                <select  class="js-data-example-ajax cnd_list_part2" name="similar_cnd_name"></select>
+                            </div>
+                            <div class="candidate_detail"></div>
+                            <div class="form-group mt-4">
+                                <div class="row" id="cndbycnd_buttons">
+                                    <div class="col">
+                                        <button class="btn btn-primary fnd_simi_cnd_by_cnd btn-def" data-type="redis" disabled type="button">
+                                            <div class="spinner-border spinner-border-sm" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                            <span id="sbtext" class="submit_txt">Redis Similarity</span>
+                                        </button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-primary fnd_simi_cnd_by_cnd btn-def" data-type="graph" disabled type="button">
+                                            <div class="spinner-border spinner-border-sm" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                            <span id="sbtext" class="submit_txt">Graph Similarity</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <!-----Classification Filters---->
+                    <div class="main-row-block mt-5">
+                        <div class="top_row_input_panel" data-block="1">
+                            <div class="row">
+                                <div class="col-md-10">Classic Filters</div>
+                                <div class="col-md-2"><i class="fa fa-chevron-up float-right"></i></div>
+                            </div>
+                        </div>
+                        <div class="input_panel d-none">
+                            <div class="form-group">
+                                <select  class="js-data-example-ajax classify_select_box" name="job_name">
+                                    <option value="">Select Type</option>
+                                    <option value="candidates">Candidate List</option>
+                                    <option value="jobs">Jobs List</option>
+                                </select>
+                            </div>
+                            
+                            <!--Filter Section-->
+                            <div class="mt-3" data-name="filter">
+                                <div class="row">
+                                    <div class="col-md-6"><strong>Filters</strong></div>
+                                </div>
+                            </div>
+                            <div class="row mb-3 mt-2 filters_sections <!--d-none-->">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-6"> <div class="col filter_title pl-0"></div></div>
+                                        <div class="col-6"><a href="javascript:void(0)" class="clear_filter float-right">Clear Filter</a></div>
+                                    </div>
+                                </div>
+                                <div class="filter_candidates_jobs col-12">                                     
+                                    <div class="form-group">
+                                        <label><code>Category</code></label>
+                                        <select onchange="filterCandidateJobsData()" class="filter_selectbox form-control" id="cand_category" data-name="category" multiple="multiple"></select>    
+                                    </div>                                     
+                                    <div class="form-group">
+                                        <label><code>Skills <e style="font-weight: 100;">(keywords in comma seperated)</e></code></label>
+                                        <input type="text" class="form-control" id="cand_skills" name="cand_skills">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><code>Summary</code></label>
+                                        <input type="text" class="form-control" id="cand_summary" name="cand_summary">
+                                    </div>  
+                                </div>
+                                                             
+                            </div>
+
+                            <div class="form-group mt-4">
+                                <button  onclick="filterCandidateJobsData()" class="btn btn-primary fnd_classification_submit btn-def" disabled type="button" id="fnd_classification_submit">
+                                    <div class="spinner-border spinner-border-sm" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span id="sbtext" class="submit_txt">Submit</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-9">
+                    <div class="output_block mt-2">
+                        <!--Dashboard screen-->
+                        <div class="dashboard_screen u_output_box">
+                            <div class="recruiters_states">
+                                <div class="row">
+                                    <div class="col-6"><h4 style="font-size: 18px;">Most Applied Jobs:</h4></div>
+                                </div>
+                                
+                                <div class="output_table">
+                                    <table class="table table-striped table-bordered" id="recruiters_states_table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" width = "2%">Jobs Name</th>
+                                                <th scope="col" width = "2%">Number of Applicant</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbody_class"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="candidates_states mt-3">
+                                <div class="row">
+                                    <div class="col-6"><h4 style="font-size: 18px;">Job Applications:</h4></div>
+                                </div>
+                                
+                                <div class="output_table">
+                                    <table class="table table-striped table-bordered" id="candidates_states">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" width = "2%">Candidate</th>
+                                                <th scope="col" width = "2%">Number of applied Jobs</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbody_class"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-----Find Candidates By Job---->
+                        <div class="find_candidates_by_job_output_block d-none u_output_box">
+                            <div class="row">
+                                <div class="col-6 pl-0">
+                                    <div class="row">
+                                        <div class="col-1 d-heading"><a href="javascript:void(0)" class="at-tags" data-screen="dashboard_screen"><i class="fa fa-arrow-left"></i></a></div>
+                                        <div class="col-6"><h4 class="heading-l">Candidates List:</h4></div>
+                                    </div>
+                                </div>
+                                <div class="col-6 pl-0">
+                                    <button class="btn btn-sm btn-warning showkg_Button_FCBJ float-right d-none" type="button">Show KG</button>
+                                     
+                                    
+                                </div>  
+                            </div>
+                            
+                            <div class="output_table d-none">
+                                <table class="table table-striped table-bordered" id="fn_cand_by_job_table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" width = "2%">S.No</th>
+                                            <th scope="col" width = "20%">Name</th>
+                                            <th scope="col" width = "1%">Score</th>
+                                            <th scope="col" width = "30%">Category</th>
+                                            <th scope="col">Resume</th>
+                                            <th scope="col" width="20%">Action</th>
+                                            <th scope="col" class="none">Skills</th>
+                                            <th scope="col" class="none">Summary</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody_class"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-----Find Similar Candidates By Candidate---->
+                        <div class="find_similar_candidates_by_job d-none u_output_box">
+                            <div class="row">
+                                <div class="col-6 pl-0">
+                                    <div class="row">
+                                        <div class="col-1 d-heading"><a href="javascript:void(0)" class="at-tags" data-screen="find_candidates_by_job_output_block"><i class="fa fa-arrow-left"></i></a></div>
+                                        <div class="col-6"><h4 class="heading-l">Similar Candidates List:</h4></div>
+                                    </div>
+                                </div>
+                                <div class="col-6 pl-0">
+                                    <button class="btn btn-sm btn-warning showkg_Button_FCBJ float-right d-none" type="button">Show KG</button>
+                                    
+                                </div>  
+                            </div>
+                             
+                            <div class="output_table d-none">
+                                <table class="table table-striped table-bordered" id="fn_similar_cand_by_cnd">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" width = "2%">S.No</th>
+                                            <th scope="col" width = "20%">Name</th>
+                                            <th scope="col" width = "1%">Score</th>
+                                            <th scope="col" width = "30%">Category</th>
+                                            <th scope="col">Resume</th>
+                                            <th scope="col" class="none">Skills</th>
+                                            <th scope="col" class="none">Summary</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody_class"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-----Find Jobs By Candidate profile---->
+                        <div class="find_jobs_by_cnd_output_block d-none u_output_box">
+                            <div class="row">
+                                <div class="col-6 pl-0">
+                                    <div class="row">
+                                        <div class="col-1 d-heading"><a href="javascript:void(0)" class="at-tags" data-screen="dashboard_screen"><i class="fa fa-arrow-left"></i></a></div>
+                                        <div class="col-6"><h4 class="heading-l">Job List:</h4></div>
+                                    </div>
+                                </div>
+                                <div class="col-6 pl-0">
+                                    <button class="btn btn-sm btn-warning showkg_Button_FCBJ float-right d-none" type="button">Show KG</button>
+                                    
+                                </div>  
+                            </div>
+                             
+                            <div class="output_table d-none">
+                                <table class="table table-striped table-bordered" id="fn_jobs_by_cnd_table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" width="15%">Title</th>
+                                            <th scope="col" width="10%">Score</th>
+                                            <th scope="col" width="25%">Skill</th>
+                                            <th scope="col" width="15%">Publisher</th>
+                                            <th scope="col" width="15%">Action</th>
+                                            <th scope="col" class="none">Employment Type</th>
+                                            <th scope="col" class="none">Location</th>
+                                            <th scope="col" class="none">Required Work Experience</th>
+                                            <th scope="col" class="none">Company Name</th>
+                                            <th scope="col" class="none">Apply Link</th>
+                                            <th scope="col" class="none">Publisher</th>
+                                            <th scope="col" class="none">Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody_class"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-----Find Similar Jobs By Job---->
+                        <div class="find_similar_jobs_by_job_output d-none u_output_box">
+                            <div class="row">
+                                <div class="col-6 pl-0">
+                                    <div class="row">
+                                        <div class="col-1 d-heading"><a href="javascript:void(0)" class="at-tags" data-screen="find_jobs_by_cnd_output_block"><i class="fa fa-arrow-left"></i></a></div>
+                                        <div class="col-6"><h4 class="heading-l">Similar Job List:</h4></div>
+                                    </div>
+                                </div>
+                                <div class="col-6 pl-0">
+                                    <button class="btn btn-sm btn-warning showkg_Button_FCBJ float-right d-none" type="button">Show KG</button>
+                                </div>  
+                            </div>
+                             
+                            <div class="output_table d-none">
+                                <table class="table table-striped table-bordered" id="fn_similar_jobs_by_job_table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" width="15%">Title</th>
+                                            <th scope="col" width="10%">Score</th>
+                                            <th scope="col" width="25%">Skill</th>
+                                            <th scope="col" width="15%">Publisher</th>
+                                            <th scope="col" class="none">Employment Type</th>
+                                            <th scope="col" class="none">Location</th>
+                                            <th scope="col" class="none">Required Work Experience</th>
+                                            <th scope="col" class="none">Company Name</th>
+                                            <th scope="col" class="none">Apply Link</th>
+                                            <th scope="col" class="none">Publisher</th>
+                                            <th scope="col" class="none">Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody_class"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-----Full Candidate List---->
+                        <div class="find_candidate_fulllist_output_block d-none u_output_box">
+                            <h4>All Candidate List:</h4>
+                            <div class="output_table d-none">
+                                <table class="table table-striped table-bordered" id="fn_candidate_full_list">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">S.No</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Category</th>
+                                            <th scope="col">Resume</th>
+                                            <th scope="col" class="none">Skills</th>
+                                            <th scope="col" class="none">Summary</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody_class"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-----Full Jobs List---->
+                        <div class="find_jobs_fulllist_output_block d-none u_output_box">
+                            <h4>All Jobs List:</h4>
+                            <div class="output_table d-none">
+                                <table class="table table-striped table-bordered" id="fn_jobs_full_list">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">S.No</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Category</th>
+                                            <th scope="col" class="none">Skill</th>
+                                            <th scope="col">Publisher</th>
+                                            <th scope="col" class="none">Employment Type</th>
+                                            <th scope="col" class="none">Location</th>
+                                            <th scope="col" class="none">Required Work Experience</th>
+                                            <th scope="col" class="none">Company Name</th>
+                                            <th scope="col" class="none">Apply Link</th>
+                                            <th scope="col" class="none">Publisher</th>
+                                            <th scope="col" class="none">Description</th>
+                                            <th scope="col" class="none">Summary</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody_class"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        <div class="no_result_found text-center d-none">
+                            <img src="/static/not_found.png" class="img-fluid img-center">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+    </body>
+
+    <script>
+        var maching_results = {
+                        'Application Security Lead': { "candidates": [ 'Candidate-3  Rank-1', 'Candidate-86  Rank-2' ] },
+                        'Software Engineer': { "candidates": [ 'Candidate-2  Rank-1', 'Candidate-98 Rank-2' ] },
+                        'Sr. Database Developer/Admin': { "candidates": [ 'Candidate-1  Rank-1', 'Candidate-99  Rank-2' ] },
+                        'Agile Scrum Master': { "candidates": [ 'Candidate-6  Rank-1', 'Candidate-4 Rank-2' ] },
+                        'Hardware Analyst': { "candidates": [ 'Candidate-97  Rank-1', 'Candidate-5  Rank-2' ] },
+                        'QA Test Engineer': { "candidates": [ 'Candidate-92  Rank-1', 'Candidate-84 Rank-2' ] },
+                        'Application Perimeter Security lead': { "candidates": [ 'Candidate-3  Rank-1', 'Candidate-86  Rank-2' ] }
+                        }
+
+        var job_info = {}
+        var $fdataTable;
+        var $fdataTable2;
+        var $similarCandidatesTable 
+        var $fdataTableCandidate;
+        var $fdataTableJobs;
+        var $similarJobsByJob;
+        var candidate_info = {}
+        var frameworkUrl = []
+        var global_list_candidate = []
+        var global_list_jobs = []
+        var global_categories = []
+        var $recruiters_states_table = []
+        var $candidates_states = []
+         
+        $(document).ready(function(){
+            
+            $('.industry_type').change(function(){
+                getJobsList()
+                getCandidateList()
+            })
+
+            getJobStates();
+            getJobsList()
+            getCandidateList()
+
+            $('.at-tags').click(function(){
+                $('.no_result_found').addClass('d-none')
+                let screen = $(this).data('screen')
+                $(this).parents('.u_output_box').addClass('d-none')
+                $('.'+screen).removeClass('d-none')
+            })
+
+            $recruiters_states_table = $('#recruiters_states_table').DataTable({
+                "iDisplayLength" : 5,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+                "destroy": true,
+                'initComplete': function(settings) {
+                   
+                }
+            });
+            //$recruiters_states_table.processing(
+
+            $candidates_states = $('#candidates_states').DataTable({
+                "iDisplayLength" : 5,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+                "destroy": true
+            });
+
+            $fdataTableCandidate = $('#fn_candidate_full_list').DataTable({
+                "iDisplayLength" : 10,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+                "destroy": true
+            });
+
+            $fdataTableJobs = $('#fn_jobs_full_list').DataTable({
+                "iDisplayLength" : 10,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+                "destroy": true
+            });
+
+            
+
+            $fdataTable = $('#fn_cand_by_job_table').DataTable({
+                "iDisplayLength" : 10,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+                "destroy": true
+            });
+
+            $similarCandidatesTable = $('#fn_similar_cand_by_cnd').DataTable({
+                "iDisplayLength" : 10,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+                "destroy": true
+            });
+            
+            $similarJobsByJob = $('#fn_similar_jobs_by_job_table').DataTable({
+                "iDisplayLength" : 10,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+                "destroy": true
+            });
+
+            $fdataTable2 = $('#fn_jobs_by_cnd_table').DataTable({
+                "iDisplayLength" : 10,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+                "destroy": true
+            });
+
+            
+            $('#cand_skills, #cand_summary').keyup(function(){
+               let cnd_skills= $('#cand_skills').val()
+               let cand_summary = $('#cand_summary').val() 
+               if(cnd_skills!="" || cand_summary!=""){
+                    $('.fnd_classification_submit').attr('disabled',false)
+                    $('.fnd_classification_submit').find('.spinner-border').hide()
+               }
+            })
+            
+            $('#cand_category').select2({
+                placeholder: 'Select Categories',
+                allowClear:true,
+            });
+             
+
+            $('.clear_filter').click(function(){
+                clearFilter()
+            })
+
+
+            $('.top_row_input_panel').click(function(){
+                let block = $(this).attr('data-block')
+                let $parent = $(this).parents('.main-row-block')
+                if(block=="1"){
+                    
+                    if($(this).hasClass('active')){
+                        $($parent).find('.input_panel').addClass('d-none')
+                        $(this).removeClass('active') 
+                    }else{
+                        $($parent).find('.input_panel').removeClass('d-none')
+                        $(this).addClass('active') 
+                    }
+                }
+                if(block=="2"){
+                    if($(this).hasClass('active')){
+                        $($parent).find('.input_panel').addClass('d-none')
+                        $(this).removeClass('active') 
+                    }else{
+                        $($parent).find('.input_panel').removeClass('d-none')
+                        $(this).addClass('active') 
+                    }
+                }
+                 
+                 
+            })
+            
+            $('.showkg_Button_FCBJ, .showkg_Button_Metaphacts').click(function(){                 
+                window.open(visualGraphShowKG($(this).attr('data-frameworkurl'),"full"))
+            })
+
+            $('.filter_selectbox').on('select2:open', function (e) {
+                if($(this).find('option:first').text()=="Select"){
+                    $(this).find('option:first').remove()
+                }
+            });
+
+            $(document).on('select2:open', () => {
+                document.querySelector('.select2-search__field').focus();
+            });
+
+            $(".jobs_list_part1, .jobs_list_part2").select2({
+                placeholder: 'Select Jobs',
+                allowClear:true,
+            });
+
+            $(".candidates_list1, .cnd_list_part2").select2({
+                placeholder: 'Select Candidate',
+                allowClear:true,
+            });
+
+
+            $(".classify_select_box").select2({
+                placeholder: 'Select Type',
+                allowClear:true,
+            });
+            
+            $(".classify_select_box").change(function(){
+                 
+                let value = $(this).val()
+                let $button = $('.fnd_classification_submit')
+
+                $("#cand_category").select2("val", "");
+                $('.filter_selectbox').val(null)
+                $('#cand_category').empty()
+                $('.select2-selection__clear').remove();
+                $('.filters_sections').find('input').val('')    
+
+
+                if(value!=""){
+                    //console.log(value);
+                    $($button).find('.submit_txt').hide()
+                    $($button).attr('disabled',true)
+                    $($button).find('.spinner-border').show()
+                    
+                    var settings = {
+                        "method": "GET",
+                        "timeout": 0,
+                    };
+                    if(value=="candidates"){
+                        settings['url'] = REDIS_SERVICE_URL + "/redis/api/get-all-candidate-from-redis?industry=" + $('.industry_type').val() 
+                    }else if(value=="jobs"){
+                        settings['url'] = REDIS_SERVICE_URL + "/redis/api/get-all-jobs-from-redis?industry=" + $('.industry_type').val()
+                    }                
+                    
+                    $.ajax(settings).done(function (response) {
+                        if(value=="candidates"){
+                            setCandidateFullData(response)
+                        }else if(value=="jobs"){
+                            setJobsFullData(response)
+                        }                     
+                    }).fail(function (jqXHR, textStatus) {
+                        $('.submit_txt').show()
+                        $($button).attr('disabled',false)
+                        $($button).find('.spinner-border').hide()
+                    });
+                }else{
+                    $('.submit_txt').show()
+                    $($button).attr('disabled',false)
+                    $($button).find('.spinner-border').hide()  
+                }
+                 
+            })
+
+            $(".jobs_list_part1, .jobs_list_part2").change(function(){
+                let value = $(this).val()
+                let $this =  $(this);
+                let $parent  = $($this).parents('.input_panel') 
+                if(value!=""){
+                    value = value.split(' | Publisher: ')
+                    // get job detail
+                    var settings = {
+                        "url": graphQLEndpoint,
+                        "method": "POST",
+                        "timeout": 0,
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "data": JSON.stringify({
+                            query: "query callRedisEnpoints($method: String!,$input: JSON ){\r\n    callRedisEnpoints(method:$method,input:$input){\r\n         records\r\n    }\r\n}",
+                            variables: { "method": "get-job-by-title", "input": { "job_title": value[0], "job_publisher": value[1] } }
+                        })
+                    };
+
+                    $.ajax(settings).done(function (response) {
+                        response = response.data.callRedisEnpoints
+                        if(response.records.length>0){
+                            let records = response.records[0]
+                            job_info = records
+                            $($parent).find('.job_detail').html('')
+                            for (const key in records) {
+                                if (!key.includes("embedding")){
+                                    let min_content = ""
+                                    if(key=="job_description"){
+                                        min_content = "min_content"
+                                    }
+                                    let summary_class = ""
+                                    if(key=="summary"){summary_class="summary_content"}
+
+                                    $($parent).find('.job_detail').append(`
+                                        <div class="${summary_class}">
+                                            <div class="col key_label">${key.replace('_'," ").toUpperCase()}</div>
+                                            <div class="col key_value ${min_content}">${records[key]!=""?records[key]:"-"}</div>
+                                        </div>  
+                                    `)
+                                }
+                                
+                            }
+                            
+                            if($($this).hasClass('jobs_list_part1') && typeof maching_results[value[0]] !== "undefined"){
+                                candidate1 = ""
+                                if(maching_results[value[0]]){
+                                    candidate1 = maching_results[value[0]]['candidates'][0]
+                                }
+
+                                candidate2 = ""
+                                if(maching_results[value[0]]){
+                                    candidate2 = maching_results[value[0]]['candidates'][1]
+                                }
+
+                                // $($parent).find('.job_detail').append(`
+                                //             <div class="">
+                                //                 <div class="col key_label">Expected Results</div>
+                                //                 <div class="col key_value">${candidate1}</div>
+                                //                 <div class="col key_value">${candidate2}</div>
+                                //             </div>  
+                                //         `)
+                            }
+                            $($parent).find('.btn-def').removeAttr('disabled')
+                        }
+                    });
+                      
+                }
+
+            })
+
+             
+
+            $(".candidates_list1, .cnd_list_part2").change(function(){
+                let value = $(this).val()
+                let $this =  $(this);
+                let $parent  = $($this).parents('.input_panel') 
+                if(value!=""){
+                    //get candidate detail
+                    value = value.split(' | ')
+                     
+                    var settings = {
+                        "url": graphQLEndpoint,
+                        "method": "POST",
+                        "timeout": 0,
+                        "headers": {
+                          "Content-Type": "application/json"
+                        },
+                        "data": JSON.stringify({
+                            query: "query getCandidateByName($name: String!, $resume:String){\r\n    getCandidateByName(name: $name,resume: $resume){\r\n        record\r\n    }\r\n}",
+                            variables: {"name":value[0],"resume":value[1]}
+                        })
+                    };
+                      
+                    $.ajax(settings).done(function (response) {
+                        if(response.data.getCandidateByName.record.name){
+                            let records = response.data.getCandidateByName.record
+                            candidate_info = records
+                            $($parent).find('.candidate_detail').html('')
+                            let valueContent = ""
+                            for (const key in records) {
+                                
+                                valueContent = records[key]
+
+                                let min_content = ""
+                                if(key=="job_description"){
+                                    min_content = "min_content"
+                                }
+                                let summary_class = ""
+                                if(key=="summary"){summary_class="summary_content"}
+                                if(key=="skills"){
+                                    valueContent = skillsConvertersForCandidates(valueContent)
+                                }
+                                $($parent).find('.candidate_detail').append(`
+                                    <div class="${summary_class}">
+                                        <div class="col key_label">${key.replace('_'," ").toUpperCase()}</div>
+                                        <div class="col key_value ${min_content}">${valueContent!=""?valueContent:"-"}</div>
+                                    </div>  
+                                `)
+                            }
+                            $($parent).find('.btn-def').removeAttr('disabled')
+                        }
+                    });
+                }
+
+            })
+            
+            /*Find Candidates By Job*/
+            $('.fnd_candidates_by_job_btn').click(function(){
+                let $this = $(this)
+                $($this).find('.submit_txt').hide()
+                $($this).attr('disabled',true)
+                $($this).find('.spinner-border').show()
+                
+                let job_title =  job_info.job_title;
+                let job_publisher = job_info.job_publisher;
+                                 
+                var settings = {
+                    "url": graphQLEndpoint,
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                      "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                      query: "query getCandidatesByJob($job_title: String!, $job_publisher: String!, $industry: String!, $top_k: Int){\r\n    getCandidatesByJob(job_title: $job_title, job_publisher: $job_publisher, industry:$industry, top_k: $top_k){\r\n       candidates\r\n graph_url\r\n    }\r\n}",
+                      variables: {"job_title":job_title,"job_publisher":job_publisher, 'industry': $('.industry_type').val(), "top_k":2}
+                    })
+                };
+                  
+                $.ajax(settings).done(function (response) {
+                    $('.submit_txt').show()
+                    $($this).attr('disabled',false)
+                    $($this).find('.spinner-border').hide()
+                    $('.u_output_box').addClass('d-none')
+                    if(response.data.getCandidatesByJob.candidates.length > 0){
+                        frameworkUrl = response.data.getCandidatesByJob.graph_url
+                        $('.showkg_Button_FCBJ, .showkg_Button_Metaphacts').removeClass('d-none') 
+                        $('.no_result_found').addClass('d-none')
+                        $('.find_candidates_by_job_output_block').removeClass('d-none')
+                        $('.find_candidates_by_job_output_block').find('.showkg_Button_FCBJ').attr('data-frameworkurl', frameworkUrl)
+                        $('.find_candidates_by_job_output_block').find('.output_table').removeClass('d-none')
+                        
+                         
+                        let records = response.data.getCandidatesByJob.candidates
+                        $fdataTable.clear();
+                        $.each(records, function(i, item) {
+                            i = i + 1
+                            
+                            let act_buttons = `<div class="similarity_actions">
+                                <button data-name="${item.name}" data-resume="${item.resume}" class="btn btn-primary btn-sm btn-similarity llm_similarity_btn_cnd">
+                                    <div class="spinner-border spinner-border-sm d-none" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span class="sbtext">LLM Similarity</span>                        
+                                </button> 
+                                <button data-name="${item.name}" data-resume="${item.resume}" class="btn btn-primary btn-sm btn-similarity graph_similarity_btn_cnd">
+                                    <div class="spinner-border spinner-border-sm d-none" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span class="sbtext">Graph Similarity</span>                        
+                                </button>
+                            </div>`
+                            
+                            let encodedUri = encodeURIComponent(`http://example.org/candid/${encodeURIComponent(item.label)}`);
+                            let nameuri = `<a href="${visualGraphShowKG(graph_db_visual_url+'/graphs-visualizations?uri='+encodedUri,"single")}" target="_blank">${item.name}</a>`
+
+                            $fdataTable.row.add([
+                                i,    
+                                nameuri,
+                                item.vector_score,
+                                item.category?item.category:"-", 
+                                item.resume?`<a href="${item.resume}" target="_new">Link</a>`:"-",
+                                act_buttons,
+                                item.skills?skillsConvertersForCandidates(item.skills):"-", 
+                                item.summary?item.summary:"-",
+                                ]);  
+                        })                        
+                        
+                        $fdataTable.draw(true).responsive.recalc();
+                    }else{
+                        frameworkUrl = ""
+                        $('.showkg_Button_FCBJ, .showkg_Button_Metaphacts').addClass('d-none') 
+                        $fdataTable.clear();
+                        $('.no_result_found, .find_candidates_by_job_output_block').removeClass('d-none')
+                        $('.find_candidates_by_job_output_block').find('.output_table').addClass('d-none')
+                    }
+                }).fail(function (jqXHR, textStatus) {
+                    $('.submit_txt').show()
+                    $($this).attr('disabled',false)
+                    $($this).find('.spinner-border').hide()
+                });
+            })
+
+
+            /*Find Jobs By Candidate*/
+            $('.fnd_jobs_by_cnd_btn').click(function(){
+                let $this = $(this)
+                $($this).find('.submit_txt').hide()
+                $($this).attr('disabled',true)
+                $($this).find('.spinner-border').show()
+                 
+                let name = candidate_info.name;
+                // let graduateIn = candidate_info.graduated_in;
+                let resume = candidate_info.resume;
+                  
+                var settings = {
+                    "url": graphQLEndpoint,
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                      "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        query: "query getJobsByCandidate($name: String!, $resume: String,  $industry: String!, $top_k: Int){\r\n    getJobsByCandidate(name: $name, resume: $resume, industry:$industry, top_k: $top_k){\r\n       job_list\r\n  graph_url\r\n  }\r\n}",
+                        variables: {"name":name,"resume":resume, 'industry': $('.industry_type').val()}
+                    })
+                };
+                  
+                $.ajax(settings).done(function (response) {
+                    $('.submit_txt').show()
+                    $($this).attr('disabled',false)
+                    $($this).find('.spinner-border').hide()
+                    $('.u_output_box').addClass('d-none')
+                    if(response.data.getJobsByCandidate.job_list.length > 0){
+                        frameworkUrl = response.data.getJobsByCandidate.graph_url
+                        $('.find_jobs_by_cnd_output_block').find('.showkg_Button_FCBJ, .showkg_Button_Metaphacts').removeClass('d-none')
+                        $('.no_result_found').addClass('d-none')
+                        $('.find_jobs_by_cnd_output_block').removeClass('d-none')
+                        $('.find_jobs_by_cnd_output_block').find('.output_table').removeClass('d-none')
+                        $('.find_jobs_by_cnd_output_block').find('.showkg_Button_FCBJ').attr('data-frameworkurl', frameworkUrl)
+
+                        
+                        let records = response.data.getJobsByCandidate.job_list
+                        $fdataTable2.clear();
+                        $.each(records, function(i, item) {
+                            
+                            let act_buttons = `<div class="similarity_actions">
+                                <button data-job_title="${item.job_title}" data-job_publisher="${item.job_publisher?item.job_publisher:""}" class="btn btn-primary btn-sm btn-similarity llm_similarity_btn_job">
+                                    <div class="spinner-border spinner-border-sm d-none" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span class="sbtext">LLM Similarity</span>                        
+                                </button> 
+                                <button data-job_title="${item.job_title}" data-job_publisher="${item.job_publisher?item.job_publisher:""}" class="btn btn-primary btn-sm btn-similarity graph_similarity_btn_job">
+                                    <div class="spinner-border spinner-border-sm d-none" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span class="sbtext">Graph Similarity</span>                        
+                                </button>
+                            </div>`
+
+                            let encodedUri = encodeURIComponent(`https://www.linkedin.com/jobs/view/${encodeURIComponent(item.job_title)}`);
+                            let job_title_uri = `<a href="${visualGraphShowKG(graph_db_visual_url+'/graphs-visualizations?uri='+encodedUri,"single")}" target="_blank">${item.job_title}</a>`
+
+                            $fdataTable2.row.add([
+                                job_title_uri,
+                                item.vector_score,
+                                item.skills?skillsConverters(item.skills):"-", 
+                                item.job_publisher?item.job_publisher:"-", 
+                                act_buttons,
+                                item.job_employment_type?item.job_employment_type:"-", 
+                                item.job_location?item.job_location:"-",
+                                item.minimum_work_experience?item.minimum_work_experience:"-", 
+                                item.company_name?item.company_name:"-",
+                                item.appliy_link?item.appliy_link:"-",
+                                item.publisher?item.publisher:"-",
+                                item.job_description?item.job_description:"-",
+                            ]); 
+                                 
+                        })                        
+                        
+                        $fdataTable2.draw(true).responsive.recalc();
+                    }else{
+                        frameworkUrl = ""
+                        $('.find_jobs_by_cnd_output_block').find('.showkg_Button_FCBJ').addClass('d-none')
+                        $fdataTable2.clear();
+                        $('.no_result_found, .find_jobs_by_cnd_output_block').removeClass('d-none')
+                        $('.find_jobs_by_cnd_output_block').find('.output_table').addClass('d-none')
+                    }
+                });
+            })
+
+
+            /*Find Similar Jobs By Job Redis*/
+            $(document).on('click','.llm_similarity_btn_job', function(){
+                let job_title = $(this).data('job_title')
+                let job_publisher = $(this).data('job_publisher')
+                $('.find_similar_jobs_by_job_output').find('.d-heading').removeClass('d-none')
+                getSimilarJobsByJob({"job_title":job_title, "job_publisher":job_publisher,"source":"redis"}, $(this))
+            })
+
+            /*Find Similar Jobs By Job Graph*/
+            $(document).on('click','.graph_similarity_btn_job', function(){
+                let job_title = $(this).data('job_title')
+                let job_publisher = $(this).data('job_publisher')
+                $('.find_similar_jobs_by_job_output').find('.d-heading').removeClass('d-none')
+                getSimilarJobsByJob({"job_title":job_title, "job_publisher":job_publisher,"source":"graph"}, $(this))
+            })
+            
+            /*Find Similar Candidates By Candidate Profile Redis*/
+            $(document).on('click','.llm_similarity_btn_cnd', function(){
+                let name = $(this).data('name')
+                // let graduatedIn = $(this).data('graduatedIn')
+                let resume = $(this).data('resume')
+                $('.find_similar_candidates_by_job').find('.d-heading').removeClass('d-none')
+                getSimilarCandidatesByCand({"name":name, "resume":resume,"source":"redis"}, $(this))
+            })
+
+            /*Find Similar Candidates By Candidate Profile Graph*/
+            $(document).on('click','.graph_similarity_btn_cnd', function(){
+                let name = $(this).data('name')
+                // let graduatedIn = $(this).data('graduatedIn')
+                let resume = $(this).data('resume')
+                $('.find_similar_candidates_by_job').find('.d-heading').removeClass('d-none')
+                getSimilarCandidatesByCand({"name":name, "resume":resume,"source":"graph"}, $(this))
+            })
+
+
+            /*Find Similar Candidates By Candidate Profile*/
+            $('.fnd_simi_cnd_by_cnd').click(function(){
+                let $this = $(this)
+                $($this).find('.submit_txt').hide()
+                $($this).attr('disabled',true)
+                $($this).find('.spinner-border').show()
+                let type = $($this).attr('data-type')
+                    
+                let candidate  = $('select[name="similar_cnd_name"]').val()
+                candidate = candidate.split(' | ')
+                let name =  candidate[0]
+                let resume = candidate[1]
+
+                getSimilarCandidatesByCand({"name":name, "resume":resume,"source":type}, $(this))
+
+                $('.find_similar_candidates_by_job').find('.d-heading').addClass('d-none')
+            })
+
+            /*Find Similar Jobs By Job*/
+            $('.fnd_simi_job_by_job').click(function(){
+                let $this = $(this)
+                $($this).find('.submit_txt').hide()
+                $($this).attr('disabled',true)
+                $($this).find('.spinner-border').show()
+                let type = $($this).attr('data-type')
+                    
+                let value  = $('.jobs_list_part2').val()
+                value = value.split(' | Publisher: ')
+                let job_title =  value[0]
+                let job_publisher = value[1]
+                getSimilarJobsByJob({"job_title":job_title, "job_publisher":job_publisher,"source":type}, $(this))
+
+                 
+                $('.find_similar_jobs_by_job_output').find('.d-heading').addClass('d-none')
+            })
+
+        })
+
+         
+
+        function getJobsList(){
+             
+            // var settings = {
+            //     "method": "GET",
+            //     "timeout": 0,
+            //     "url":REDIS_SERVICE_URL + "/redis/api/get-all-jobs-from-redis?industry=" + $('.industry_type').val()
+            // };
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    query: "query callRedisEnpoints($method: String!,$input: JSON ){\r\n    callRedisEnpoints(method:$method,input:$input){\r\n         records\r\n    }\r\n}",
+                    variables: { "method": "get-all-jobs-from-redis", "input": { "industry": $('.industry_type').val()} }
+                })
+            };
+                        
+            $.ajax(settings).done(function (response) {
+                response = response.data.callRedisEnpoints
+                if(response.records.length > 0){
+                    $('.jobs_list_part1, .jobs_list_part2').empty().append('<option value="">Select Job</option>')
+                    const record = response.records
+                    for(let i =0 ; i  < record.length; i++){
+                        let optionValue = record[i]['job_title']+' | Publisher: '+record[i]['job_publisher'] 
+                        $('.jobs_list_part1, .jobs_list_part2').append(`<option value="${optionValue}">${optionValue}</option>`)
+                    } 
+                }                    
+            })
+
+            /*var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                  "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                  query: "query getJobList{\r\n    getJobList{\r\n        job_list\r\n    }\r\n}",
+                  variables: {}
+                })
+            };*/
+              
+             
+        }
+        
+        function getCandidateList(){
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    query: "query callRedisEnpoints($method: String!,$input: JSON ){\r\n    callRedisEnpoints(method:$method,input:$input){\r\n         records\r\n    }\r\n}",
+                    variables: { "method": "get-all-candidate-from-redis", "input": { "industry": $('.industry_type').val() } }
+                })
+            };
+                    
+                    $.ajax(settings).done(function (response) {
+                        response = response.data.callRedisEnpoints
+                        if(response.records.length > 0){
+                            let records = response.data
+                            // global_list_candidate = records
+                            // $fdataTableCandidate.clear();
+                            // global_categories = []
+                            $('.candidates_list1, .cnd_list_part2').empty().append('<option value="">Select Candidate</option>')
+                                
+                            $.each(records, function(i, item) {
+                               //console.log(item)
+                                i = i + 1
+                                // const record = response.data.getCandidateList.candidates;
+                                $('.candidates_list1, .cnd_list_part2').append(`<option value="${item['name']} | ${item['resume']}">${item['name']}</option>`)
+                            })                        
+                            
+                            // $fdataTableCandidate.draw(true).responsive.recalc();
+                            // addValuesInFilterInputs({"cand_category":global_categories})
+                        }                     
+                    })
+        }
+        
+        function setCandidateFullData(response){
+            if(response.data.length > 0){
+                $('.fnd_classification_submit').find('.submit_txt').show()
+                $('.fnd_classification_submit').find('.spinner-border').hide()
+
+                $('.no_result_found').addClass('d-none')
+                $('.u_output_box').addClass('d-none')
+                $('.find_candidate_fulllist_output_block').removeClass('d-none')
+                $('.find_candidate_fulllist_output_block').find('.output_table').removeClass('d-none')
+
+                let records = response.data
+                global_list_candidate = records
+                $fdataTableCandidate.clear();
+                global_categories = []
+                $.each(records, function(i, item) {
+                    global_categories.push(item.category) 
+                    i = i + 1
+                    insertDataIntoCandidateTable(i, item)   
+                })                        
+                
+                $fdataTableCandidate.draw(true).responsive.recalc();
+                addValuesInFilterInputs({"cand_category":global_categories})
+            }else{
+                $fdataTableCandidate.clear();
+                $('.no_result_found, .find_candidate_fulllist_output_block').removeClass('d-none')
+                $('.find_candidate_fulllist_output_block').find('.output_table').addClass('d-none')
+            }
+        }
+
+        function setJobsFullData(response){
+            if(response.data.length > 0){
+                $('.fnd_classification_submit').find('.submit_txt').show()
+                $('.fnd_classification_submit').find('.spinner-border').hide()
+
+                $('.no_result_found').addClass('d-none')
+                $('.u_output_box').addClass('d-none')
+                $('.find_jobs_fulllist_output_block').removeClass('d-none')
+                $('.find_jobs_fulllist_output_block').find('.output_table').removeClass('d-none')
+
+                let records = response.data
+                global_list_jobs = records
+                $fdataTableJobs.clear();
+                global_categories = []
+                $.each(records, function(i, item) {
+                    global_categories.push(item.category) 
+                    i = i + 1
+                    insertDataIntoJobsTable(i, item)
+                })                        
+                
+                $fdataTableJobs.draw(true).responsive.recalc();
+                addValuesInFilterInputs({"cand_category":global_categories})
+            }else{
+                $fdataTableJobs.clear();
+                $('.no_result_found, .find_jobs_fulllist_output_block').removeClass('d-none')
+                $('.find_jobs_fulllist_output_block').find('.output_table').addClass('d-none')
+            }
+        }
+        
+        function addValuesInFilterInputs(data){
+            
+            //first clear the category box
+            $("#cand_category").select2("val", "");
+            
+
+            //remove duplicates values
+            for (const key in data) {
+                var unique = data[key].filter(onlyUnique);
+                data[key] = unique;
+            }
+            
+            for (const key in data) {
+                $('#'+key+"").empty().append('<option value="">Select</option>')
+                for(let i =0 ; i  < data[key].length; i++){
+                    $('#'+key+"").append(`<option value="${data[key][i]}">${data[key][i]}</option>`)
+                }   
+            }
+        }
+
+        
+        function onlyUnique(value, index, array) {
+            return array.indexOf(value) === index;
+        }
+
+        function filterCandidateJobsData(){
+            let category  = $('#cand_category').val()
+            let cnd_skills= $('#cand_skills').val()
+            let cand_summary = $('#cand_summary').val() 
+            
+            if(category.length  == 0 && $.trim(cnd_skills)=="" && $.trim(cand_summary)==""){
+                clearFilter()
+                return;
+            }
+
+            //console.log("Category:", category);
+            //console.log("Skills:", cnd_skills);
+            //console.log("Summary:", cand_summary);
+            var mainData = []
+            let classifiy_type = $('.classify_select_box').val();
+            if(classifiy_type == "candidates"){
+                mainData = global_list_candidate
+            }else if(classifiy_type == "jobs"){
+                mainData = global_list_jobs
+            }
+
+
+            let filterRecords = mainData.filter(function(value, index){
+                let isReturnMatched = true
+                var filterStates = {
+                    "category":{ "value": false, "isMatched":false},
+                    "skills":{ "value": false, "isMatched":false},
+                    "summary":{ "value": false, "isMatched":false}
+                }
+                if(category.length   > 0){
+                    filterStates.category.value = true
+                    for(let i = 0; i < category.length; i++){
+                        if(value.category == category[i]){
+                            filterStates.category.isMatched = true
+                        }
+                    }
+                }
+                if($.trim(cnd_skills)!=""){
+                    filterStates.skills.value = true
+                    cnd_skills = cnd_skills.toString().split(',')
+                    
+                    var givenSkills = cnd_skills.map(function(item) {
+                        return item.toLowerCase().trim();
+                    });
+                    if(value.skills!=""){
+                        try{
+                            let skillsArr = JSON.parse(value.skills.replace(/'/g, '"'));
+                            if(skillsArr.length > 0){
+                            // Convert all elements to lowercase
+                                var lowercaseArray = skillsArr.map(function(item) {
+                                    return item.toLowerCase().trim();
+                                });
+                                for(let i = 0; i < lowercaseArray.length; i++){
+                                    if(givenSkills.includes(lowercaseArray[i])){
+                                        filterStates.skills.isMatched = true
+                                        //console.log('get in skill')     
+                                    }
+                                }
+                            }
+                        }catch(err){
+
+                        }
+                    }
+                }
+                
+                if(cand_summary!=""){
+                    filterStates.summary.value = true
+                    cand_summary = cand_summary.toString().toLowerCase()
+                    if(value.summary!=""){
+                        let summary = ""
+                        if(classifiy_type=="candidates"){
+                            summary = value.summary.toString().toLowerCase()
+                        }else if(classifiy_type=="jobs"){
+                            summary = value.job_description.toString().toLowerCase()
+                        }
+                                                
+                        if(summary.includes(cand_summary)){
+                            filterStates.summary.isMatched = true
+                        }
+                        
+                    }
+                }
+
+                //calculate matched status
+                isReturnMatched = getIncludeStatus(filterStates)               
+                 
+                return isReturnMatched
+            })
+            
+            if(classifiy_type=="candidates"){
+                $fdataTableCandidate.clear()    
+                $.each(filterRecords, function(i, item) {
+                    i = i + 1
+                    insertDataIntoCandidateTable(i, item)   
+                });
+                $fdataTableCandidate.draw(true).columns.adjust().responsive.recalc();
+            }else if(classifiy_type=="jobs"){
+                $fdataTableJobs.clear()    
+                $.each(filterRecords, function(i, item) {
+                    i = i + 1
+                    insertDataIntoJobsTable(i, item)   
+                });
+                $fdataTableJobs.draw(true).columns.adjust().responsive.recalc();
+            }
+        }
+
+        function getIncludeStatus(filterStates){
+            //console.log(filterStates);
+            let isStatus  = false
+            if(filterStates.category.value && filterStates.skills.value && filterStates.summary.value){
+                if(filterStates.category.isMatched && filterStates.skills.isMatched && filterStates.summary.isMatched){
+                    isStatus = true
+                }
+            }else if(filterStates.category.value && filterStates.skills.value && !filterStates.summary.value){
+                if(filterStates.category.isMatched && filterStates.skills.isMatched){
+                    isStatus = true
+                }
+            }else if(filterStates.category.value && !filterStates.skills.value && filterStates.summary.value){
+                if(filterStates.category.isMatched && filterStates.summary.isMatched){
+                    isStatus = true
+                }
+            }else if(!filterStates.category.value && filterStates.skills.value && filterStates.summary.value){
+                if(filterStates.skills.isMatched && filterStates.summary.isMatched){
+                    isStatus = true
+                }
+            }else if(filterStates.category.value && !filterStates.skills.value && !filterStates.summary.value){
+                if(filterStates.category.isMatched){
+                    isStatus = true
+                }
+            }else if(!filterStates.category.value && filterStates.skills.value && !filterStates.summary.value){
+                if(filterStates.skills.isMatched){
+                    isStatus = true
+                }
+            }else if(!filterStates.category.value && !filterStates.skills.value && filterStates.summary.value){
+                if(filterStates.summary.isMatched){
+                    isStatus = true
+                }
+            }
+
+            return isStatus
+        }
+
+        function cleanAndEncodeURI(input){
+            input = input.replace(/[^a-zA-Z0-9]/g, '');
+            return encodeURIComponent(input)
+        }
+
+        function insertDataIntoCandidateTable(i, item){
+            let encodedUri = encodeURIComponent(`http://example.org/candid/${encodeURIComponent(item.label)}`);
+            $fdataTableCandidate.row.add([
+                i,    
+                `<a href="${visualGraphShowKG(graph_db_visual_url+'/graphs-visualizations?uri='+encodedUri, "single")}" target="_blank">${item.name}</a>`,
+                item.category?item.category:"-", 
+                item.resume?`<a href="${item.resume}" target="_new">Link</a>`:"-",
+                item.skills?skillsConvertersForCandidates(item.skills):"-", 
+                item.summary?item.summary:"-"
+            ]);  
+        }
+
+        function insertDataIntoJobsTable(i, item){
+
+            let encodedUri = encodeURIComponent(`https://www.linkedin.com/jobs/view/${encodeURIComponent(item.job_title)}`);
+            $fdataTableJobs.row.add([
+                i,    
+                `<a href="${visualGraphShowKG(graph_db_visual_url+'/graphs-visualizations?uri='+encodedUri,"single")}" target="_blank">${item.job_title}</a>`,
+                item.category,
+                item.skills?skillsConverters(item.skills):"-", 
+                item.job_publisher?item.job_publisher:"-", 
+                item.job_employment_type?item.job_employment_type:"-", 
+                item.job_location?item.job_location:"-",
+                item.minimum_work_experience?item.minimum_work_experience:"-", 
+                item.company_name?item.company_name:"-",
+                item.appliy_link?item.appliy_link:"-",
+                item.publisher?item.publisher:"-",
+                item.job_description?item.job_description:"-",
+                item.summary?item.summary:"-",
+            ]) 
+        }
+
+        function clearFilter(){
+            $(".filter_selectbox").empty()
+            addValuesInFilterInputs({"cand_category":global_categories})
+            $('.select2-selection__clear').remove();
+            $('.filters_sections').find('input').val('')    
+            
+            let classifiy_type   = $('.classify_select_box').val();
+            if(classifiy_type=="candidates"){
+                $fdataTableCandidate.clear(); 
+                
+                $.each(global_list_candidate, function(i, item) {
+                    i = i + 1
+                    insertDataIntoCandidateTable(i, item)   
+                });
+                $fdataTableCandidate.draw(true).columns.adjust().responsive.recalc();
+            }else if(classifiy_type=="jobs"){
+                $fdataTableJobs.clear(); 
+                $.each(global_list_jobs, function(i, item) {
+                    i = i + 1
+                    insertDataIntoJobsTable(i, item)
+                });
+                $fdataTableJobs.draw(true).columns.adjust().responsive.recalc();
+            }
+        }
+
+        function skillsConvertersForCandidates(skills){
+            var allSkills = "-"
+            var skillSet = []
+            if(skills!=""){
+                try{
+                    let skillsArr = JSON.parse(skills.replace(/'/g, '"'));
+                    if(skillsArr.length > 0){
+                        for(var i=0;i<skillsArr.length;i++){
+                            skillSet.push(skillsArr[i]['skill_name'])
+                        }
+                        allSkills = skillSet.join(", ")
+                    }
+                }catch(err){
+                    console.log(err)
+                    allSkills  = skills
+                }
+            }
+            return allSkills
+        }
+
+        function skillsConverters(skills){
+            var allSkills = "-"
+            var skillSet = []
+            if(skills!=""){
+                try{
+                    let skillsArr = JSON.parse(skills.replace(/'/g, '"'));
+                    if(skillsArr.length > 0){
+                        allSkills = skillsArr.join(", ")
+                    }
+                }catch(err){
+                    console.log(err)
+                    allSkills  = skills
+                }
+            }
+            return allSkills
+        }
+        
+        function getSimilarCandidatesByCand(data, ref){
+            let $this = $(ref)
+            $($this).find('.submit_txt').hide()
+            $($this).attr('disabled',true)
+            $($this).find('.spinner-border').show()
+            
+            let name =  data.name;
+            let graduated_in = data.graduated_in;
+            let resume = data.resume;
+                                
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    query: "query getSimilarCandidatesByCand($name: String!, $resume: String, $industry: String!,  $top_k: Int, $source:String!){\r\n    getSimilarCandidatesByCand(name: $name, resume: $resume, industry:$industry, top_k: $top_k, source: $source){\r\n       candidates\r\n   graph_url\r\n }\r\n}",
+                    variables: {"name":name,"resume":resume, 'industry': $('.industry_type').val(), 'source':data.source}
+                })
+            };
+                
+            $.ajax(settings).done(function (response) {
+                $('.submit_txt').show()
+                $($this).attr('disabled',false)
+                $($this).find('.spinner-border').hide()
+                $('.u_output_box').addClass('d-none')
+                if(response.data.getSimilarCandidatesByCand.candidates.length > 0){
+                    $('.no_result_found').addClass('d-none')
+                    $('.find_similar_candidates_by_job').removeClass('d-none')
+                    $('.find_similar_candidates_by_job').find('.output_table').removeClass('d-none')
+                    let records = response.data.getSimilarCandidatesByCand.candidates
+                    frameworkUrl = response.data.getSimilarCandidatesByCand.graph_url
+                    $('.find_similar_candidates_by_job').find('.showkg_Button_FCBJ').attr('data-frameworkurl', frameworkUrl)
+                    $similarCandidatesTable.clear();
+                    $.each(records, function(i, item) {
+                        i = i + 1
+                        let encodedUri = encodeURIComponent(`http://example.org/candid/${encodeURIComponent(item.label)}`);
+                        let nameuri = `<a href="${visualGraphShowKG(graph_db_visual_url+'/graphs-visualizations?uri='+encodedUri,"single")}" target="_blank">${item.name}</a>`
+                        $similarCandidatesTable.row.add([
+                            i,    
+                            nameuri,
+                            item.vector_score,
+                            item.category?item.category:"-", 
+                            item.resume?`<a href="${item.resume}" target="_new">Link</a>`:"-",
+                            item.skills?skillsConvertersForCandidates(item.skills):"-", 
+                            item.summary?item.summary:"-"]);    
+                    })                        
+                    
+                    $similarCandidatesTable.draw(true).responsive.recalc();
+                }else{
+                        
+                    $similarCandidatesTable.clear();
+                    $('.no_result_found, .find_similar_candidates_by_job').removeClass('d-none')
+                    $('.find_similar_candidates_by_job').find('.output_table').addClass('d-none')
+                }
+            }).fail(function (jqXHR, textStatus) {
+                $('.submit_txt').show()
+                $($this).attr('disabled',false)
+                $($this).find('.spinner-border').hide()
+            });
+        }
+
+        function getSimilarJobsByJob(data, ref){
+            let $this = ref
+            $($this).find('.submit_txt').hide()
+            $($this).attr('disabled',true)
+            $($this).find('.spinner-border').show()
+                
+            let job_title =  data.job_title;
+            let job_publisher = data.job_publisher;
+                
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    query: "query getSimilarJobsByJob($job_title: String!, $job_publisher: String!, $industry: String!, $top_k: Int, $source:String!){\r\n    getSimilarJobsByJob(job_title: $job_title, job_publisher: $job_publisher, industry: $industry top_k: $top_k, source:$source){\r\n       job_list\r\n  graph_url\r\n  }\r\n}",
+                    variables: {"job_title":job_title,"job_publisher":job_publisher, 'industry': $('.industry_type').val(), 'source':data.source}
+                })
+            };
+                
+            $.ajax(settings).done(function (response) {
+                $($this).find('.submit_txt').show()
+                $($this).attr('disabled',false)
+                $($this).find('.spinner-border').hide()
+                $('.u_output_box').addClass('d-none')
+                if(response.data.getSimilarJobsByJob.job_list.length > 0){
+                    $('.no_result_found').addClass('d-none')
+                    $('.find_similar_jobs_by_job_output').removeClass('d-none')
+                    $('.find_similar_jobs_by_job_output').find('.output_table').removeClass('d-none')
+                    let records = response.data.getSimilarJobsByJob.job_list
+                    frameworkUrl = response.data.getSimilarJobsByJob.graph_url
+                    $('.find_similar_jobs_by_job_output').find('.showkg_Button_FCBJ').removeClass('d-none')
+                    $('.find_similar_jobs_by_job_output').find('.showkg_Button_FCBJ').attr('data-frameworkurl', frameworkUrl)
+                    $similarJobsByJob.clear();
+                    $.each(records, function(i, item) {
+                        let encodedUri = encodeURIComponent(`https://www.linkedin.com/jobs/view/${encodeURIComponent(item.job_title)}`);
+                        let job_title_uri = `<a href="${visualGraphShowKG(graph_db_visual_url+'/graphs-visualizations?uri='+encodedUri,"single")}" target="_blank">${item.job_title}</a>`
+                        
+                        $similarJobsByJob.row.add([
+                            job_title_uri,
+                            item.vector_score,
+                            item.skills?skillsConverters(item.skills):"-", 
+                            item.job_publisher?item.job_publisher:"-", 
+                            item.job_employment_type?item.job_employment_type:"-", 
+                            item.job_location?item.job_location:"-",
+                            item.minimum_work_experience?item.minimum_work_experience:"-", 
+                            item.company_name?item.company_name:"-",
+                            item.appliy_link?item.appliy_link:"-",
+                            item.publisher?item.publisher:"-",
+                            item.job_description?item.job_description:"-",
+                        ]); 
+                                
+                    })                        
+                    
+                    $similarJobsByJob.draw(true).responsive.recalc();
+                }else{
+                        
+                    $similarJobsByJob.clear();
+                    $('.find_similar_jobs_by_job_output').find('.showkg_Button_FCBJ').addClass('d-none')
+                    $('.no_result_found, .find_similar_jobs_by_job_output').removeClass('d-none')
+                    $('.find_similar_jobs_by_job_output').find('.output_table').addClass('d-none')
+                }
+            });
+        }
+        
+        function getJobStates(){
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    query: "query getJobStates{\r\n    getJobStates{\r\n        most_applied_jobs\r\n        job_applications\r\n    }\r\n}",
+                    variables: {}
+                })
+            };
+                
+            $.ajax(settings).done(function (response) {
+                let most_applied_job = response.data.getJobStates.most_applied_jobs
+                let job_applications = response.data.getJobStates.job_applications
+                 
+                if(most_applied_job.length > 0){
+                    $recruiters_states_table.clear();
+                    $.each(most_applied_job, function(i, item) {
+                        $recruiters_states_table.row.add([
+                            `<a target="_blank" href="${visualGraphShowKG(graph_db_visual_url+'/graphs-visualizations?uri='+item.job_uri,"single")}" style="color:#194EB8">${item.job_title}</a>`,
+                            item.appliers
+                        ]);    
+                    })                        
+                    
+                    $recruiters_states_table.draw(true).responsive.recalc();
+                }
+
+                if(job_applications.length > 0){
+                    $candidates_states.clear();
+                    $.each(job_applications, function(i, item) {
+                        $candidates_states.row.add([
+                            `<a target="_blank" href="${visualGraphShowKG(graph_db_visual_url+'/graphs-visualizations?uri='+item.candidate_uri,"single")}" style="color:#194EB8">${item.name}</a>`,
+                            item.applied_jobs
+                        ]);    
+                    })                        
+                    
+                    $candidates_states.draw(true).responsive.recalc();
+                }
+                 
+            })   
+        }
+
+         
+         
+    </script>
+</html>

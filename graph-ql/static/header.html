@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container ">
+
+       
+            <a class="navbar-brand pl-4" href="/"><img src="/static/Logo.svg" class="img-fluid w-50"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle 
+                        {% if current_route in ['/home', '/classification', '/show_similar_companies', '/show_knowledge_graph'] %}active{% endif %}"
+                            data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="color: #ba0373 !important;
+                            font-weight: bold;">
+                            {% if current_route == '/home' %}Home
+                            {% elif current_route == '/classification' %}Classification
+                            {% elif current_route == '/show_similar_companies' %}Show Similar Companies
+                            {% elif current_route == '/show_knowledge_graph' %}Show KG
+                            {% elif current_route == '/crawl_show_kg' %}Crawl Companies
+                            {% elif current_route == '/graph_exploration' %}Graph Exploration
+                            {% elif current_route == '/jobs' %}Jobs
+                            {% elif current_route == '/insurance_claim' %}Insurance Claim
+                            {% elif current_route == '/shortest_path' %}Shortest Path
+                            {% elif current_route == '/griffin_travels' %}Griffin Travels
+                            {% elif current_route == '/reconcile_entities' %}Reconciliation
+                            {% else %}Home
+                            {% endif %}
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/">Home</a>
+                            <a class="dropdown-item" href="classification">Classification</a>
+                            <a class="dropdown-item" href="show_similar_companies">Show Similar Companies</a>
+                            <a class="dropdown-item" href="show_knowledge_graph">Show KG</a>
+                            <a class="dropdown-item" href="crawl_show_kg">Crawl Companies</a>
+                            <a class="dropdown-item" href="graph_exploration">Graph Exploration</a>
+                            <a class="dropdown-item" href="jobs">Jobs</a>
+                            <a class="dropdown-item" href="insurance_claim">Insurance Claim</a>
+                            <a class="dropdown-item" href="shortest_path">Shortest Path</a>
+                            <a class="dropdown-item" href="griffin_travels">Griffin Travels</a>
+                            <a class="dropdown-item" href="reconcile_entities">Reconciliation</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="https://zeniagraph.ai/why-us/about-us" target="_blank">About US <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://zeniagraph.ai/contact-us/" target="_blank">Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://zeniagraph.ai/partners/" target="_blank">Partners</a>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <div class="global_toggle_uid d-flex" style="margin-top: 8px;">
+                            <span class="tog_item tog_basic active" data-tab="onto">Ontotext</span>
+                            <span class="tog_item tog_advance" data-tab="meta">Metaphactory</span>
+                        </div>  
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div>
+        
+    </div>
+</header>
+
+<!--<div class="container container-fluid" style="max-width:1320px;">
+    <div class="navsbar_custom">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle 
+                {% if current_route in ['/home', '/classification', '/show_similar_companies', '/show_knowledge_graph'] %}active{% endif %}"
+                    data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    {% if current_route == '/home' %}Home
+                    {% elif current_route == '/classification' %}Classification
+                    {% elif current_route == '/show_similar_companies' %}Show Similar Companies
+                    {% elif current_route == '/show_knowledge_graph' %}Show KG
+                    {% else %}Home
+                    {% endif %}
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/">Home</a>
+                    <a class="dropdown-item" href="classification">Classification</a>
+                    <a class="dropdown-item" href="show_similar_companies">Show Similar Companies</a>
+                    <a class="dropdown-item" href="show_knowledge_graph">Show KG</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a {% if current_route == '/crawl_show_kg' %}class="active nav-link"{% else %}class="nav-link"{% endif %} href="crawl_show_kg">Crawl Companies</a>
+            </li>
+            <li class="nav-item"> 
+                <a {% if current_route == '/graph_exploration' %}class="active nav-link"{% else %}class="nav-link"{% endif %} href="graph_exploration">Graph Exploration</a>
+            </li>
+            <li class="nav-item">
+                <a {% if current_route == '/jobs' %}class="active nav-link"{% else %}class="nav-link"{% endif %} href="jobs">Jobs</a>
+            </li>
+            <li class="nav-item">
+                <a {% if current_route == '/insurance_claim' %}class="active nav-link"{% else %}class="nav-link"{% endif %} href="insurance_claim">Insurance Claim</a>
+            </li>
+            <li class="nav-item">
+                <a {% if current_route == '/shortest_path' %}class="active nav-link"{% else %}class="nav-link"{% endif %} href="shortest_path">Shortest Path</a>
+            </li>
+            <li class="nav-item">
+                <a {% if current_route == '/griffin_travels' %}class="active nav-link"{% else %}class="nav-link"{% endif %} href="griffin_travels">Griffin Travels</a>
+            </li>
+            <li class="nav-item">
+                <a {% if current_route == '/reconcile_entities' %}class="active nav-link"{% else %}class="nav-link"{% endif %} href="reconcile_entities">Reconciliation</a>
+            </li>
+        </ul>
+    </div>
+</div>-->

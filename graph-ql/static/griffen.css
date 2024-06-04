@@ -1,0 +1,365 @@
+.travel_form label {
+    font-size: 13.5px;
+    color: #828282 !important;
+    font-weight: 500;
+}
+.travel_form .get_quote_submit, .travel_form .get_quote_submit:active, .travel_form .get_quote_submit:visited,  .travel_form .get_quote_submit:focus{
+    /* margin-top: 1.9rem;
+    margin-left: 2rem; */
+    background: #ba0373 !important;
+    border-color: #5a0338 !important;
+    outline: none !important;
+    outline-style: none !important;
+    box-shadow: none !important;
+    width: 100px;
+}
+.travel_form .get_quote_submit:hover{
+    background: #ec33a4 !important;
+    outline: none !important;
+    outline-style: none !important;
+    box-shadow: none !important;
+}
+.select2-selection__placeholder{ font-size: 13.5px;}
+.travel_form .select2-container--default .select2-selection--single {
+    height: 38px;
+}
+.travel_form .select2-container--default .select2-selection--single .select2-selection__rendered{
+    line-height: 33px;
+}
+
+.travel_form input::placeholder, .travel_form select::placeholder{
+    color: #999;
+    font-size: 13.5px;
+}
+.travel_form .select2-container--default .select2-selection--single .select2-selection__arrow{
+    top: 6px;
+}
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  .card-subtitle {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #666;
+  }
+  .card-text {
+    font-size: 0.875rem;
+    color: #333;
+  }
+  .card-link {
+    font-size: 0.875rem;
+    color: #007bff;
+    text-decoration: none;
+  }
+.card-link:hover {
+    text-decoration: underline;
+}
+.error-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #dc3545;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    max-width: 350px;
+    margin: 0 auto;
+}  
+
+#plans_blocks_1 .card{
+  background: #f2ebef;
+  border-top: 5px solid black;
+}
+#plans_blocks_1 .card a{
+  font-weight: bold;
+  text-decoration: underline;
+  color: #bf0c75;
+}
+.plans-title-wr{
+  color: #bf0c75;
+}
+.compare-plan{
+  background-color: black !important;
+  border:1px solid black !important;
+}
+
+.query-button{
+  background: #ba0373 !important;
+   
+  outline: none !important;
+  outline-style: none !important;
+  box-shadow: none !important;
+  width: 100px;
+  color: white !important;
+}
+.compare_summary {
+  padding: 10px;
+}
+
+.compare-summary .card {
+  margin-top: 5px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  background: #ded5d9;
+  padding: 10px 20px;
+}
+.compare-summary .card-title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+.compare-summary .card-summary {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+.compare-summary .card-summary-text {
+  color: #555;
+  margin-bottom: 20px;
+}
+.compare-summary .list-group-item {
+  border: none;
+  padding: 5px 15px;
+}
+.compare-summary .list-group-item strong {
+  color: #333;
+}
+
+.compare-summary .exclusions-list {
+  margin-top: 10px;
+}
+.compare-summary .exclusions-list-item {
+  list-style-type: none;
+  padding: 5px 0;
+}
+.compare-summary .exclusions-list-item:before {
+  content: "\2022"; /* Bullet point */
+  color: #333;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+.compare-summary .comparison-list {
+  margin-top: 10px;
+}
+.compare-summary .comparison-list-item {
+  list-style-type: none;
+  padding: 5px 0;
+}
+.compare-summary .comparison-list-item:before {
+  content: "\2022"; /* Bullet point */
+  color: #333;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+.plan-cost{
+  color: #7a0055;
+  font-weight: 500;
+}
+.plan-cost span{
+  font-weight: normal;
+}
+.list-group-item i, .card-subtitle i {
+  color: #ba0373 !important;
+  cursor: pointer;
+  user-select: none;
+}
+.toggle_uid span{
+  font-size: 13px;
+}
+
+.toggle_uid{
+  width: 196px;
+}
+.travel_form .form-group{
+  margin-bottom: 5px;
+}
+.add_traveler_bt { cursor: pointer; user-select: none;}
+.add_traveler_bt:hover {
+  text-decoration: underline;
+  user-select: none;
+}
+.age_input_d{ margin-top: 5px;}
+.delete_tr_box i{color: #bf1414; cursor: pointer;}
+.delete_tr_box { margin-top: 39px;}
+
+.def_color_web{ color: #ba0373 !important;}
+.label_tr{
+  font-size: 13.5px;
+    color: #828282 !important;
+    font-weight: 500;
+}
+
+.row_bg_dkr{
+  background: whitesmoke;
+  padding: 4px; 
+  user-select: none;
+  height: 40px;
+}
+.display-inclusions li {
+  display: list-item;
+  list-style-position: inside;
+  padding-left: 29px;
+}
+
+.plan {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+}
+
+.plan:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.plan-name {
+  font-weight: bold;
+  color: #007bff;
+  margin-right: 10px;
+}
+
+.view-quote {
+  color: #28a745;
+  text-decoration: none;
+}
+#plans_blocks_2  p{
+  font-size: 14px;
+}
+
+.mrkwin-button{
+  background: #000 !important;
+  outline: none !important;
+  outline-style: none !important;
+  box-shadow: none !important;
+  width: 150px;
+  color: white !important;
+  font-size: 14px !important;
+  height: 27px;
+  padding: 0 !important;
+  margin: 10px auto;
+  display: block !important;
+}
+
+
+
+#compare-plan-block .card {
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+  background: #f0f0f0;
+}
+#compare-plan-block .card:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+#compare-plan-block .card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+#compare-plan-block .card-subtitle {
+  color: #6c757d;
+}
+#compare-plan-block .card-text {
+  color: #495057;
+}
+
+#compare-plan-block .prccost{
+  font-size: 15px;
+}
+#compare-plan-block .prccost span{
+  color: #ba0373 !important;
+}
+
+#compare-plan-block .bstplan_marker{
+  position: absolute;
+     
+    right: 0;
+    text-align: center;
+    background: #ad087a;
+    width: 116px;
+    margin: 0 auto;
+    color: white;
+    box-shadow: 0px 2px 5px #000;
+}
+.bestPlanWinButton {
+  margin: 10px 0px !important;
+}
+.ellipsis_pre i {
+  cursor: pointer;
+  font-size: 30px;
+}
+
+.small-label {
+  font-size: 0.8rem;
+}
+.small-input {
+  font-size: 0.8rem;
+  height: 22px;
+}
+#intermediate_screen .dropdown-menu{
+  min-width: 16rem;
+}
+
+#intermediate_screen .dropdown-menu button{
+  font-size: 13px;
+}
+#intermediate_screen .dropdown-menu .form-group{
+  margin-bottom: 5px;
+}
+
+#compare_plan_row{
+  margin-bottom: 3rem;
+}
+#final_screen .dropdown-menu{
+  min-width: 13rem;
+}
+#final_screen .dropdown-menu button{
+  width: 100%;
+}
+#WinningQuotePdfDownload  span {
+  font-weight: bold;
+    color: #450000;
+}
+
+.inc_criteria_box .btn-group{
+  width: 200px !important;
+  user-select: none !important;
+}
+.inc_criteria_box .dropdown-toggle{
+  background-color: #f5f5f5;
+  text-align: left;
+  background: white;
+    /* border-radius: 14px; */
+    padding: 0px 9px;
+    line-height: 29px;
+    overflow: hidden;
+}
+
+.inc_criteria_box .multiselect-selected-text{
+  color: #828282 !important;
+}
+
+.inc_criteria_box .dropdown-toggle::after{
+  
+  margin-top: 10px;
+}
+
+.inc_criteria_box .multiselect-container>li>a>label{
+  padding-left: 10px;
+  padding-top: 10px;
+}

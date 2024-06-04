@@ -1,0 +1,953 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+		<title>Home | ZeniaGraph</title>
+		<meta charset="utf-8" />
+        
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+        <link rel="icon" type="image/x-icon" href="/static/favicon-32x32.png">
+        <link rel="stylesheet" href="/static/style.css"> 
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css" integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+         
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" 
+            crossorigin="anonymous"></script>
+        
+        <script type="text/javascript" src="/static/dev.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
+        <script
+            type="text/javascript"
+            src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script 
+            type="text/javascript"
+            src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+
+	</head>
+    
+    <body>
+        {% include 'header.html' %}
+        <div class="Input_fields container-fluid" style="margin-bottom:10rem; max-width:1320px;">
+            <div class="row">
+                <div class="col-4 mt-3">
+                    <div class="input_panel">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1" >Please enter your search term</label>
+                            <textarea rows="12"   class="form-control" name="search_term" id="search_term" onkeyup="checkBtnStaus()" >find me the profit, headquarters, current year revenue and last quarterly revenue for Apple</textarea>
+                        </div>
+                        <!--<div class="form-group">
+                            <label for="exampleInputEmail1">Location</label>
+                            <input type="text" class="form-control" name="classifications[location]" data-tag="location" id="location_term" onkeyup="checkBtnStaus()" >
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Industry</label>
+                            <input type="text" class="form-control" name="classifications[industry]" data-tag="industry"  id="industry_term" onkeyup="checkBtnStaus()" >
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Company Type</label>
+                            <input type="text" class="form-control" name="company_type" data-tag="company_type"  id="company_type">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Revenue</label>
+                            <div class="row">
+                                <div class="col">
+                                    <input type="number" class="form-control" name="revenue[min]" data-tag="min" placeholder="min">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control" name="revenue[max]" data-tag="max" placeholder="max">
+                                </div>
+                            </div>
+                        </div>-->
+                        <div class="form-group">
+                            <label for="exampleInputEmail1" style="width:100%; display:block">Please select platorm type:</label>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input onchange="checkBtnStaus()"  type="radio" id="customRadio1" name="platform_type" class="custom-control-input" value="OPENAI">
+                                <label class="custom-control-label" for="customRadio1"><code>OPENAI</code></label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input onchange="checkBtnStaus()"  type="radio" id="customRadio2" name="platform_type" class="custom-control-input" value="HUGGINGFACE">
+                                <label class="custom-control-label" for="customRadio2"><code>SENTENCE TRANSFORMERS</code></label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input disabled onchange="checkBtnStaus()"  type="radio" id="customRadio3" name="platform_type" class="custom-control-input" value="LAMMAGPT">
+                                <label class="custom-control-label" for="customRadio3"><code>LAMMA2</code></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Result Length</label>
+                            <input type="number" value="5" class="form-control" id="top_k" onkeyup="checkBtnStaus()" >
+                        </div>
+                        <div class="form-group mt-4">
+                            <button disabled class="btn btn-primary" type="button" id="submitbutton">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span id="sbtext">Submit</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="output_block container mt-3">
+                        <div class="output_results">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-2 pl-0"><h4>Results:</h4></div>
+                                    <div class="col-10">
+                                        <button class="btn btn-warning btn-sm showkg_Button float-right" type="button" id="get_visual_graph">Show KG</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="outputtable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Score</th>
+                                            <th scope="col">Headquarter</th>
+                                            <th scope="col">Industry</th>
+                                            <th scope="col" class="none">Article</th>
+                                            <th scope="col" class="none">Revenue</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody_class"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="error_msg text-danger" style="display:none">
+                            Similarity Not Found
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+ 
+
+        <!--model-->
+        <div id="visual_model" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Data Visual Graph</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="networkcontainer">
+                                    <div class="node_indicators">
+                                        <ul>
+                                            <li class="org"><span></span> Organisation</li>
+                                            <li class="comp"><span></span> Company</li>
+                                            <li class="cont"><span></span> Country</li>
+                                            <li class="ceo"><span></span> CEO</li>
+                                            <li class="person"><span></span> Person</li>
+                                            <li class="place"><span></span> Place</li>
+                                            <li class="headq"><span></span> HeadQuarters</li>
+                                            <li class="industry"><span></span> Industry</li>
+                                            
+                                        </ul>
+                                    </div>
+                                    <!--Company list-->
+                                    <hr>
+                                    <div class="company_list">
+                                        <div class="entity_items"></div>
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-success btn-sm save_lead" disabled>Save Lead</button>
+                                        </div>                                         
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <div id="mynetwork"></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+          
+    </body>
+
+    <script>
+        
+        var global_similar_data = [];
+        var global_graph_data = [];
+        const repositoryID = DEFAULT_REPO;
+        var $fdataTable;
+        var orgcolor = '#0af1f1';
+        var cmpcolor = '#bb9def';
+        var countrycolor = '#82dea7';
+        var ceocolor  = "#cfd354"
+        var defaultcolor  = "#ff4e9b"
+        var personcolor  = "#d58f51"
+        var placecolor = '#5dccff'
+        var headcolor = '#ffc692'
+        var industrycolor = '#5593f8'
+        var graph_temp_data = []; 
+
+        $( document ).ready(function() {
+            
+            $('#search_term')[0].focus();
+            
+            $fdataTable = $('#outputtable').DataTable({
+                "iDisplayLength" : 5,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false
+            });
+
+            $('#submitbutton').click(function(){
+                $('.output_results').find('tbody_class').html('');
+                $('#sbtext').hide();
+                $('.error_msg').hide();
+                $(this).find('.spinner-border').show();
+                $('#get_visual_graph').hide();
+
+                //request payload
+                var requestPayload = {
+                    search_term : $('#search_term').val(),
+                    platform_type: $('input[name="platform_type"]:checked').val(),
+                    top_k: $('#top_k').val(),
+                    company_type: [],
+                    revenue:{}
+                }  
+
+                if($.trim($('#company_type').val())==""){
+                    //requestPayload['company_type'] = []; 
+                } 
+
+                var classificationsFields = {
+                    industry: [],
+                    location: [],
+                    person: [],
+                    organization: []
+                };
+                $("input[name^='classifications']").each(function(ele){
+                    arr = [];
+                    if($.trim($(this).val())){
+                        arr =  $(this).val().split(',')
+                    }
+                    classificationsFields[$(this).attr('data-tag')] = arr;
+                });
+                requestPayload['classifications'] = classificationsFields;
+
+                //set revenue param 
+                $("input[name^='revenue']").each(function(ele){
+                    requestPayload['revenue'][$(this).attr('data-tag')] = $.trim($(this).val()) !="" ? parseFloat($(this).val()) : 0;
+                });                
+                
+                
+                getResults(requestPayload)
+            })
+
+            $('#get_visual_graph').click(function(){
+                //getDataFromSparQL(global_similar_data); 
+            })
+
+
+            $(document).on('click', "input[name^='leads']", function(){
+                let checkedlength = $("input[name^='leads']:checked").length; 
+                if(checkedlength > 0){
+                    $('.save_lead').attr('disabled', false)
+                }else{
+                    $('.save_lead').attr('disabled', true)
+                }
+            });
+            $('.save_lead').click(function(e){
+                let checkedlength = $("input[name^='leads']:checked").length;
+                let leadArr = [];
+                if(checkedlength){
+                    $("input[name^='leads']:checked").each(function(){
+                        leadArr.push($(this).val());
+                    });
+                    saveLeads(leadArr)
+                }
+            })  
+            
+            
+            $('.showkg_Button').click(function(){
+                if(global_similar_data.length > 0){
+                    let tmpArr = [];
+                    for(let i = 0; i < global_similar_data.length; i++){
+                        tmpArr.push({"name":$.trim(global_similar_data[i]['name'])})   
+                    }
+                    showKgIframe({"company_list":tmpArr});
+                }
+            });
+ 
+
+        });
+        function getResults(payload){
+            var search_term = payload.search_term;
+            var platform_type = payload.platform_type;
+            console.log(payload.company_type);
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                  "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                  query: "query getSimilaritySentences($query: String!, $top_k: Int!, $type:PlatFormType!, $classifications: ClassificationsInput!, $company_type: [String], $revenue: RevenueInput){\r\n    getSimilaritySentences(name: $query, top_k: $top_k,platform_type:$type, classifications:  $classifications, company_type: $company_type, revenue: $revenue)\r\n    {\r\n        name\r\n        vector_score\r\n        headquarters\r\n        industry\r\n        description\r\n  revenue_dollar\r\n   } \r\n}",
+                  variables: {
+                        "query":search_term,
+                        "top_k":parseInt(payload.top_k),
+                        "type":platform_type, 
+                        "classifications":payload.classifications,
+                        "company_type":payload.company_type,
+                        "revenue":{
+                            "min": payload.revenue.min,
+                            "max": payload.revenue.max
+                        } 
+                    }
+                })
+              };
+              
+              $.ajax(settings).done(function (response) {
+                $('#sbtext').show();
+                $('#submitbutton').find('.spinner-border').hide();
+                if(response.errors){
+                    $('.output_results').hide()
+                    $('.error_msg').show();
+                }
+                
+                if(response.data.getSimilaritySentences.length){
+                    
+                    $fdataTable.clear();           
+                    global_similar_data = response.data.getSimilaritySentences;
+                    $('.output_results').show()
+                    $('.tbody_class').html('')
+                    $('#get_visual_graph').show()
+                    $.each(response.data.getSimilaritySentences, function(i, item) {
+                         
+                        $fdataTable.row.add([item.name, item.vector_score, item.headquarters, item.industry, item.description, item.revenue_dollar]);
+                        
+                    });
+                     
+                   
+                    $fdataTable.draw(true).columns.adjust().responsive.recalc();
+                     
+                     
+                }else{
+                    global_similar_data = [];
+                    $('.output_results').hide()
+                    $('.error_msg').show();
+                    $('#get_visual_graph').hide()
+                }
+              });
+        }
+        
+        function openVisualGraph(network){
+            $('#visual_model').modal({
+                keyboard: false,
+                show:true,
+                backdrop:"static"
+            }) 
+            setTimeout(()=>{
+                network.fit();
+            }, 100)
+        }
+
+        function getDataFromSparQL(redisData){
+            
+            //Authentication
+            $.ajax({
+                type: "POST",
+                dataType:"json",
+                url: graphDB_Login,
+                headers: {"Content-Type": "application/json", "Access-Control-Expose-Headers":"*"},
+                data: JSON.stringify({
+                    "password": "root",
+                    "username": "admin"
+                }),
+                success(data, textStatus, xhr){
+                    
+                    //prepare name string
+                    
+                    if(global_similar_data.length>0){
+
+                        let names = [];
+                        global_similar_data.forEach(function(ele){
+                            names.push(`"${ele.name}"`)
+                        })
+                        names = names.toString();
+                        //var sparqlQuery = encodeURIComponent(String(`PREFIX cmp: <http://info.com/company/detail/> SELECT ?resource ?name ?headquarters ?industry WHERE {?resource cmp:name ?name; cmp:headquarters ?headquarters; cmp:industry ?industry . FILTER (?name  IN (${names}))}`));
+                        //var sparqlQuery = encodeURIComponent(String(`PREFIX cmp: <http://info.com/company/detail/> PREFIX : <http://example.com/company/> SELECT ?resource ?name ?headquarters ?industry ?ceo ?ceoname WHERE {?resource cmp:name ?name; cmp:headquarters ?headquarters; cmp:industry ?industry . OPTIONAL{ ?resource cmp:ceo ?ceo . ?ceo :name ?ceoname . } FILTER (?name  IN (${names}))}`));
+                        var sparqlQuery = encodeURIComponent(String(`PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX dbp: <http://dbpedia.org/property/> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT ?company ?name ?headquarters ?industry ?loc ?ceo ?ceo_type ?loc_type ?ceoname ?countryname WHERE { ?company  a dbo:Organisation; rdfs:label ?name; dbo:headquarter ?headquarters; dbo:industry ?industry; dbo:location ?loc; dbo:ceo ?ceo . ?ceo rdfs:label ?ceoname. ?loc rdfs:label ?countryname . ?ceo a ?ceo_type. ?loc a ?loc_type. FILTER (?name IN (${names}))}`))
+                        var settings = {
+                            "url": graphDB_Repo+'/'+repositoryID+"?query=" + sparqlQuery,
+                            "method": "GET",
+                            "timeout": 0,
+                            "headers": {
+                                "Authorization": xhr.getResponseHeader('authorization'),
+                                "Accept": "application/sparql-results+json"
+                                //"Accept":"application/x-binary-rdf-results-table"
+                            },
+                        };
+                        
+                        $.ajax(settings).done(function (response,textStatus, xhr) {
+                            if(xhr.status===200){
+                                networkGraph(response)
+                            }
+                        })
+                    }
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $.toast({
+                        heading: 'Error',
+                        text: 'Graph Database server is unable to handle request',
+                        showHideTransition: 'fade',
+                        icon: 'error'
+                    })
+                }
+            })                
+            
+        }
+
+        function networkGraph(graphData=[]){
+          
+            var g_nodes = [];
+            var g_edges = [];
+          
+            var objects = [];
+            $('.entity_items').html('');
+            global_graph_data = graphData.results.bindings;
+            graphData.results.bindings.forEach(function(element, i){
+                
+                
+                //set companies list
+                $('.entity_items').append(`
+                        <div class="form-check">
+                            <input name="leads[${element['company'].value}]" class="form-check-input" type="checkbox" value="${element['company'].value}" id="defaultCheck${i}">
+                            <label class="form-check-label" for="defaultCheck${i}">
+                                ${getLabel(element['company'].value)}
+                            </label>
+                        </div>
+                `)                
+
+
+                var k  = 0;
+                for(var innerkey in element){
+                    
+                    let edgeindex = Number(`${i}${k}`);
+                    var company_instance = getLabel(element['company'].value);
+                    var company_ceo = getLabel(element['ceo'].value);
+                    var company_country = getLabel(element['loc'].value); 
+                    if(graph_temp_data[company_instance]==undefined){
+                        graph_temp_data[company_instance] = {subNodes:[], edges:[]};
+                    }
+                    if(graph_temp_data[company_ceo]==undefined){
+                        graph_temp_data[company_ceo] = {subNodes:[], edges:[]};
+                    }
+                    if(graph_temp_data[company_country]==undefined){
+                        graph_temp_data[company_country] = {subNodes:[], edges:[]};
+                    }
+                    
+                    switch(innerkey) {
+                        case "company":
+                            objects.push(
+                                [
+                                    getLabel(element[innerkey].value), 
+                                    "type", 
+                                    "dbo:Organisation", 
+                                    {//colors
+                                        "left":cmpcolor,
+                                        "right":orgcolor
+                                    },
+                                    { //values
+                                       "left": element[innerkey].value,
+                                       "right":""
+                                    },
+                                    {
+                                        node_status: false,
+                                        node_type: "company"
+                                    },
+                                    edgeindex+'dbo:Organisation'
+                                ]
+                            ) 
+                        break; 
+                        case "name":
+                            //objects.push([company_instance, innerkey, element[innerkey].value])  
+                        break;
+                        case "headquarters":
+                            objects.push(
+                                [   
+                                    company_instance, 
+                                    innerkey, 
+                                    element[innerkey].value, 
+                                    {
+                                        "left":cmpcolor,
+                                        "right":headcolor
+                                    },
+                                    { //values
+                                        "left": element['company'].value,
+                                        "right": element[innerkey].value
+                                    },
+                                    {
+                                        node_status: true,
+                                        node_type: innerkey
+                                    },
+                                    edgeindex //edge index
+                                ]
+                            )  
+                             
+                            graph_temp_data[company_instance]['subNodes'].push(element[innerkey].value);
+                            graph_temp_data[company_instance]['edges'].push(edgeindex);
+                        break;
+                        case "industry":
+                            objects.push(
+                                [
+                                    company_instance, 
+                                    innerkey, 
+                                    element[innerkey].value, 
+                                    {
+                                        "left":cmpcolor,
+                                        "right":industrycolor
+                                    },
+                                    { //values
+                                        "left": element['company'].value,
+                                        "right": element[innerkey].value
+                                    },
+                                    {
+                                        node_status: true,
+                                    },
+                                    edgeindex //edge index
+                                ]
+                            )
+                            graph_temp_data[company_instance]['subNodes'].push(element[innerkey].value);
+                            graph_temp_data[company_instance]['edges'].push(edgeindex);
+                             
+                        break;
+                        case "loc":
+                                    
+                            objects.push([
+                                company_instance,
+                                "country", 
+                                getLabel(element[innerkey].value),
+                                { //colors
+                                    "left":cmpcolor,
+                                    "right":countrycolor
+                                },
+                                { //values
+                                    "left": element['company'].value,
+                                    "right": element[innerkey].value
+                                },
+                                {
+                                    node_status: true,
+                                },
+                                edgeindex //edge index
+                            ])
+                            graph_temp_data[company_instance]['subNodes'].push(getLabel(element[innerkey].value));
+                            graph_temp_data[company_instance]['edges'].push(edgeindex);
+                          
+                        break;
+                        case "ceo":
+                            objects.push(
+                                [
+                                    company_instance, 
+                                    innerkey, 
+                                    getLabel(element[innerkey].value),
+                                    {
+                                        "left":cmpcolor,
+                                        "right":ceocolor
+                                    },
+                                    { //values
+                                        "left": element['company'].value,
+                                        "right": element[innerkey].value
+                                    },
+                                    {
+                                        node_status: true,
+                                    },
+                                    edgeindex //edge index
+                                ]
+                            ) 
+                            graph_temp_data[company_instance]['subNodes'].push(getLabel(element[innerkey].value)); 
+                            graph_temp_data[company_instance]['edges'].push(edgeindex);
+                             
+                        break;
+                        case "ceo_type":
+                            let persontype =  element[innerkey].value.split('http://dbpedia.org/ontology/')
+                            objects.push(
+                                [
+                                    company_ceo, 
+                                    "type", 
+                                    "dbo:" + persontype[1],
+                                    {
+                                        "left":ceocolor,
+                                        "right":personcolor
+                                    },
+                                    { //values
+                                        "left": element['ceo'].value,
+                                        "right": element[innerkey].value
+                                    },
+                                    {
+                                        node_status: true,
+                                    },
+                                    edgeindex //edge index
+                                ]
+                            )  
+                            graph_temp_data[company_ceo]['subNodes'].push("dbo:" + persontype[1]); 
+                            graph_temp_data[company_ceo]['edges'].push(edgeindex);
+                           
+                        break;
+                        case "loc_type":
+                        console.log(element[innerkey].value);
+                            let locname =  element[innerkey].value.split('http://dbpedia.org/ontology/')
+                            objects.push(
+                                [
+                                    company_country, 
+                                    "type", 
+                                    "dbo:" + locname[1],
+                                    {
+                                        "left":countrycolor,
+                                        "right":placecolor
+                                    },
+                                    { //values
+                                        "left": element['loc'].value,
+                                        "right": element[innerkey].value
+                                    },
+                                    {
+                                        node_status: true,
+                                    },
+                                    edgeindex //edge index
+    
+                                ]
+                            )
+                            if(!graph_temp_data[company_country]['subNodes'].includes("dbo:" + locname[1])){
+                                graph_temp_data[company_country]['subNodes'].push("dbo:" + locname[1]); 
+                            }
+                            graph_temp_data[company_country]['edges'].push(edgeindex);
+                        break;
+                        case "ceoname":
+                            //objects.push([company_ceo, "name", element[innerkey].value])  
+                        break; 
+                        case "countryname":
+                            //objects.push([company_country, "name", element[innerkey].value])  
+                        break;   
+                    }
+                    
+                    k++;
+                }
+                
+                
+            })
+            
+    
+            $getdata = updateGraph(objects);
+             
+            var nodes = new vis.DataSet($getdata.nodes);
+    
+            // create an array with edges
+            var edges = new vis.DataSet($getdata.edges);
+    
+            // create a network
+            var container = document.getElementById("mynetwork");
+            var data = {
+                nodes: nodes,
+                edges: edges,
+            };
+             
+            var options = {
+                autoResize: true,
+                height: '100%',
+                width: '100%',
+                edges: {
+                    font: {
+                        size: 13,
+                    },
+                    widthConstraint: {
+                        maximum: 90,
+                    },
+                    width: 1,
+                    shadow: true,
+                    smooth: true,
+                    arrowStrikethrough: true,
+                     
+                },
+                nodes: {
+                    shape: "box",
+                    margin: 10,
+                    widthConstraint: {
+                        maximum: 200,
+                    },
+                    shadow: true,
+                    scaling: {
+                        min: 16,
+                        max: 32,
+                    },
+                     
+                },            
+                physics: {
+                    barnesHut: { gravitationalConstant: -7000 },
+                    stabilization: { iterations: 500 },
+                }          
+                 
+            };  
+            
+            var network = new vis.Network(container, data, options);
+            network.on("doubleClick", function (properties) 
+            {    
+                var allowedUrl = ['http://dbpedia.org/resource','http://dbpedia.org/ontology']    
+                var ids = properties.nodes;  
+                var clickedNodes = nodes.get(ids);
+                if(clickedNodes.length){ 
+                    if(clickedNodes[0].url.includes('http://dbpedia.org/resource') || clickedNodes[0].url.includes('http://dbpedia.org/ontology')){
+                        window.open(clickedNodes[0].url)
+                    }
+                }
+            });
+    
+             
+            var nodesHiddenVisibility = {};
+            network.on("click", function(properties) {
+                
+                var ids = properties.nodes;
+                var clickedNodes = nodes.get(ids);
+                
+                if(clickedNodes.length){
+    
+                    var pingNode = clickedNodes[0].id;
+                    if(pingNode=="dbo:Organisation"){ return;}
+                    if(nodesHiddenVisibility[pingNode]==undefined){
+                        nodesHiddenVisibility[pingNode] = false; 
+                    }else{
+                        nodesHiddenVisibility[pingNode]  = !nodesHiddenVisibility[pingNode];
+                    }
+                     
+                    
+                    if(graph_temp_data[pingNode]){
+                        
+                        //Update Nodes
+                        var tmpArr = []
+                        if(graph_temp_data[pingNode]['subNodes'].length){
+                            
+                            for(let i = 0; i < graph_temp_data[pingNode]['subNodes'].length; i++){
+                                if(nodesHiddenVisibility[pingNode]){
+                                     
+                                    //hide visibility of all the subnodes recursively
+                                    $getConnectedNodes = network.getConnectedNodes(graph_temp_data[pingNode]['subNodes'][i], "to");
+                                    if($getConnectedNodes.length){
+                                        for(let m = 0; m < $getConnectedNodes.length; m++){
+                                            tmpArr.push({id:$getConnectedNodes[m], hidden: nodesHiddenVisibility[pingNode]})
+                                        }  
+                                    }
+                                }
+                                  
+                                tmpArr.push({id:graph_temp_data[pingNode]['subNodes'][i], hidden: nodesHiddenVisibility[pingNode]})
+                                
+                            }
+                            //console.log(tmpArr);
+                            nodes.update(tmpArr);
+                        }   
+    
+                         
+     
+                        //Update edges 
+                        var tmpArrEdges = []
+                        if(graph_temp_data[pingNode]['edges'].length){
+                            for(let i =0; i < graph_temp_data[pingNode]['edges'].length; i++){
+                                tmpArrEdges.push({id: graph_temp_data[pingNode]['edges'][i], hidden: nodesHiddenVisibility[pingNode]});
+                            }
+                            edges.update(tmpArrEdges);
+                        }
+    
+                        
+                        if(graph_temp_data[pingNode]['subNodes'].length){
+                            graph_temp_data[pingNode]['subNodes'].forEach(function(ele){
+                                delete nodesHiddenVisibility[ele];  
+                            })
+                        }
+                         
+                        
+                        network.redraw();
+                        //network.fit();
+                        //network.stabilize() 
+                    }
+                }
+            });
+            
+
+            openVisualGraph(network);
+        }
+        
+        function checkBtnStaus(){
+            var searchterm = $.trim($('#search_term').val())
+            var type   = $('input[name="platform_type"]:checked').length
+            var topkk   =  $.trim($('#top_k').val())
+            
+            var classifications = $("input[name^='classifications']").map(function(ele){
+                return $(this).val();
+            }).get().filter(ele=> ele!="");
+            
+              
+            if(searchterm!="" && type>0 && topkk!=""){
+                $('#submitbutton').attr('disabled', false)
+            }else if(classifications.length  && type>0 && topkk!=""){
+                $('#submitbutton').attr('disabled', false)
+            }else{
+                $('#submitbutton').attr('disabled', true) 
+            }
+        }
+
+        function updateGraph(updates){
+
+            var current_graph =  {
+                nodes: [],
+                edges: []
+            };
+            // updates will be provided as a list of lists
+            // each list will be of the form [ENTITY1, RELATION, ENTITY2] or [ENTITY1, COLOR]
+        
+            //var current_graph = JSON.parse(JSON.stringify(graphState));
+        
+            if (updates.length === 0) {
+              return;
+            }
+        
+            // check type of first element in updates
+            if (typeof updates[0] === "string") {
+              // updates is a list of strings
+              updates = [updates]
+            }
+        
+            updates.forEach(update => {
+               
+                // update the current graph with a new relation
+                const [entity1, relation, entity2, colors, value, node_conf, edgeId] = update;
+                
+        
+                // check if the nodes already exist
+                var node1 = current_graph.nodes.find(node => node.id === entity1);
+                var node2 = current_graph.nodes.find(node => node.id === entity2);
+        
+                if (node1 === undefined) { 
+                  current_graph.nodes.push({ id: entity1, label: entity1, color: colors.left, url: value.left, hidden:node_conf.node_status });
+                }
+        
+                if (node2 === undefined) {
+                  current_graph.nodes.push({ id: entity2, label:entity2, color: colors.right, url: value.right, hidden: node_conf.node_status });
+                }
+        
+                // check if an edge between the two nodes already exists and if so, update the label
+                var edge = current_graph.edges.find(edge => edge.from === entity1 && edge.to === entity2);
+                if (edge !== undefined) {
+                  edge.label = relation;
+                  return;
+                }
+        
+                current_graph.edges.push(
+                        { 
+                            id: edgeId, 
+                            from: entity1, 
+                            to: entity2, 
+                            label: relation,
+                            arrows: {
+                                to: {
+                                    enabled: true,
+                                    type: "arrow",
+                                    scaleFactor: 0.5
+                                },
+                            },
+                            hidden: node_conf.node_status 
+                             
+                        }
+                    );
+        
+               
+            });
+            return current_graph;
+        };
+    
+        function getLabel(string){
+            return string.split('http://dbpedia.org/resource/')[1]
+        }
+
+        function saveLeads(leads){
+             
+            if(leads.length > 0){
+                var payload = global_graph_data.filter(ele => leads.includes(ele.company.value));
+                console.log(payload);
+                if(payload.length > 0){
+                    $.ajax({
+                        type: 'POST',
+                        url: "http://localhost:8500/savenodeinfo",
+                        data:JSON.stringify(payload),
+                        headers:{
+                            'Content-Type':"application/json"
+                        },
+                        success: function (data) {
+                            $.toast({
+                                heading: 'Success',
+                                text: 'Saved Successfully!',
+                                showHideTransition: 'fade',
+                                icon: 'success'
+                            })
+                            $('.save_lead').attr('disabled', true)   
+                            $("input[name^='leads']:checked").prop('checked', false)
+                        },
+                        error:function (error)
+                        {
+                            $.toast({
+                                heading: 'Error',
+                                text: 'Server is not available',
+                                showHideTransition: 'fade',
+                                icon: 'error'
+                            })
+                        }                              
+                    });    
+                }             
+            }else{
+                $.toast({
+                    heading: 'Error',
+                    text: 'Please select entity first!',
+                    showHideTransition: 'fade',
+                    icon: 'error'
+                })
+            }
+        }
+
+        function showKgIframe(payload){
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                query: "query showGraphDbKg($company_list: [ShowkgRequest!])\r\n{\r\n    showGraphDbKg(company_list: $company_list)\r\n    {\r\n        graph_url\r\n    } \r\n}",
+                variables: payload
+                })
+            };
+            
+            $.ajax(settings).done(function (response) {
+                if(response.data.showGraphDbKg.length){
+                    var graph_url = response.data.showGraphDbKg[0].graph_url    
+                    window. open(visualGraphShowKG(graph_url, "full"));
+                }
+            });
+        }
+    </script>
+</html>

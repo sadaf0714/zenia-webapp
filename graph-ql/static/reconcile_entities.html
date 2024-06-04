@@ -1,0 +1,507 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+		<title>Welcome</title>
+		<meta charset="utf-8" />
+        
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+         
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
+        <link rel="stylesheet" href="/static/style.css"> 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        <link rel="stylesheet" href="/static/toast-notification/jquery.toast.min.css">    
+        <link rel="stylesheet" href="/static/select2/css/select2.min.css">
+
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" 
+            crossorigin="anonymous"></script>
+        <script type="text/javascript" src="/static/dev.js"></script>
+        <script type="text/javascript" src="/static/toast-notification/jquery.toast.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+       
+        <script type="text/javascript" src="/static/select2/js/select2.min.js"></script>
+
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script 
+            type="text/javascript"
+            src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+         
+
+	</head>
+    
+    <body>
+        <style>
+            .table-custom-seperator { height: 30px; font-weight: bold;  color:#ba0373;}
+            #outputtable td{box-shadow: none;}
+            .table-custom-seperator td{ border-right:0 }
+            .table-custom-seperator {box-shadow: inset 0 0 0 9999px rgba(0, 0, 0, 0.05); }
+            .dataTables_length { display: none;}
+            .dataTables_info { font-size: 13px;}
+            .Input_fields input{ height: auto;}
+            .select2-container{
+                width: 100% !important;
+            }
+            .select2-search__field{ font-size: 13px !important;}
+            .select2-results__option{
+                font-size: 13px;
+            }
+            .select2-selection__choice{ font-size: 14px !important;}
+            .select2-selection__placeholder{ font-size: 12px;}
+            /*.input_panel .select2-selection{ height: 34.5px !important;}*/
+            button.close {
+                margin-right: 21px;
+                margin-top: 6px;
+                position: absolute;
+                right: -8px;
+            }
+            .label_bold{ font-weight: 500;}
+             
+             
+            .top_row_input_panel{
+                background: #d5efff;
+                padding-left: 10px;
+                font-weight: bold;
+                cursor: pointer;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                user-select: none;
+            }
+            .top_row_input_panel  i { margin-right: 15px; margin-top: 3px; transition: all 0.5s ease-out;}
+            .top_row_input_panel.active i{
+                transform: rotate(177deg);
+                -webkit-transform: rotate(177deg);
+                -moz-transform: rotate(177deg);
+            }
+            .custom-control-inline {
+                 
+                margin-right: 0.5rem;
+            }
+            .btn-def {
+                width: 120px;
+                text-align: center;
+                justify-content: center;
+                display: flex;
+                height: 38px;
+                align-items: center;
+                background: #ba0373 !important;
+                border: 0;
+            }
+            .Input_fields label{ font-size: 13px;}
+             
+            .activeRow.active {
+                background-color: #ffc107 !important;
+            }
+            .select2-container--default .select2-selection--multiple .select2-selection__clear {
+                cursor: pointer;
+                font-weight: bold;
+                height: 20px;
+                margin-right: 4px;
+                margin-top: -1px;
+                position: absolute;
+                right: 0;
+                padding: 1px;
+            }
+        </style>
+        {% include 'header.html' %}
+
+        <div class="Input_fields container-fluid" style="margin-bottom:10rem; max-width:1320px;">
+            <div class="row">
+                <div class="col-3 mt-3">
+                    <div class="top_row_input_panel active">
+                        <div class="row">
+                            <div class="col-md-10">Company List</div>
+                            <div class="col-md-2"><i class="fa fa-chevron-up float-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="input_panel">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="label_bold">Company Name *</label>
+                                    <select multiple="multiple" id="company_list" class="js-data-example-ajax select2_company_list" onchange="checkBtnStaus()" name="name"></select>
+                                </div>
+                            </div>          
+                             
+                        </div>
+                         
+                        <div class="form-group mt-4">
+                            <button disabled class="btn btn-primary btn-def" type="button" id="submitbutton">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span id="sbtext">Submit</span></button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-9">
+                    
+                    <div class="output_block container mt-3">
+                        
+                        <div class="company_entities d-none">
+                            <div class="row">
+                                <div class="col-6 pl-0"><h4 class="heading-l">Results</h4></div>
+                                <div class="col-6 pl-0">
+                                    <button class="btn btn-sm btn-warning showkg_Button d-none cmnbtn float-right" type="button">Show KG</button>
+                                </div>                                 
+                            </div>                       
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="outputtable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" width="20%">Select</th>
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody_class"></tbody>
+                                </table>
+                            </div>
+                            <div class="add_in_graph_block">
+                                <button class="btn btn-dark mt-4 d-none" id="process_sel_row">
+                                    <div class="spinner-border spinner-border-sm" style="display: none;" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span id="sbtext">Process Selected Row</span>
+                                </button>
+                                    
+                            </div>
+                        </div>
+                    </div>
+                    <div class="error_msg text-danger" style="display:none">
+                        No Result Found
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+    </body>
+ 
+    <script>
+        var frameworkUrl = "";
+        var $fdataTable;
+        var showkgQueryData = []
+        $( document ).ready(function() {
+            
+            $('.top_row_input_panel').click(function(){
+                let currentObj = $(this);
+                $('.top_row_input_panel').each(function(index, item){
+                     
+                    let nextObject = $(item).next('.input_panel')
+                    
+                    if (currentObj.is(item)) {  
+                        if($(item).hasClass('active')){
+                            $(item).removeClass('active') 
+                            $(nextObject).slideUp()
+                        }else{
+                            $(item).addClass('active') 
+                            $(nextObject).slideDown()
+                        }
+                    }else{
+                       $(item).removeClass('active') 
+                       $(nextObject).slideUp()
+                    }
+                })
+                 
+            })
+            
+            $fdataTable = $('#outputtable').DataTable({
+                "iDisplayLength" : 10,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+                "destroy": true
+                 
+            }); 
+            
+            $('.select2_company_list').select2({
+                placeholder: 'Search Companies By Name',
+                minimumInputLength: 1,
+                tags: false,
+                allowClear:true,
+                ajax: {
+                    delay:250,
+                    type: "POST",
+                    url: graphQLEndpoint,
+                    dataType: 'json',
+                    contentType: "application/json",
+                    data: function (params) {
+                        var query = {
+                            query: `query searchAllCompaniesByKeywords($keyword: String!) {
+                                searchAllCompaniesByKeywords(keyword: $keyword) {
+                                companies
+                              }
+                            }`,
+                            variables: {
+                              keyword: params.term
+                            }
+                          };
+                          return JSON.stringify(query);
+                    },
+                    processResults: function (data) {
+                        // Transforms the top-level key of the response object from 'items' to 'results'
+                        var records = data.data.searchAllCompaniesByKeywords.companies
+                        
+                        var tmpArr = []
+                        if(records.length > 0){
+                            for(let key in records){
+                                tmpArr.push({"text":`${records[key]['name']} (${records[key]['source']}) `, "id": records[key]['name']+"||||||"+records[key]['uri']+"$$$$$$"+records[key]['headquarter']  })
+                            }
+                        }
+                        return {
+                          results: tmpArr
+                        };
+                    }
+                    
+                }
+            });
+             
+            
+            
+            $('#submitbutton').click(function(){
+                $('.error_msg').hide();
+                $(this).attr('disabled', true)
+                $(this).find('.spinner-border').show();
+                showkgQueryData=[] 
+                getResults()                
+            })
+
+              
+            $(document).on('select2:open','.select2_company_list',() => {
+                //$('.select2-search--dropdown').find('.select2-search__field')[0].focus()
+            });
+            $(document).on('select2:open','.select2_person_list',() => {
+                //$('.select2-search--dropdown').find('.select2-search__field')[0].focus()
+            });
+                        
+            $('.showkg_Button').click(function(){
+                window.open(visualGraphShowKG(frameworkUrl,'full'))
+            }) 
+
+           
+
+            $(document).on("change",'.cmp_entity_input',function(){
+                let checkedLength = $('.cmp_entity_input:checked').length
+                if(checkedLength > 0){
+                    $('#process_sel_row').removeClass('d-none')
+                }else{
+                    $('#process_sel_row').addClass('d-none')
+                }
+
+                let get_name = $(this).attr('name')
+                let isOneChecked = false
+                
+                $(`input[name="${get_name}"]`).parents("tr").removeClass('activeRow')
+                $(this).parents('tr').addClass('activeRow')
+            })
+
+            $('#process_sel_row').click(function(){
+                $(this).find('.spinner-border').show();
+                $(this).attr('disabled', true)
+                
+                $('.cmp_entity_input:checked').each(function(index, item) {
+
+                    let val = $(item).val().split('|||||')
+                    let getcompany_uri= val[2].split('$$$$$$')
+                    let payload = {
+                        "gleif_id":val[0],
+                        "name":val[1],
+                        "company_uri":getcompany_uri[0]
+                    }
+                    let response = addParentGliefNode(payload)
+                })
+
+
+                
+            })
+ 
+        });
+        
+        function addParentGliefNode(request){
+          
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "async":true,
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    query: "mutation addParentGliefNode($gleif_id: String!, $name:String!, $company_uri:String!){\r\n    addParentGliefNode(gleif_id: $gleif_id,name: $name,company_uri:$company_uri){\r\n        success\r\n    }\r\n}",
+                    variables: request
+                })
+            };
+
+            $.ajax(settings).done(function (response) {
+                $('#process_sel_row').find('.spinner-border').hide();
+                $('#process_sel_row').attr('disabled', false)
+                let success = response.data.addParentGliefNode.success
+                if(success){
+                    $('#process_sel_row').addClass('d-none')
+                    $('.cmp_entity_input').prop('checked',false).attr('disabled', true)
+                    $('.activeRow').addClass('active')
+                    
+                    showkgQueryData.push({"gleif_id": request['gleif_id'],'company_uri':request['company_uri']})
+
+                    let uri_values = ""
+                    $(showkgQueryData).each(function(index, item){
+                        uri_values += ` (<${item['gleif_id']}> <${item['company_uri']}>) `
+                    })
+                    let query = `
+                        PREFIX dbo: <http://dbpedia.org/ontology/>
+                        CONSTRUCT {
+                            ?gleif_id dbo:source ?company_uri .
+                            ?gleif_id ?p ?o .
+                        }
+                        WHERE {
+                            VALUES (?gleif_id ?company_uri) {
+                                ${uri_values}
+                            }
+                        ?gleif_id dbo:source ?company_uri .
+                            ?gleif_id ?p ?o .
+                        }
+                        `
+                        console.log(query)   
+                    frameworkUrl = `${graph_db_visual_url}/graphs-visualizations?query=${encodeURIComponent(query)}&sameAs&inference`
+                    console.log(frameworkUrl)
+                    $('.showkg_Button').removeClass('d-none')
+                    //toastNotify('Added Successfully!','success')
+                }else{
+                    toastNotify('Something went wrong','error')
+                }
+            })
+            
+        }
+        
+        
+        function getResults(){
+            
+            $('.output_block').find('.company_entities').addClass('d-none')
+            $('.showkg_Button').addClass('d-none')
+            let company = $('#company_list').val()
+            let companiesObj = {}
+            if(company.length > 0){
+                for(let i= 0; i < company.length; i++){
+                    let company_split = company[i].split('||||||')
+                    companiesObj[company_split[0]] = company_split[1]
+                }
+            }
+            
+               
+            if(company.length > 0){
+                let totalSelectedComp = []
+                // for(let i = 0 ; i < company.length; i++){
+                //     let company_split = company[i].split('||||||')
+                //     totalSelectedComp.push(company_split[0])
+                // }
+                for (let i = 0; i < company.length; i++) {
+                    let company_split = company[i].split('||||||');
+                    let id_split = company_split[1].split('$$$$$$');
+                    let companyObj = {
+                        name: company_split[0],
+                        headquarters: id_split[1] // Headquarters is the second part after splitting id
+                    };
+                    // console.log(companyObj)
+                    totalSelectedComp.push(companyObj);
+                    console.log(totalSelectedComp)
+                 } 
+                var settings = {
+                    "url": graphQLEndpoint,
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        query: "query reconcileEntities($company:[CompanyInput!])\r\n{\r\n    reconcileEntities(company: $company){\r\n        records\r\n    }\r\n}",
+                        variables: {"company":totalSelectedComp}
+                    })
+                };
+                
+                $.ajax(settings).done(function (response) {
+                    $('#sbtext').show();
+                    $('#submitbutton').find('.spinner-border').hide();
+                    $('#submitbutton').attr('disabled', false)
+                    
+                    if (Object.keys(response.data.reconcileEntities.records).length > 0) {
+
+                        //$('.heading-l').text('Nearest Friends List:')
+                        let records = response.data.reconcileEntities.records
+                        $('.output_block').find('.company_entities').removeClass('d-none')
+                        
+                        $fdataTable.clear()
+                        var i = 1            
+                        $.each(records, function(keyItem, item) {
+                            var rowNode = $fdataTable.row.add([
+                                keyItem,
+                                "",
+                                "",
+                                "",
+                                "",
+                                ""
+                            ]).draw().node(); 
+                            $(rowNode).addClass('table-custom-seperator');
+                            let company_uri = companiesObj[keyItem]
+                            $.each(item, function(innerKey, innerItem) {
+                                $fdataTable.row.add([
+                                    `<input type="radio" class="cmp_entity_input" name="cmp_entity[${keyItem}]" value="${innerItem['id']+"|||||"+innerItem['name']+"|||||"+company_uri}" />`,
+                                    innerItem['id'],
+                                    innerItem['name'],
+                                    innerItem['score']
+                                ]);  
+                                i++    
+                            })
+                            
+                        })                        
+                        
+                        $fdataTable.draw(true).columns.adjust().responsive.recalc();
+        
+                    }else{
+                        $('.output_block').find('.company_entities').addClass('d-none')
+                        $('.error_msg').show();
+                    } 
+                });
+            }            
+            
+        }
+        
+         
+        function checkBtnStaus(){
+            var company = $.trim($('#company_list').val())
+            if(company!=""){
+                $('#submitbutton').attr('disabled', false)
+            }else{
+                $('#submitbutton').attr('disabled', true)
+            }
+        } 
+
+        function toastNotify(message,type){
+            $('.jq-toast-single').remove();
+            $.toast({
+                heading: type,
+                text: message,
+                showHideTransition: 'fade',
+                icon: type.toLowerCase(),
+                position: 'top-right',
+            })
+        }
+
+           
+    </script>
+</html>

@@ -1,0 +1,950 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+		<title>Show Similar Companies | ZeniaGraph</title>
+		<meta charset="utf-8" />
+        <link rel="icon" type="image/x-icon" href="/static/favicon-32x32.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+         
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
+        <link rel="stylesheet" href="/static/style.css"> 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css" integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="/static/select2/css/select2.min.css">
+
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" 
+            crossorigin="anonymous"></script>
+        <script type="text/javascript" src="/static/dev.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+       
+        <script type="text/javascript" src="/static/select2/js/select2.min.js"></script>
+
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script 
+            type="text/javascript"
+            src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+         
+
+	</head>
+    
+    <body>
+        <style>
+             
+            #contacts_table_length{ display: none;}
+            .contact_body strong{
+                color:Red;
+                font-size:18px;
+            }
+            .modal-header .close{ padding:0;}
+            .view_cnt_info, .view_cnt_redis{
+                font-size: 12px;
+                height: 22px;
+                line-height: 7px;
+            }
+            .Input_fields input{ height: auto;}
+            iframe { border:0}
+            iframe .main-menu{ display:none !important; }
+            .select2-container{
+                width: 100% !important;
+            }
+            .select2-search__field{ font-size: 13px !important;}
+            .select2-results__option{
+                font-size: 13px;
+            }
+            .select2-selection__choice{ font-size: 14px !important;}
+            .select2-selection__placeholder{ font-size: 12px;}
+            .input_panel .select2-selection{ height: 34.5px !important;}
+            #visual_graph_model .modal-body { padding: 0;;}
+            #visual_graph_model { padding:0 !important;}
+            #visual_graph_model .modal-dialog{
+                width: 100%;
+                max-width: 95% !important;
+            }
+            button.close {
+                margin-right: 21px;
+                margin-top: 6px;
+                position: absolute;
+                right: -8px;
+            }
+            .label_bold{ font-weight: 500;}
+            .filter_selectbox{
+                width:125px;
+                font-size: 13px;
+            }
+            .filter_title{
+                font-weight: bold;
+            }
+            .clear_filter{
+                color: #0056b3;
+                padding: 2px;
+                font-size: 13px;
+                background: none;
+                border: 0;
+                 
+                text-decoration: underline;
+            }
+            .comp_box select{ width: 100%; border: 1px solid #aaa; border-radius: 4px; height:30px;}
+            .comp_box input{ width: 100%; padding-left: 10px;}
+            .comp_box input::placeholder{ font-size: 12px; }
+            .filters_sections code{
+                color: black;
+                font-weight: 600;
+            }
+            .top_row_input_panel{
+                background: #d5efff;
+                padding-left: 10px;
+                font-weight: bold;
+                cursor: pointer;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                user-select: none;
+            }
+            .top_row_input_panel  i { margin-right: 15px; margin-top: 3px; transition: all 0.5s ease-out;}
+            .top_row_input_panel.active i{
+                transform: rotate(177deg);
+                -webkit-transform: rotate(177deg);
+                -moz-transform: rotate(177deg);
+            }
+        </style>
+        {% include 'header.html' %}
+
+        <div class="Input_fields container-fluid" style="margin-bottom:10rem; max-width:1320px;">
+            <div class="row">
+                <div class="col-3 mt-3">
+                    <div class="top_row_input_panel active" data-name="query">
+                        <div class="row">
+                            <div class="col-md-6">Query</div>
+                            <div class="col-md-6"><i class="fa fa-chevron-up float-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="input_panel">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="label_bold">Company Name *</label>
+                                    <!--<input type="text" class="form-control" name="name" id="name" onkeyup="checkBtnStaus()"></textarea>-->
+                                    <select id="company_list" class="js-data-example-ajax select2_company_list" onchange="checkBtnStaus()" name="name"></select>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <div class="form-group">
+                                    <label style="width: 100%;" for="exampleInputEmail1" class="label_bold">Similarity Source *</label>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input onchange="checkBtnStaus()"  checked type="radio" id="customRadio4" name="similar_source" class="custom-control-input" value="redis">
+                                        <label class="custom-control-label" for="customRadio4">LLM Similarity</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input onchange="checkBtnStaus()"  type="radio" id="customRadio5" name="similar_source" class="custom-control-input" value="graph">
+                                        <label class="custom-control-label" for="customRadio5">Graph Similarity</label>
+                                    </div>
+                                </div>
+                            </div>
+                                                
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="label_bold">Result Length</label>
+                                    <input type="number" class="form-control" value="10" name="top_k" id="top_k">                                    
+                                </div>
+                            </div>
+                        </div>
+                         
+                        <div class="form-group mt-4">
+                            <button disabled class="btn btn-primary" type="button" id="submitbutton">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span id="sbtext">Submit</span></button>
+                        </div>
+                    </div>
+
+                    <!--Filter Section-->
+                    <div class="top_row_input_panel mt-3 d-none" data-name="filter">
+                        <div class="row">
+                            <div class="col-md-6">Filters</div>
+                            <div class="col-md-6"><i class="fa fa-chevron-up float-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="row mb-3 mt-2 filters_sections d-none">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6"> <div class="col filter_title pl-0"></div></div>
+                                <div class="col-6"><a href="javascript:void(0)" class="clear_filter float-right">Clear Filter</a></div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                           <code>SIC</code>
+                           <select class="filter_selectbox" id="sic_filter" data-name="SIC" multiple="multiple"></select>    
+                        </div>
+                        <div class="col-12 mt-2">
+                            <code>NAICS</code>
+                            <select class="filter_selectbox" id="naics_filter" data-name="NAICS" multiple="multiple"></select>    
+                        </div>
+                        <div class="col-12 mt-2">
+                            <code>Industry</code>
+                            <select class="filter_selectbox" id="industry_filter" data-name="industry" multiple="multiple"></select>    
+                        </div>
+                        <div class="col-12 mt-2">
+                            <code>Headquarters</code>
+                            <select class="filter_selectbox" id="headquarters_filter" data-name="headquarters" multiple="multiple"></select>    
+                        </div>
+                        <div class="col-12 comp_box mt-2">
+                            <code style="display:block">Employees</code>
+                            <select class="filter_selectbox" id="no_of_employees_filter" data-name="no_of_employees">
+                                <option value="">Select</option>
+                            </select>
+                            <div class="mt-2 input_single d-none">
+                                <input type="number" placeholder="enter employees" class="num_validate">
+                            </div>
+                            <div class="col-12 mt-2 input_between d-none">
+                                <div class="row">
+                                    <div class="col-6 pl-0"><input type="number" placeholder="from" class="num_validate from_num"></div>
+                                    <div class="col-6 pr-0"><input type="number" placeholder="to" class="num_validate to_num"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 comp_box mt-2">
+                            <code>Quarterly Growth</code>
+                            <select class="filter_selectbox" id="quarterly_growth_filter" data-name="quarterly_growth">
+                                <option value="">Select</option>
+                            </select>
+                            <div class="mt-2 input_single d-none">
+                                <input type="number" placeholder="enter growth" class="num_validate">
+                            </div>
+                            <div class="col-12 mt-2 input_between d-none">
+                                <div class="row">
+                                    <div class="col-6 pl-0"><input type="number" placeholder="from" class="num_validate from_num"></div>
+                                    <div class="col-6 pr-0"><input type="number" placeholder="to" class="num_validate to_num"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 comp_box mt-2">
+                            <code>Annual Growth</code>
+                            <select class="filter_selectbox" id="annual_growth_filter" data-name="annual_growth">
+                                <option value="">Select</option>
+                            </select>
+                            <div class="mt-2 input_single d-none">
+                                <input type="number" placeholder="enter grwoth" class="num_validate">
+                            </div>
+                            <div class="col-12 mt-2 input_between d-none">
+                                <div class="row">
+                                    <div class="col-6 pl-0"><input type="number" placeholder="from" class="num_validate from_num"></div>
+                                    <div class="col-6 pr-0"><input type="number" placeholder="to" class="num_validate to_num"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    
+                    <div class="output_block container mt-3 output_results">
+                        
+                        <div class="row">
+                            <div class="col-6 pl-0"><h4 class="heading-l">Similar Companies:</h4></div>
+                            <div class="col-6 pl-0">
+                                <!--<button disabled class="btn btn-sm btn-warning showkg_Button cmnbtn float-right" type="button">Show KG</button>-->
+                                <button class="btn btn-sm btn-warning showkg_Button cmnbtn float-right" type="button">Show KG</button>
+                            </div>                                 
+                        </div>                       
+                        <div class="">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="outputtable">
+                                    <thead>
+                                        <tr>
+                                            <!--<th scope="col">#</th>
+                                            <th scope="col"><input type="checkbox" class="chk_all_boxes"></th>-->
+                                            <th scope="col" width="25%">Name</th>
+                                            <th scope="col" width="10%">Score</th>
+                                            <th scope="col" width="25%">Industry</th>
+                                            <th scope="col" width="15%">Headquarters</th>
+                                            <th scope="col" width="15%">Contact</th>
+                                            <th scope="col" class="none">Article</th>
+                                            <th scope="col" class="none">Employees</th>
+                                            <th scope="col" class="none">Growth Quarterly</th>
+                                            <th scope="col" class="none">Growth Yearly</th>
+                                            <th scope="col" class="none">SIC</th>
+                                            <th scope="col" class="none">NAICS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody_class"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="error_msg text-danger" style="display:none">
+                        No Result Found
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+    </body>
+
+
+    <div class="modal fade" id="contactViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content ">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">View Contact of <span class="pop_info_comp"></span></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped" id="contacts_table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Source</th>
+                            <th scope="col">Occupation</th>
+                            <th scope="col" class="none">Description</th>
+                            <th scope="col">Social Url</th>
+                        </tr>
+                    </thead>
+                    <tbody class="contact_body"></tbody>
+                  </table>  
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <script>
+        var selectedCompanies = [];
+        var total_companies_names = [];
+        let timer;
+        var contact_info_data = {};
+        var global_data = []
+        var frameworkUrl = "";
+        var filterData = {
+            "sic":[],
+            "naics":[],
+            "industry":[],
+            "headquarters":[]
+        }
+        var comparision_filters = {
+            "between":"Between",
+            "gt":"Greater Than",
+            "lt":"Less Than",
+            "et":"Equal To",
+            "gtet":"Greater Than Equal To",
+            "ltet":"Less Than Equal To"
+        }
+                 
+        $( document ).ready(function() {
+            
+            $('.top_row_input_panel').click(function(){
+                let name = $(this).attr('data-name')
+                
+                if(name=="query"){
+                    if($(this).hasClass('active')){
+                        $('.input_panel').addClass('d-none')
+                        $(this).removeClass('active') 
+                    }else{
+                        $('.input_panel').removeClass('d-none')
+                        $(this).addClass('active') 
+                    }
+                }
+                if(name=="filter"){
+                    if($(this).hasClass('active')){
+                        $('.filters_sections').addClass('d-none')
+                        $(this).removeClass('active') 
+                    }else{
+                        $('.filters_sections').removeClass('d-none')
+                        $(this).addClass('active') 
+                    }
+                }
+            })
+
+            for(const key in comparision_filters){
+               $('#no_of_employees_filter, #quarterly_growth_filter, #annual_growth_filter').append(`<option value="${key}">${comparision_filters[key]}</option>`)     
+            }
+
+            $('#sic_filter').select2({
+                placeholder: 'Select SIC',
+                allowClear:true,
+            });
+            $('#naics_filter').select2({
+                placeholder: 'Select NAICS',
+                allowClear:true,
+            });
+            $('#industry_filter').select2({
+                placeholder: 'Select Industry',
+                allowClear:true,
+            });
+            $('#headquarters_filter').select2({
+                placeholder: 'Select Headquarters',
+                allowClear:true,
+            });
+
+
+            $('.showkg_Button').click(function(){
+                if(total_companies_names.length > 0){
+                    let tmpArr = [];
+                    var topValues = total_companies_names.slice(0,10);
+                    for(let i = 0; i < topValues.length; i++){
+                        let vector_score = 0
+                        for(let k = 0; k < global_data.length; k++){
+                            if($.trim(topValues[i]).toLowerCase() == $.trim(global_data[k]['name']).toLowerCase()){
+                                vector_score = global_data[k]['vector_score']
+                            }
+                        }
+                        tmpArr.push({"name":$.trim(topValues[i]),'vector_score':vector_score})   
+                    }
+                    showKgIframe({"company_list":tmpArr});
+                     
+                }   
+                   
+            });
+            $fdataTable = $('#outputtable').DataTable({
+                "iDisplayLength" : 10,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+                "drawCallback": function( settings ) {
+                }
+            });
+
+            $contacts_table = $('#contacts_table').DataTable({
+                "iDisplayLength" : 10,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+               
+            });
+            
+            $('.select2_company_list').select2({
+                placeholder: 'Search Companies By Name',
+                minimumInputLength: 1,
+                allowClear:true,
+                ajax: {
+                    delay:250,
+                    type: "POST",
+                    url: graphQLEndpoint,
+                    dataType: 'json',
+                    contentType: "application/json",
+                    data: function (params) {
+                        var query = {
+                            query: "query callRedisEnpoints($method: String!,$input: JSON ){\r\n    callRedisEnpoints(method:$method,input:$input){\r\n         records\r\n    }\r\n}",
+                            variables: {
+                                method: "get-name-suggestion",
+                                    input: {
+                                    value: params.term,
+                                    field: "name"
+                                }
+                            }
+                        }
+                        // Query parameters will be ?search=[term]&type=public
+                        return JSON.stringify(query);
+                    },
+                    processResults: function (data) {
+                        data = data.data.callRedisEnpoints.records
+                        // Transforms the top-level key of the response object from 'items' to 'results'
+                        var tmparr = []
+                        if(data.length > 0){
+                            for(let key in data){
+                                tmparr.push({"text":data[key], "id": data[key] })
+                            }
+                        }
+                        return {
+                          results: tmparr
+                        };
+                    }
+                    
+                }
+            });
+
+            
+            $('#submitbutton').click(function(){
+                $('.output_results').hide()
+                $('#sbtext').hide();
+                $('.error_msg').hide();
+                $(this).find('.spinner-border').show();
+                
+                //request payload
+                var requestPayload = {
+                    name : $.trim($('#company_list').val()),
+                    similar_source : $('input[name="similar_source"]:checked').val(),
+                    top_k: parseInt($('#top_k').val())
+                }   
+                getResults(requestPayload)
+            })
+
+            $(document).on('select2:open','.select2_company_list',() => {
+                $('.select2-search--dropdown').find('.select2-search__field')[0].focus()
+            });
+
+            $(document).on('click','.view_cnt_info', function(){
+                let companyname = $(this).parent('td').parent('tr').find('td:first').text();
+                let dataId = $(this).attr('data-id');
+                let contacts = contact_info_data[dataId];
+
+                let i = 1;
+                $contacts_table.clear();
+                $('.contact_body').html('');
+                contacts.forEach((info)=>{
+                    $contacts_table.row.add([i, info['first_name'], info['last_name'], info['source'], info['occupation'], info['description'], info['social_url']!=""?`<a target="_blank" href="${info['social_url']}">${info['social_url']}</a>`:""]);
+                    i++;
+                })
+                $contacts_table.draw(true).columns.adjust().responsive.recalc();
+                $('.pop_info_comp').text(companyname);
+                $('#contactViewModal').modal({backdrop: 'static', keyboard: false}, 'show');
+            })
+
+            $(document).on('click','.view_cnt_redis', function(){
+                let companyname = $(this).attr('data-id')
+                var settings = {
+                    "url": graphQLEndpoint,
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                      "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                      query: "query GetContactsFromGraphDB($company: String!){\r\n        GetContactsFromGraphDB(company: $company){\r\n          records\r\n        }\r\n}",
+                      variables: {"company":companyname}
+                    })
+                  };
+                  
+                $.ajax(settings).done(function (response) {
+                    let i = 1;
+                    $contacts_table.clear();
+                    $('.contact_body').html('');
+                    response.data.GetContactsFromGraphDB.records.forEach((info)=>{
+                        $contacts_table.row.add([i, info['first_name'], info['last_name'], info['source'], info['occupation'], info['description'], info['social_url']!=""?`<a target="_blank" href="${info['social_url']}">${info['social_url']}</a>`:""]);
+                        i++;
+                    })
+                    $contacts_table.draw(true).columns.adjust().responsive.recalc();
+                    $('.pop_info_comp').text(companyname);
+                    $('#contactViewModal').modal({backdrop: 'static', keyboard: false}, 'show');
+                });
+            })
+
+            
+            $(document).on('keyup','.num_validate',function(){
+                let $this = $(this)
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    let isBetween  = $($this).parents('.input_between').length
+                    if(isBetween){
+                        let from  = $($this).parents('.input_between').find('.from_num').val();
+                        let to  = $($this).parents('.input_between').find('.to_num').val();
+                        if(from=="" || to==""){
+                            return false
+                        }
+                    }
+                    filterFunction() 
+                },800)
+            })
+
+            $(document).on('change','.filter_selectbox',function(){
+                
+                if(['no_of_employees','quarterly_growth','annual_growth'].includes($(this).attr('data-name'))){
+                    $(this).parents('.comp_box').find('input').val('');
+                    $(this).parents('.comp_box').find('.input_between').addClass('d-none')
+                    $(this).parents('.comp_box').find('.input_single').addClass('d-none')
+                    let value = $(this).val()
+                    if(value!=""){
+                        if(value=="between"){
+                            $(this).parents('.comp_box').find('.input_between').removeClass('d-none')
+                            $(this).parents('.comp_box').find('.input_between').find('input:first').focus()
+                        }else{
+                            $(this).parents('.comp_box').find('.input_single').removeClass('d-none')
+                            $(this).parents('.comp_box').find('.input_single').find('input').focus()
+                        }
+                    }
+                    //return false;
+                }
+                filterFunction()           
+            })
+
+            $('.clear_filter').click(function(){
+                
+                $('.input_between').addClass('d-none')
+                $('.input_single ').addClass('d-none')
+                 
+                $('.filter_selectbox').val(null).trigger("change");
+                $('.select2-selection__clear').remove();
+                 
+                $('.filters_sections').find('input').val('')    
+                $fdataTable.clear(); 
+                total_companies_names = [] 
+                $.each(global_data, function(i, item) {
+                    total_companies_names.push(item.name)
+                    InsertDataTable(item);
+                });
+                $fdataTable.draw(true).columns.adjust().responsive.recalc();
+                
+                $('.chk_all_boxes').prop('checked', false)
+                setCompaniesSelection()
+            })
+
+            $('.filter_selectbox').on('select2:open', function (e) {
+                if($(this).find('option:first').text()=="Select"){
+                    $(this).find('option:first').remove()
+                }
+            });
+
+            $(document).on('change','.chk_input_ticker',function(){
+                if(!$(this).is(':checked')){
+                    $('.chk_all_boxes').prop("checked", false)
+                }
+                setCompaniesSelection();               
+            })
+
+            $('.chk_all_boxes').change(function(){
+                let status =  false;
+                if($('.chk_all_boxes').is(':checked')){
+                    status = true; 
+                }
+                $fdataTable.rows().nodes().each(function (item) { 
+                    $(item).find('input[type="checkbox"]').prop("checked", status)
+                });
+                
+                setCompaniesSelection();
+            })
+ 
+        });
+        function getResults(payload){
+           
+            //showkgbuttonMode(0)
+            filterData = {
+                "sic":[],
+                "naics":[],
+                "industry":[],
+                "headquarters":[]
+            }
+
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                  "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                  query: "query getSimilarCompaniesByName($name: String!, $similar_source: String!, $top_k: Int)\r\n{\r\n    getSimilarCompaniesByName(name: $name, similar_source: $similar_source, top_k: $top_k)\r\n    {\r\n        graph_url\r\n records{id name, vector_score, SIC, NAICS, industry description headquarters no_of_employees annual_growth quarterly_growth operating_years}    } \r\n}",
+                  variables: payload
+                })
+            };
+              
+            $.ajax(settings).done(function (response) {
+                $('#sbtext').show();
+                $('#submitbutton').find('.spinner-border').hide();
+                if(response.errors){
+                    $('.output_results').hide()
+                    $('.error_msg').show();
+                }
+                
+                if(response.data.getSimilarCompaniesByName.length){
+                    $('.output_results').show()
+                    var graph_url = response.data.getSimilarCompaniesByName[0].graph_url   
+                    frameworkUrl = graph_url
+                    //openVisualGraph();
+                }
+               
+                if(response.data.getSimilarCompaniesByName.length > 0){
+                    
+                    $('.filters_sections').removeClass('d-none')
+                    $('.top_row_input_panel[data-name="filter"]').addClass('active').removeClass('d-none')
+                    $('.top_row_input_panel[data-name="query"]').removeClass('active')
+                    $('.input_panel').addClass('d-none')
+
+                    let records = response.data.getSimilarCompaniesByName[0].records;
+                    global_data =  records;
+                    $('.output_results').show()
+                    $fdataTable.clear();
+                    let sicCodes = []
+                    let naicsCodes = []
+                    let industryValues = []
+                    let headValues = []
+                    total_companies_names = []
+                    $.each(records, function(i, item) {
+
+                        total_companies_names.push(item.name)
+                        InsertDataTable(item);
+ 
+                        //add data in temp variables for filter
+                        if(item.SIC!="" && item.SIC!=null){
+                            let sicCodesTemp = item.SIC.split(',') 
+                            sicCodes.push(...sicCodesTemp)
+                        }
+                        if(item.NAICS!="" && item.NAICS!=null){
+                            let naicsTemp = item.NAICS.split(',') 
+                            naicsCodes.push(...naicsTemp)
+                        }
+                        if(item.industry!="" && item.industry!=null){
+                            let industryTemp = item.industry.split(',') 
+                            industryValues.push(...industryTemp)
+                        }
+                        headValues.push(...[item.headquarters])
+                    });  
+                    
+                    $fdataTable.draw(true).columns.adjust().responsive.recalc();
+
+                    filterData['sic'].push(...sicCodes)
+                    filterData['naics'].push(...naicsCodes)
+                    filterData['industry'].push(...industryValues)
+                    filterData['headquarters'].push(...headValues)
+                    
+                    addValuesInFilterInputs(filterData)
+                    
+
+                }else{
+                    $('.error_msg').show();
+                }
+              });
+        }
+        
+         
+        function checkBtnStaus(){
+            var query = $.trim($('#company_list').val())
+            //var source = $('input[name="source_type"]:checked').length;
+            var simlarSource = $('input[name="similar_source"]:checked').length;
+                         
+            if(query!="" && simlarSource > 0){
+                $('#submitbutton').attr('disabled', false)
+            }else{
+                $('#submitbutton').attr('disabled', true)
+            }
+        }
+        function openVisualGraph(){
+            $('#visual_graph_model').modal({
+                keyboard: false,
+                show:true,
+                backdrop:"static"
+            }) 
+        }
+        
+        function addValuesInFilterInputs(data){
+            
+            //remove duplicates values
+            for (const key in data) {
+                var unique = data[key].filter(onlyUnique);
+                data[key] = unique;
+            }
+
+            for (const key in data) {
+                $('#'+key+"_filter").empty().append('<option value="">Select</option>')
+                for(let i =0 ; i  < data[key].length; i++){
+                    $('#'+key+"_filter").append(`<option value="${data[key][i]}">${data[key][i]}</option>`)
+                }   
+            }
+        }
+
+        function onlyUnique(value, index, array) {
+            return array.indexOf(value) === index;
+        }
+
+        function InsertDataTable(item){
+            let similar_source = $('input[name="similar_source"]:checked').val()
+
+            var contact = '-';
+            if(item.persons!=null && item.persons!=""){
+                //contact_info_data[item.id] = JSON.parse((item.persons))  
+                //contact = `<button class="btn btn-xs btn-primary view_cnt_info" data-id="${item.id}">View</button>`;
+            }
+            //if(similar_source=="redis"){
+            contact = `<button class="btn btn-xs btn-primary view_cnt_redis " data-id="${item.name}">View</button>`;
+            //}
+            let inputCheckbox  = '<input type="checkbox" class="chk_input_ticker" data-chkname="'+item.name+'">'
+            //$fdataTable.row.add(["",inputCheckbox,item.name, item.vector_score, item.industry, item.headquarters, contact, item.description, item.no_of_employees, item.quarterly_growth, item.annual_growth, item.SIC, item.NAICS]);    
+            $fdataTable.row.add([item.name, item.vector_score, item.industry, item.headquarters, contact, item.description, item.no_of_employees, item.quarterly_growth, item.annual_growth, item.SIC, item.NAICS]);    
+        }
+        
+        function filterFunction(){
+            let records = global_data;
+            let filterRecords = records.filter(function(value, index){
+                let type = false;
+                let totalNonEmptyField = []
+                let totalMatched = []
+                $('.filter_selectbox').each(function(index, item){
+                    let itemValue = $(item).val()
+                    let name = $(item).attr('data-name')
+                    let isComparison =  ['no_of_employees','quarterly_growth','annual_growth'].includes(name)
+                    if(itemValue.length > 0 || isComparison){
+                        let isStatus = false;
+                        if(isComparison){
+                            let singleInputValue = "";
+                            let fromInputValue = "";
+                            let toInputValue = "";
+                            if(itemValue=="between"){
+                                fromInputValue  = $(item).parents('.comp_box').find('.from_num').val() 
+                                toInputValue  = $(item).parents('.comp_box').find('.to_num').val()
+                            }else{
+                                singleInputValue = $(item).parents('.comp_box').find('.input_single').find('input').val() 
+                            }
+
+                            if(singleInputValue!="" || (fromInputValue!="" && toInputValue!="")){
+                                totalNonEmptyField.push(index)
+                                if(value[name]!=""){
+                                    value[name] = parseFloat(value[name])
+                                }
+                                if((fromInputValue!="" && toInputValue!="")){
+                                    fromInputValue = parseFloat(fromInputValue) 
+                                    toInputValue = parseFloat(toInputValue) 
+                                }
+                                switch(itemValue){
+                                    case "between":
+                                        if(value[name] >= fromInputValue && value[name] <= toInputValue){
+                                                isStatus = true;    
+                                        } 
+                                    break;
+                                    case "gt":
+                                        if(value[name] > singleInputValue){
+                                            isStatus = true;    
+                                        }
+                                    break;
+                                    case "lt":
+                                        if(value[name] < singleInputValue){
+                                            isStatus = true;    
+                                        }
+                                    break;
+                                    case "et":
+                                        if(value[name] == singleInputValue){
+                                            isStatus = true;    
+                                        }
+                                    break;
+                                    case "gtet":
+                                        if(value[name] >= singleInputValue){
+                                            isStatus = true;    
+                                        }
+                                    break;
+                                    case "ltet":
+                                        if(value[name] <= singleInputValue){
+                                            isStatus = true;    
+                                        }
+                                    break;
+                                }
+                            }
+                        }else{  
+                            totalNonEmptyField.push(index)
+                            for(let k = 0; k < itemValue.length; k++){
+                                if(value[name].includes(itemValue[k])){
+                                    isStatus = true;    
+                                }
+                            }
+                        }
+                        if(!isStatus){
+                            return false
+                        }else{
+                            totalMatched.push(index)
+                        }
+                    }
+                })
+                if(totalNonEmptyField.length == totalMatched.length){
+                    type = true
+                }
+                return type;
+            })
+
+            $fdataTable.clear();
+            total_companies_names = []
+            $.each(filterRecords, function(i, item) {
+                total_companies_names.push(item.name)
+                InsertDataTable(item);
+            });
+            $fdataTable.draw(true).columns.adjust().responsive.recalc();
+
+            $('.chk_all_boxes').prop('checked', false)
+            setCompaniesSelection()
+
+            if(filterRecords.length == 0){
+                $('.showkg_Button').hide()
+            }else{
+                $('.showkg_Button').show()
+            }
+        }
+
+        function showkgbuttonMode(status){
+            if(status){
+                $('.showkg_Button').removeAttr('disabled')
+                $('.showkg_Button').removeAttr('data-toggle')
+                $('.showkg_Button').removeAttr('title')
+                $('.showkg_Button').removeAttr('data-original-title')
+                $('[data-toggle="tooltip"]').tooltip()
+            }else{
+                $('.showkg_Button').attr('disabled', true)
+                $('.showkg_Button').attr('data-toggle',"tooltip")
+                $('.showkg_Button').attr('title', "Please select companies")
+                $('.showkg_Button').attr('data-original-title', "Please select companies")
+                $('[data-toggle="tooltip"]').tooltip()
+            }
+        }
+ 
+
+        function setCompaniesSelection(){
+            selectedCompanies = []
+            
+            if($('.chk_all_boxes').is(':checked')){
+                selectedCompanies = total_companies_names;
+            }else{
+                if(total_companies_names.length > 0){
+                    $fdataTable.rows().nodes().each(function (item) { 
+                        if($(item).find('input[type="checkbox"]').is(":checked")){
+                            selectedCompanies.push($(item).find('input[type="checkbox"]').attr('data-chkname'));      
+                        }
+                    });
+                }
+            }        
+    
+            if(total_companies_names.length > 0){
+                if(total_companies_names.length == selectedCompanies.length){
+                    $('.chk_all_boxes').prop('checked',true);
+                }else{
+                    $('.chk_all_boxes').prop('checked',false);
+                }
+            }
+            
+            if(selectedCompanies.length > 0){
+                //showkgbuttonMode(1)
+            }else{
+                //showkgbuttonMode(0)
+            }
+        }
+
+        function showKgIframe(payload){
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                query: "query showCompanySimilarityShowKg($company_list: [JSON!])\r\n{\r\n    showCompanySimilarityShowKg(company_list: $company_list)\r\n    {\r\n        graph_url\r\n    } \r\n}",
+                variables: payload
+                })
+            };
+            
+            $.ajax(settings).done(function (response) {
+                if(response.data.showCompanySimilarityShowKg.graph_url!=""){
+                    var graph_url = response.data.showCompanySimilarityShowKg.graph_url  
+                    window. open(visualGraphShowKG(graph_url, "full"));  
+                     
+                }
+            });
+        }
+        
+    </script>
+</html>

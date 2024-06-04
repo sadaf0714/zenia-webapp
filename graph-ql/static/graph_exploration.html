@@ -1,0 +1,861 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+		<title>Graph Exploration | ZeniaGraph</title>
+		<meta charset="utf-8" />
+        <link rel="icon" type="image/x-icon" href="/static/favicon-32x32.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+         
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
+        <link rel="stylesheet" href="/static/style.css"> 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        <link rel="stylesheet" href="/static/toast-notification/jquery.toast.min.css">    
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" 
+            crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="/static/dev.js"></script>
+        <script type="text/javascript" src="/static/toast-notification/jquery.toast.min.js"></script>
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script 
+            type="text/javascript"
+            src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+        <script
+            type="text/javascript"
+            src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+        
+	</head>
+     
+    <body>
+        <style>
+            #contacts_table_length{ display: none;}
+            .view_cnt_info, .view_cnt_redis{
+                font-size: 12px;
+                height: 22px;
+                line-height: 7px;
+            }
+            .contact_body strong{
+                color:Red;
+                font-size:18px;
+            }
+            .error_msg{ margin-top: 15px;
+                font-size: 19px;}
+            .cancel_merge{ display: none;}
+            #merge_confirm_model button.close{ position: relative; right:0}
+            .save_btn:disabled {
+                pointer-events: auto;
+            }
+            .disabled-bt{
+                opacity: .65;
+                cursor: not-allowed !important;
+            }
+            
+            .asterisk_re{color: red !important; font-size: 12px; text-align: right;  margin-bottom: 5px;}
+            .req_mand{color: red !important;
+                font-size: 16px;
+                font-weight: bold;}
+            .search_selected_cmp .spinner-border { display: none;}
+            .matched_companies_area, .match_error{ display: none;}
+            .editable_area{
+                display: none;
+            }
+            .form-item{
+                background: white;
+                padding: 15px;
+                border-radius: 8px;
+                box-shadow: 0px 0px 6px #e9e9e9;
+                margin-bottom: 10px;
+                min-height: 220px;
+            }
+            .form-item label { font-size: 13px; margin-bottom: 0;}
+            .source_column{ margin-top: 5px;}
+            .Input_fields input{ height: auto;}
+            .form-item  input{ height: 30px;}
+            .delete_icon { color: red; position: absolute; top: 0; right: 9px;}
+            .delete_icon:hover{ font-weight: bold; color: red;}
+            .form-item {position: relative;}
+            iframe { border:0}
+            iframe .main-menu{ display:none !important; }
+             
+             
+            .showkg_submit #submitbutton{
+                width: 103px !important;
+                font-size: 13px;
+            }
+            #visual_graph_model .modal-body { padding: 0;;}
+            #visual_graph_model { padding:0 !important;}
+            #visual_graph_model .modal-dialog{
+                width: 100%;
+                max-width: 95% !important;
+            }
+            button.close {
+                margin-right: 21px;
+                margin-top: 6px;
+                position: absolute;
+                right: 24px;
+            }
+                             
+            .or_seperator{ font-family: cursive;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                position: relative;
+                min-height: 30px;}
+            .or_seperator::before{
+                content: "";
+                border-top: 1px solid #e3e3e3;
+                width: 100%;
+            }
+            .or_seperator span{ position: absolute; background: #f9f9f9; width: 54px; text-align: center;} 
+            .btn_small{ 
+                width: 103px !important;
+                font-size: 13px;
+                text-align: center;
+                justify-content: center;
+                display: flex;
+                height: 27px;
+                align-items: center;
+                background: #ba0373 !important;
+                border: 0;
+            }
+            .btn_small .spinner-border{ display: none; text-align: center;}
+            .entities_table_length{ display: none;}
+            .label_bold{ font-weight: 500;}
+            .btn_def, .btn_def:focus, .btn_def:visited, .btn_def:active{
+                width: 190px;
+                font-size: 13px;
+                text-align: center;
+                justify-content: center;
+                display: flex;
+                height: 27px;
+                align-items: center;
+                background-color: #ffc107 !important;
+                border-color: #ffc107;
+                border: 0;   
+                color: #403131;
+                font-weight: 500;
+            }
+            .btn_def .spinner-border{ display: none; text-align: center;}
+            .heading-l{ font-size: 17px;}
+            .heading-l span{font-size: 18px !important;}
+            #openai_user_query, #nlp_user_query{ font-size: 14px; resize: none;}
+            #micButton, #micButtonNLP{ margin-top: 15px; user-select: none; cursor: pointer; z-index: 1; position: relative; top: -39px;
+                right: 19px;}
+        </style>
+        {% include 'header.html' %}
+ 
+        <div class="Input_fields container-fluid" style="margin-bottom:10rem; max-width:1320px;">
+            <div class="row">
+                <!--left block-->
+                <div class="col-4 mt-3 filter_block">
+                    <div class="input_panel">
+                        <h4 style="font-size:16px;">LLM Prompt</h4>
+                        <div class="input_items">
+                            <div class="form-item">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="exampleInputEmail1">Query *</label>
+                                        <textarea rows="5" name="openai_user_query" id="openai_user_query" class="form-control">get me the name of companies that have no of employees more than 5 lakh</textarea>
+                                        <i title="Search By Voice"  data-ref="#openai_user_query" class="fa fa-microphone float-right" id="micButton"></i>
+                                        <div class="bars bar_style d-none barstyle_1">
+                                            <div class="bar"></div>
+                                            <div class="bar"></div>
+                                            <div class="bar"></div>
+                                            <div class="bar"></div>
+                                            <div class="bar"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group mt-3 showkg_submit">
+                            <button disabled class="btn btn-primary btn-sm btn_small" type="button" id="openai_query_submit">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span class="sbtext">Show Results</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!--nlp block-->
+                    <div class="input_panel mt-3">
+                        <h4 style="font-size:16px;">NLP Prompt</h4>
+                        <div class="input_items">
+                            <div class="form-item">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="exampleInputEmail1">Query *</label>
+                                        <textarea rows="5" name="nlp_user_query" id="nlp_user_query" class="form-control">find me the profit, headquarters, current year revenue and last quarterly revenue for Apple</textarea>
+                                        <i title="Search By Voice"  data-ref="#nlp_user_query" class="fa fa-microphone float-right" id="micButtonNLP"></i>
+                                        <div class="bars bar_style d-none barstyle_2">
+                                            <div class="bar"></div>
+                                            <div class="bar"></div>
+                                            <div class="bar"></div>
+                                            <div class="bar"></div>
+                                            <div class="bar"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <button disabled class="btn btn-primary btn-sm btn_small" type="button" id="nlp_query_submit">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span class="sbtext">Classification</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--OPEN Query Results-->
+                <div class="col-8 openai_output_wrapper d-none">
+                    <div class="output_block container mt-3 output_results">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6 pl-0"><h4 class="heading-l">Similar Companies:</h4></div>
+                                <div class="col-6 pl-0">
+                                    <button class="btn btn-sm btn-warning showkg_Button cmnbtn float-right" type="button">Show KG</button>
+                                </div>                                 
+                            </div>
+                        </div>                        
+                        <div class="table_list_output">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="outputtable"></table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="error_msg text-danger" style="display:none">
+                        No Result Found
+                    </div>
+                </div>
+                
+                <!--NLP Query Results-->
+                <div class="col-8 nlp_output_wrapper d-none">
+                    
+                    <div class="nlp_output_screen_1 container mt-2">
+                        <div class="entities_similar">
+                            <div class="entities_table">
+                                <div class="row">
+                                    <div class="col-6 pl-0"><h4 class="heading-l">Results </h4></div>
+                                    <div class="col-6 pl-0">
+                                        <button class="btn btn-sm btn-warning showkg_Button cmnbtn float-right" type="button">Show KG</button>
+                                    </div>                                 
+                                </div>
+                                <table class="table table-striped table-bordered" id="entities_table"></table>
+                            </div>
+                            <div class="entities_similarity_table d-none">
+                                <div class="row">
+                                    <div class="col-6 pl-0"><h4 class="heading-l">Similar Companies of <code class="company_label"></code></h4></div>
+                                    <div class="col-6 pl-0">
+                                        <button class="btn btn-sm btn-warning showkg_Button cmnbtn float-right" type="button">Show KG</button>
+                                    </div>                                 
+                                </div>
+                                <table class="table table-striped table-bordered " id="entities_similarity_table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" width="15%">Name</th>
+                                            <th scope="col" width="10%">Score</th>
+                                            <th scope="col" width="10%">Industry</th>
+                                            <th scope="col" width="15%">Headquarters</th>
+                                            <th scope="col" width="10%">Contact</th>
+                                            <th scope="col" class="none">Article</th>
+                                            <th scope="col" class="none">Employees</th>
+                                            <th scope="col" class="none">Growth Quarterly</th>
+                                            <th scope="col" class="none">Growth Yearly</th>
+                                            <th scope="col" class="none">SIC</th>
+                                            <th scope="col" class="none">NAICS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody_class"></tbody>
+                                </table>
+                             </div>
+                        </div>
+                         
+                        <div class="other_filters">
+                            <div class="row">
+                                <div class="col-12 mt-2">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" class="label_bold">Similarity Source *</label>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input checked type="radio" id="customRadio4" name="similar_source" class="custom-control-input" value="redis">
+                                            <label class="custom-control-label" for="customRadio4">LLM Similarity</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="customRadio5" name="similar_source" class="custom-control-input" value="graph">
+                                            <label class="custom-control-label" for="customRadio5">Graph Similarity</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-12 d-flex">
+                                    <button class="btn btn-primary btn_def" type="button" id="nlp_similar_submit" style="margin-right:15px;">
+                                        <div class="spinner-border spinner-border-sm" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        <span class="sbtext">Show Similar Companies</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+
+                    <div class="error_msg text-danger" style="display:none">
+                        No Result Found
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+
+        <div id="visual_graph_model" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <iframe id="iframe-graph" allow style="height: 850px; width:100%;" src=""></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <!--View Contact Modal-->
+         <div class="modal fade" id="contactViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content ">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">View Contact of <span class="pop_info_comp"></span></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped" id="contacts_table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Source</th>
+                                <th scope="col">Occupation</th>
+                                <th scope="col" class="none">Description</th>
+                                <th scope="col">Social Url</th>
+                            </tr>
+                        </thead>
+                        <tbody class="contact_body"></tbody>
+                      </table>  
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+        </div>
+         
+    </body>
+ 
+    <script>
+        var btnRef = "";
+        const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        var frameworkUrl = "";
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const llm_query = urlParams.get('llm_query');
+        const nlp_query = urlParams.get('nlp_query');
+        
+        $(document).ready(function(){
+            if(llm_query){
+                $('#openai_user_query').val(llm_query)
+            }
+            if(nlp_query){
+                $('#nlp_user_query').val(nlp_query)
+            }
+        })
+        
+        jQuery("#micButton,#micButtonNLP").on( "click", function() {
+            btnRef = this;
+            recognition.start();
+            $(this).addClass('d-none')
+            
+
+            let ref = $(this).data('ref')
+             
+            if(ref=="#openai_user_query"){
+                $('.barstyle_1').removeClass('d-none')
+            }else{
+                $('.barstyle_2').removeClass('d-none')
+            }
+        });
+       
+        recognition.onresult = (event) => {
+            const result = event.results[0][0].transcript;
+            $(jQuery(btnRef).attr("data-ref")).val(result).change()
+        };
+
+        recognition.onend = () => {
+            $('.barstyle_1').addClass('d-none')
+            $('#micButton').removeClass('d-none')
+            $('.barstyle_2').addClass('d-none')
+            $('#micButtonNLP').removeClass('d-none')
+        };
+
+        var $fdataTable;
+        var $fNlpdataTable;
+        var nlp_global_data;
+        var $entities_similarity_table;
+        var contact_info_data = {};         
+        $(document).ready(function(){
+             
+
+            var openAIWrapper = $('.openai_output_wrapper');
+            var nlpWrapper = $('.nlp_output_wrapper');
+           
+            $(document).on('click','.view_cnt_info', function(){
+                let companyname = $(this).parent('td').parent('tr').find('td:first').text();
+                let dataId = $(this).attr('data-id');
+                let contacts = contact_info_data[dataId];
+                let i = 1;
+                $('.contact_body').html('');
+                contacts.forEach((info)=>{
+                    $('.contact_body').append(`<tr>
+                        <th scope="row">${i}</th>
+                        <td>${info['first_name']}</td>
+                        <td>${info['last_name']}</td>
+                        <td>${info['source']}</td>
+                        <td>${info['occupation']}</td>
+                        <td>${info['description']}</td>
+                        <td>${info['social_url']!=""?`<a target="_blank" href="${info['social_url']}">${info['social_url']}</a>`:""}</td>
+                      </tr>`);
+                    i++;
+                })
+                $('.pop_info_comp').text(companyname);
+                $('#contactViewModal').modal({backdrop: 'static', keyboard: false}, 'show');
+            })
+
+            $entities_similarity_table = $('#entities_similarity_table').DataTable({
+                "iDisplayLength" : 10,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+                "bLengthChange" : false
+                 
+            });
+
+            $contacts_table = $('#contacts_table').DataTable({
+                "iDisplayLength" : 10,
+                "responsive":true,
+                "bAutoWidth": false,
+                "serverSide": false,
+                "processing": false,
+                "ordering": false,
+               
+            });
+
+            $('.showkg_Button').click(function(){
+                //window.open(frameworkUrl)
+                window. open(visualGraphShowKG(frameworkUrl, "full"));
+                
+            });
+            
+
+            $(document).on('change input','#openai_user_query', function(){
+                var query = $.trim($(this).val());
+                if(query!=""){
+                    $('#openai_query_submit').attr('disabled', false)
+                }else{
+                    $('#openai_query_submit').attr('disabled', true)
+                }
+            })
+
+            $(document).on('change input','#nlp_user_query', function(){
+                var query = $.trim($(this).val());
+                if(query!=""){
+                    $('#nlp_query_submit').attr('disabled', false)
+                }else{
+                    $('#nlp_query_submit').attr('disabled', true)
+                }
+            })
+
+            
+
+            $(document).on('click','#openai_query_submit', function(){
+                
+                openAIWrapper.removeClass('d-none');
+                nlpWrapper.addClass('d-none');
+                openAIWrapper.find('.output_results').hide()
+                openAIWrapper.find('.error_msg').hide();
+                handle_opeani_submit('disabled');
+
+                var query = $.trim($('#openai_user_query').val()); 
+                var settings = {
+                    "url": graphql_host,
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                      "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                      query: "query sparqlGPTSearch($input: String!)\r\n{\r\n    sparqlGPTSearch(input: $input)\r\n    {\r\n        graph_url\r\n        records\r\n    } \r\n}",
+                      variables: {"input":query}
+                    })
+                };
+                  
+                $.ajax(settings).done(function (response) {
+                    handle_opeani_submit('enable');
+                    if(response.error){
+                        openAIWrapper.find('.output_results').hide()
+                        openAIWrapper.find('.error_msg').show();
+                    }
+                    if(response.data.sparqlGPTSearch.graph_url!="" && response.data.sparqlGPTSearch.graph_url!=null){
+                        openAIWrapper.find('.output_results').show()
+                        var graph_url = response.data.sparqlGPTSearch.graph_url   
+                        frameworkUrl = graph_url;
+                        //$('iframe').attr("src", graph_url)
+                    }
+                    if(response.data.sparqlGPTSearch.records!=null){
+                        let records = response.data.sparqlGPTSearch.records;
+                        if(records.length > 0){
+                            var columns = [];
+                            $.each(records[0], function(i, item) {
+                                columns.push({"sTitle":i});
+                            });
+                        
+                            if($fdataTable){
+                                $fdataTable.destroy();    
+                                openAIWrapper.find('#outputtable').empty()
+                            }
+
+                            $fdataTable = $('#outputtable').DataTable({
+                                "iDisplayLength" : 10,
+                                "responsive":true,
+                                "bAutoWidth": false,
+                                "serverSide": false,
+                                "processing": false,
+                                "ordering": false,
+                                "columns": columns,
+                                "destroy": true
+                            });
+                                        
+                            //$fdataTable.clear();  
+                            openAIWrapper.find('.output_results').show()
+                            $.each(records, function(i, item) {
+                                var tempRecord = [];
+                                $.each(item, function(sub_i, sub_item) {
+                                    // let source = ''
+                                    // if(sub_i=="source"){
+                                    //     if(sub_item=="linkedin"){
+                                    //         sub_item = "LinkedIn"
+                                    //     }else if(sub_item=="dbpedia"){
+                                    //         sub_item = "DBPedia"
+                                    //     }else if(sub_item=="salesforce"){
+                                    //         sub_item = "Salesforce"
+                                    //     } 
+                                    // }
+                                    tempRecord.push(sub_item)
+                                })
+                                $fdataTable.row.add(tempRecord);  
+                            })                        
+                            
+                            $fdataTable.draw(false).responsive.recalc();
+                        
+                        }
+                    }else{
+                        openAIWrapper.find('.output_results').hide()
+                        openAIWrapper.find('.error_msg').show();
+                    }
+                });
+            });
+
+
+            /*NLP Click */
+            $(document).on('click','#nlp_query_submit', function(){
+                
+                openAIWrapper.addClass('d-none');
+                $('.entities_similarity_table').addClass('d-none');
+                nlpWrapper.addClass('d-none');
+                       
+                handle_nlp_submit('disabled')
+                var query = $.trim($('#nlp_user_query').val()); 
+                
+                var settings = {
+                    "url": graphQLEndpoint,
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        query: "query getGraphResultsByNLPQuery($input: String!){\r\n    getGraphResultsByNLPQuery(input: $input){\r\n        graph_url\r\n        records\r\n    }\r\n}",
+                        variables: {"input":query}
+                    })
+                };
+                                
+                $.ajax(settings).done(function (response) {
+                    let records = response.data.getGraphResultsByNLPQuery.records
+                    let graph_url = response.data.getGraphResultsByNLPQuery.graph_url;
+                    
+                    nlp_global_data = records;
+                    handle_nlp_submit('enable');
+                    nlpWrapper.removeClass('d-none');
+
+                    try {
+                        if(records.length > 0){
+                            $('.nlp_output_wrapper').find('.error_msg').hide();
+                            $('.nlp_output_screen_1').removeClass('d-none')  
+                            $('.other_filters').removeClass('d-none') 
+                    
+                            frameworkUrl = graph_url;
+                           
+                            //attached columns to table instance
+                            var columns = [];
+                            $.each(records, function(i, item) {
+                                for (let [key, value] of Object.entries(item)) {
+                                    key = key.replace(/_/g, " ");
+                                    key = key.charAt(0).toUpperCase() + key.slice(1)
+                                    columns.push({"sTitle":key,'hidden':true});    
+                                }
+                                return false;           
+                            });
+                                            
+                            if($fNlpdataTable){
+                                $fNlpdataTable.destroy();    
+                                $('#entities_table').empty()
+                            }
+                            
+                            $fNlpdataTable = $('#entities_table').DataTable({
+                                "iDisplayLength" : 10,
+                                "responsive":true,
+                                "bAutoWidth": false,
+                                "serverSide": false,
+                                "processing": false,
+                                "ordering": false,
+                                "columns": columns,
+                                "destroy": true,
+                                "info":false,
+                                'bPaginate':false
+                            });
+                            
+                                        
+                            //$fdataTable.clear();  
+                            let tempRecord = [];
+                            $.each(records, function(i, item) {
+                                let indata = []; 
+                                for (let [key, value] of Object.entries(item)) {     
+                                    indata.push(value!=""?value:"-")
+                                }               
+                                $fNlpdataTable.row.add(indata);
+                            })
+                                            
+                            $fNlpdataTable.draw(true).columns.adjust().responsive.recalc();
+                            $('.entities_table').removeClass('d-none')    
+                            $($fNlpdataTable).resize();
+                        }else{
+                            $('.other_filters').addClass('d-none') 
+                        }     
+                    }
+                    catch(err) {
+                        $('.nlp_output_screen_1').addClass('d-none')  
+                        $('.nlp_output_wrapper').find('.error_msg').show();
+                    }
+                              
+                    
+                });
+            });
+ 
+
+            /*SHOW SIMILAR COMPANIES*/
+            $(document).on('click','#nlp_similar_submit', async function(){
+                if(nlp_global_data.length > 0){
+                    $(this).find('.sbtext').hide();
+                    $(this).find('.spinner-border').show();
+                    $(this).attr('disabled', true)
+                    
+                    setTimeout(async ()=>{
+                        
+                        let entitiy = nlp_global_data[0]['company_name'];
+                        let firstCompany = entitiy.charAt(0).toUpperCase() + entitiy.slice(1);
+                        $('.company_label').text(firstCompany)
+                        //request payload
+                        var payload = {
+                            name : $.trim(firstCompany),
+                            
+                            similar_source : $('input[name="similar_source"]:checked').val(),
+                            top_k: 10
+                        }   
+                        
+                        response = await getSimilarCompanies(payload);
+                        response = response.data.getSimilarCompaniesByName[0]; 
+                        //active the button again
+                        $(this).find('.sbtext').show();
+                        $(this).find('.spinner-border').hide();
+                        $(this).attr('disabled', false)
+
+                        $('.entities_similarity_table').removeClass('d-none');
+                        $('.entities_table').addClass('d-none')
+                        if(response.graph_url!="" &&  response.graph_url!=null){
+                            frameworkUrl = response.graph_url;
+                            //$('iframe').attr("src", response.graph_url)
+                        }
+                        if(response.records.length > 0){
+                            $entities_similarity_table.clear();
+                            $.each(response.records, function(i, item) {
+                                
+
+                                var contact = '-';
+                                if(item.employer!=null && item.employer!=""){
+                                    //contact_info_data[item.id] = item.employer  
+                                    //contact = `<button class="btn btn-xs btn-primary view_cnt_info" data-id="${item.id}">View</button>`;
+                                }
+                                contact = `<button class="btn btn-xs btn-primary view_cnt_redis " data-id="${item.name}">View</button>`;
+  
+                                $entities_similarity_table.row.add([item.name, item.vector_score, item.industry, item.headquarters, contact, item.description, item.no_of_employees, item.quarterly_growth, item.annual_growth,item.SIC, item.NAICS]);
+                            });  
+                        
+                            $entities_similarity_table.draw(true).responsive.recalc();
+                        }
+                    }, 500)
+
+
+                }else{
+                    toastNotify('No companies found!')
+                }
+
+            })
+
+
+            $(document).on('click','.view_cnt_redis', function(){
+                let companyname = $(this).attr('data-id')
+                
+                var settings = {
+                    "url": graphQLEndpoint,
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                      "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                      query: "query GetContactsFromGraphDB($company: String!){\r\n        GetContactsFromGraphDB(company: $company){\r\n          records\r\n        }\r\n}",
+                      variables: {"company":companyname}
+                    })
+                  };
+                  
+                $.ajax(settings).done(function (response) {
+                    let i = 1;
+                    $contacts_table.clear();
+                    $('.contact_body').html('');
+                    response.data.GetContactsFromGraphDB.records.forEach((info)=>{
+                        $contacts_table.row.add([i, info['first_name'], info['last_name'], info['source'], info['occupation'], info['description'], info['social_url']!=""?`<a target="_blank" href="${info['social_url']}">${info['social_url']}</a>`:""]);
+                        i++;
+                    })
+                    $contacts_table.draw(true).columns.adjust().responsive.recalc();
+                    $('.pop_info_comp').text(companyname);
+                    $('#contactViewModal').modal({backdrop: 'static', keyboard: false}, 'show');
+                });
+            })
+
+
+        })     
+    
+        function openVisualGraph(){
+            $('#visual_graph_model').modal({
+                keyboard: false,
+                show:true,
+                backdrop:"static"
+            }) 
+        }
+        
+        function handle_opeani_submit(type){
+            if(type=="disabled"){
+                $('#openai_query_submit').find('.sbtext').hide();
+                $('#openai_query_submit').find('.spinner-border').show();
+                $('#openai_query_submit').attr('disabled',true)    
+            }else{
+                $('#openai_query_submit').find('.sbtext').show();
+                $('#openai_query_submit').find('.spinner-border').hide();
+                $('#openai_query_submit').attr('disabled',false) 
+            }
+        }
+
+        function handle_nlp_submit(type){
+            if(type=="disabled"){
+                $('#nlp_query_submit').find('.sbtext').hide();
+                $('#nlp_query_submit').find('.spinner-border').show();
+                $('#nlp_query_submit').attr('disabled',true)    
+            }else{
+                $('#nlp_query_submit').find('.sbtext').show();
+                $('#nlp_query_submit').find('.spinner-border').hide();
+                $('#nlp_query_submit').attr('disabled',false) 
+            }
+        }
+        handle_nlp_submit("enabled");
+        handle_opeani_submit("enabled");
+
+        function getResults(payload){
+            
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                  "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                  query: "query showKgWithAttributes($company_list: [ShowkgRequest!], $attributes_list:[String!])\r\n{\r\n    showKgWithAttributes(company_list: $company_list, attributes_list:$attributes_list)\r\n    {\r\n        graph_url\r\n    } \r\n}",
+                  variables: {"company_list":payload.company_list,"attributes_list":payload.attributes_list}
+                })
+            };
+              
+            return $.ajax(settings) 
+        }
+
+        function toastNotify(message,type){
+            $('.jq-toast-single').remove();
+            $.toast({
+                heading: type,
+                text: message,
+                showHideTransition: 'fade',
+                icon: type.toLowerCase(),
+                position: 'bottom-right',
+            })
+        }
+        
+        function getSimilarCompanies(payload){
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "async":false,
+                "headers": {
+                  "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    query: "query getSimilarCompaniesByName($name: String!, $similar_source: String!, $top_k: Int)\r\n{\r\n    getSimilarCompaniesByName(name: $name, similar_source: $similar_source, top_k: $top_k)\r\n    {\r\n        graph_url\r\n records{id name, vector_score, SIC, NAICS, industry description headquarters no_of_employees annual_growth quarterly_growth operating_years}    } \r\n}",
+                  variables: payload
+                })
+            };
+              
+            return $.ajax(settings);
+        }
+        
+    </script>
+</html>

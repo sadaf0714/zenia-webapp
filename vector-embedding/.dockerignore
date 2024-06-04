@@ -1,0 +1,5 @@
+logs
+
+./src/__pycache__
+
+vector_embedding_env/

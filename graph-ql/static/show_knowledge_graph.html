@@ -1,0 +1,279 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+		<title>ShowKG | ZeniaGraph</title>
+		<meta charset="utf-8" />
+        <link rel="icon" type="image/x-icon" href="/static/favicon-32x32.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+         
+        <link rel="stylesheet" href="/static/style.css"> 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        <link rel="stylesheet" href="/static/select2/css/select2.min.css">
+
+        
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" 
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="/static/select2/js/select2.min.js"></script>
+        <script type="text/javascript" src="/static/dev.js"></script>
+
+	</head>
+    
+    <body>
+        <style>
+            .Input_fields input{ height: auto;}
+            .form-item  input{ height: 30px;}
+            .delete_icon { color: red; position: absolute; top: 0; right: 0;}
+            .delete_icon:hover{ font-weight: bold; color: red;}
+            .form-item {position: relative;}
+            iframe { border:0}
+            iframe .main-menu{ display:none !important; }
+            .select2-container{
+                width: 100% !important;
+            }
+            .select2-search__field{ font-size: 13px !important;}
+            .select2-results__option{
+                font-size: 13px;
+            }
+            .select2-selection__choice{ font-size: 14px !important;}
+            .select2-selection__placeholder{ font-size: 12px;}
+            .select2-selection{ height: 34.5px !important;}
+            .showkg_submit #submitbutton{
+                width: 212px !important;
+            }
+            #visual_graph_model .modal-body { padding: 0;;}
+            #visual_graph_model { padding:0 !important;}
+            #visual_graph_model .modal-dialog{
+                width: 100%;
+                max-width: 95% !important;
+            }
+            button.close {
+                margin-right: 21px;
+                margin-top: 6px;
+                position: absolute;
+                right: -8px;
+            }
+        </style>
+        {% include 'header.html' %}
+
+        <div class="form-item d-none clone_item">
+            <div class="row">
+                <div class="col-12">
+                    <label for="exampleInputEmail1">Company Name *</label>
+                    <select  class="js-data-example-ajax select2_company" onchange="checkBtnStaus()"></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="Input_fields container-fluid" style="margin-bottom:10rem; max-width:1320px;">
+            <div class="row">
+                <div class="col-5 mt-3">
+                    <div class="input_panel">
+                        
+                        <div class="input_items">
+                            <div class="form-item">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="exampleInputEmail1">Company Name *</label>
+                                        <select  class="js-data-example-ajax select2_company" onchange="checkBtnStaus()" name="name[0]"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mt-2">
+                                <button style="float: right; font-size: 10px;" type="button" class="btn btn-sm btn-warning add_more">+ Add More</button>
+                            </div>
+                        </div>
+                        <div class="form-group mt-4 showkg_submit">
+                            <button disabled class="btn btn-primary" type="button" id="submitbutton">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span id="sbtext">Show KG</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="visual_graph_model" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <iframe id="iframe-graph" allow style="height: 850px; width:100%;" src=""></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script>
+         
+        var indexing = 0;
+        $( document ).ready(function() {
+            
+            initializeSelect2($('select[name="name[0]"]'))
+            
+            $(document).on('select2:open', () => {
+                document.querySelector('.select2-search__field').focus();
+            });
+
+            $('#submitbutton').click(function(){
+                $('.output_results').hide()
+                $('#sbtext').hide();
+                $('.error_msg').hide();
+                $(this).find('.spinner-border').show();
+                
+                //request payload
+                var requestPayload = {
+                    company_list : []
+                }
+                var tmp = [];
+                $('.input_items').find('.form-item').each(function(index, element){
+                    var name_val  =  $(element).find('.select2_company').val();
+                    if($.trim(name_val)!=""){
+                        tmp.push({"name":name_val})
+                    }
+                });
+
+                requestPayload['company_list'] = tmp;
+               
+                getResults(requestPayload)
+            })
+
+            $('.add_more').click(function(){
+                indexing = indexing + 1;
+                let clone = $('.clone_item').clone();
+                clone.removeClass('d-none');
+                clone.removeClass('clone_item');
+
+                
+                clone.find('.select2_company').attr('name', `name[${indexing}]`).val('')
+               
+                //clone.find('.source').attr('name', `source[${indexing}]`).val('')
+                clone.append('<a href="javascript:void(0)" class="delete_icon">x</a> ').after('.source_column')
+
+                $('.input_items').append(clone)
+                checkBtnStaus();
+                var find_last_select2 = $('.input_items').find('.form-item:last').find('.select2_company');
+                initializeSelect2(find_last_select2);
+            })
+
+            $(document).on('click', '.delete_icon', function(){
+                $(this).parent('.form-item').remove();
+                indexing = 0;
+                $('.input_items').find('.form-item').each(function(index, element){
+                    $(element).find('.name').attr('name', `name[${indexing}]`)
+                    $(element).find('.linkedin_wo392').attr('name', `source[${indexing}]`).attr('id','customRadio_lnk_' + indexing).next('label').attr('for', 'customRadio_lnk_' + indexing)
+                    $(element).find('.dbpedia_wo392').attr('name', `source[${indexing}]`).attr('id','customRadio_db_' + indexing).next('label').attr('for', 'customRadio_db_' + indexing)
+                    $(element).find('.zoom_wo392').attr('name', `source[${indexing}]`).attr('id','customRadio_zm_' + indexing).next('label').attr('for', 'customRadio_zm_' + indexing)
+                    indexing++;
+                })
+
+                checkBtnStaus();
+            })
+ 
+
+        });
+        function getResults(payload){
+            var settings = {
+                "url": graphQLEndpoint,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                  "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                  query: "query showGraphDbKg($company_list: [ShowkgRequest!])\r\n{\r\n    showGraphDbKg(company_list: $company_list)\r\n    {\r\n        graph_url\r\n    } \r\n}",
+                  variables: payload
+                })
+              };
+              
+              $.ajax(settings).done(function (response) {
+                $('#sbtext').show();
+                $('#submitbutton').find('.spinner-border').hide();
+                if(response.data.showGraphDbKg.length){
+                    $('.output_results').show()
+                    var graph_url = response.data.showGraphDbKg[0].graph_url
+                    window. open(visualGraphShowKG(graph_url, "full"));    
+                    //window.open(graph_url)
+                    //$('iframe').attr("src", graph_url)
+                    //openVisualGraph();
+                }
+              });
+        }
+        
+         
+        function checkBtnStaus(){
+            var valid  = 0;
+            $('.input_items').find('.form-item').each(function(index, element){
+                var name_val  =  $(element).find('.select2_company').val();
+                if($.trim(name_val)!=""){
+                    valid++;    
+                }
+            });
+            
+            if($('.input_items').find('.form-item').length != valid){
+                $('#submitbutton').attr('disabled', true)
+            }else{
+                $('#submitbutton').attr('disabled', false)
+            }
+        }
+        function openVisualGraph(){
+            $('#visual_graph_model').modal({
+                keyboard: false,
+                show:true,
+                backdrop:"static"
+            }) 
+        }
+
+        
+        function initializeSelect2(selectElementObj) {
+            $(selectElementObj).select2({
+                placeholder: 'Search Companies By Name',
+                minimumInputLength: 1,
+                allowClear:true,
+                ajax: {
+                    delay:250,
+                    type: "POST",
+                    url: graphQLEndpoint,
+                    dataType: 'json',
+                    contentType: "application/json",
+                    data: function (params) {
+                        var query = {
+                            query: "query callRedisEnpoints($method: String!,$input: JSON ){\r\n    callRedisEnpoints(method:$method,input:$input){\r\n         records\r\n    }\r\n}",
+                            variables: {
+                                method: "get-name-suggestion",
+                                input: {
+                                    value: params.term,
+                                    field: "name"
+                                }
+                            }
+                        }
+                        // Query parameters will be ?search=[term]&type=public
+                        return JSON.stringify(query);
+                    },
+                    processResults: function (data) {
+                        data = data.data.callRedisEnpoints.records
+                        // Transforms the top-level key of the response object from 'items' to 'results'
+                        var tmparr = []
+                        if(data.length > 0){
+                            for(let key in data){
+                                tmparr.push({"text":data[key], "id": data[key] })
+                            }
+                        }
+                        return {
+                          results: tmparr
+                        };
+                    }
+                    
+                }
+            });
+          }
+    </script>
+</html>

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<gexf xmlns="http://www.gexf.net/1.2draft" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.2draft http://www.gexf.net/1.2draft/gexf.xsd" version="1.2">
+  <meta lastmodifieddate="2024-05-29">
+    <creator>NetworkX 3.2.1</creator>
+  </meta>
+  <graph defaultedgetype="undirected" mode="static" name="">
+    <nodes>
+      <node id="https://www.linkedin.com/in/shetan-singh-sisodia" label="Shetan Singh Sisodia" />
+      <node id="https://www.linkedin.com/in/surjeet-singh-961843175" label="Surjeet Singh" />
+      <node id="https://www.linkedin.com/in/devendra-singh-2269486" label="Devendra Singh" />
+      <node id="https://www.linkedin.com/in/neeraj-jain-a616653" label="Neeraj Jain" />
+      <node id="https://www.linkedin.com/in/riddham-paliwal-a95541274" label="Riddham Paliwal" />
+      <node id="https://www.linkedin.com/in/gaurav-pandey-22b218218" label="Gaurav Pandey" />
+      <node id="https://www.linkedin.com/in/sahil-khan-59a3a8183" label="Sahil Khan" />
+      <node id="https://www.linkedin.com/in/nina-zovko-mba" label="Nina Zovko, MBA" />
+      <node id="https://www.linkedin.com/in/aurelije-zovko" label="Aurelije Zovko" />
+    </nodes>
+    <edges>
+      <edge source="https://www.linkedin.com/in/shetan-singh-sisodia" target="https://www.linkedin.com/in/surjeet-singh-961843175" id="0" />
+      <edge source="https://www.linkedin.com/in/shetan-singh-sisodia" target="https://www.linkedin.com/in/devendra-singh-2269486" id="1" />
+      <edge source="https://www.linkedin.com/in/shetan-singh-sisodia" target="https://www.linkedin.com/in/neeraj-jain-a616653" id="2" />
+      <edge source="https://www.linkedin.com/in/surjeet-singh-961843175" target="https://www.linkedin.com/in/riddham-paliwal-a95541274" id="3" />
+      <edge source="https://www.linkedin.com/in/surjeet-singh-961843175" target="https://www.linkedin.com/in/sahil-khan-59a3a8183" id="4" />
+      <edge source="https://www.linkedin.com/in/devendra-singh-2269486" target="https://www.linkedin.com/in/aurelije-zovko" id="5" />
+      <edge source="https://www.linkedin.com/in/devendra-singh-2269486" target="https://www.linkedin.com/in/neeraj-jain-a616653" id="6" />
+      <edge source="https://www.linkedin.com/in/neeraj-jain-a616653" target="https://www.linkedin.com/in/nina-zovko-mba" id="7" />
+      <edge source="https://www.linkedin.com/in/neeraj-jain-a616653" target="https://www.linkedin.com/in/aurelije-zovko" id="8" />
+      <edge source="https://www.linkedin.com/in/riddham-paliwal-a95541274" target="https://www.linkedin.com/in/gaurav-pandey-22b218218" id="9" />
+      <edge source="https://www.linkedin.com/in/nina-zovko-mba" target="https://www.linkedin.com/in/aurelije-zovko" id="10" />
+    </edges>
+  </graph>
+</gexf>
